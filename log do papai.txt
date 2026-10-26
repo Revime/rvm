@@ -1,0 +1,52 @@
+================================================================================
+                        LOG DO PAPAI — RVM (AGENTE DE CORTES)
+          REGISTRO CENTRAL DE ERROS CRÍTICOS E AUDITORIA DE FALHAS
+                   LIMITE MÁXIMO DO ARQUIVO: 10 MB (ROTATIVO)
+================================================================================
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-25 23:52:10
+NIVEL     : CRITICO
+ORIGEM    : FILA_RVM [tipo=processar | etapa=escolher | episodio=ninguem-conseguiu-prever-isso-di-jhmvy7fjjuu]
+MENSAGEM  : Erro da Ollama (HTTP 404): {"error":"model 'qwen3:8b' not found"}
+DETALHES  :
+  Episódio : "NINGUÉM CONSEGUIU PREVER ISSO", DIZ PABLO MARÇAL APÓS DERROTA DE FLÁVIO (Itatiaia)
+  Causa    : O arquivo config.yaml apontava para 'qwen3:8b', mas o modelo instalado no Ollama local era 'gemma4:e4b'.
+  Solução  : Atualizado config.yaml (ia.modelo_ollama = "gemma4:e4b").
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 00:45:14
+NIVEL     : ALERTA_CRITICO
+ORIGEM    : HARDWARE / GPU [Tarefa 3f5e04165a | Whisper Transcrição]
+MENSAGEM  : Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador (CPU).
+DETALHES  :
+  Tarefa   : 3f5e04165a (Flávio diz que pedirá anulação das eleições e cita adiamento de votação; medida foi pedida pelo PL)
+  Log      : 00:45:14 Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador.
+  Log      : 00:45:14 Carregando Whisper 'small' no processador (CPU)...
+  Ação     : Para habilitar aceleração por GPU NVIDIA no Whisper, instalar nvidia-cublas-cu12 e nvidia-cudnn-cu12.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 00:46:37
+NIVEL     : ALERTA_CRITICO
+ORIGEM    : MOTOR_VIDEO / ENQUADRAMENTO [Tarefa 3f5e04165a | Detector YuNet]
+MENSAGEM  : Cortes 1, 2 e 3 renderizados com 'Enquadramento: dividido 100%' gerando duplicidade vertical de imagem.
+DETALHES  :
+  Episódio : flavio-diz-que-pedira-anulacao-d-ny1mspspk-8
+  Arquivos : corte_01.mp4, corte_02.mp4, corte_03.mp4 ("layouts": {"dividido": 1.0})
+  Causa    : Múltiplos rostos detectados na multidão ao fundo combinados com video.enquadramento="auto" e video.dois_rostos="dividido".
+  Solução  : Alterado config.yaml para video.enquadramento="rosto" e video.dois_rostos="desfocado".
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 00:55:00
+NIVEL     : INFO_SISTEMA
+ORIGEM    : LOGGER_PAPAI (Inicialização)
+MENSAGEM  : Monitoramento automático de erros críticos ativado com sucesso.
+DETALHES  :
+  Arquivo  : c:\Users\Renan\Desktop\Teste\RVM\log do papai.txt
+  Limite   : 10 MB (10.485.760 bytes) com reciclagem automática dos registros mais antigos.
+  Escopo   : Exceções Python/Threads, falhas de fila (trabalho/tarefas.json), erros de IA (Ollama/Claude/Gemini), FFmpeg e YouTube.
+--------------------------------------------------------------------------------
+
