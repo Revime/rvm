@@ -157,3 +157,14 @@ Consulte a documentação detalhada em [`LOG_MONITORAMENTO_HARDWARE.md`](./LOG_M
 - **Adaptação Dinâmica a Qualquer Dimensão de Tela**: Containers principais (`.topo`, `.folha`, `.painel`, `.telemetria-hud`) dimensionados com funções fluidas `min()` e `clamp()`, aproveitando de telas ultra-wide (`1440px+`) até janelas divididas e dispositivos móveis (`320px`).
 - **Zero Informação Cortada ou Oculta**: Removidos todos os `text-overflow: ellipsis` e `white-space: nowrap` que ocultavam nomes de hardware, status ou botões; substituídos por quebra inteligente (`overflow-wrap: anywhere; word-break: break-word`) e grids auto-adaptáveis (`repeat(auto-fit, minmax(...))`).
 
+---
+
+## 12. Proteção Anti-Bot do YouTube (`Sign in to confirm you're not a bot`)
+
+Implementada solução combinada em 4 camadas para evitar e recuperar falhas de download no YouTube:
+1. **Painel Anti-Bot na Interface (`#painel-antibot-yt`)**: Seletor de navegador (`Automático`, `Firefox`, `Edge`, `Chrome`, `Brave`, `cookies.txt`) e botão **📂 Importar cookies.txt** nas abas **Cortar** e **Ajustes**.
+2. **Plugin `yt-dlp` Nativo ([`_internal/yt_dlp_plugins/extractor/rvm_antibot.py`](./_internal/yt_dlp_plugins/extractor/rvm_antibot.py))**: Remove códigos ANSI (`\x1b[0;31m`), aplica `cookies.txt` automaticamente e executa fallback entre clientes (`android_vr`, `tv_embedded`, `ios`, `mweb`) e cookies do navegador.
+3. **Interceptador Automático em Background ([`logger_papai.py`](./logger_papai.py))**: Detecta tarefas bloqueadas em `trabalho/tarefas.json`, baixa o vídeo automaticamente em segundo plano (`entrada/<slug>.mp4`) preservando **Título**, **Canal Original** e **Link**, e reinjeta na fila do RVM.
+4. **Sanitização e Tradução de Erros na UI ([`app.js`](./_internal/agente/static/app.js))**: Limpa códigos ANSI de terminal e apresenta diagnóstico claro em português.
+
+

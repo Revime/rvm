@@ -153,6 +153,35 @@
           </select>
         </label>
       </div>
+
+      <!-- Painel Combinado de Proteção Anti-Bot do YouTube (Cookies + Navegador + Interceptador Background) -->
+      <div class="antibot-painel" id="painel-antibot-yt">
+        <div class="antibot-cabeca">
+          <span class="antibot-titulo">🛡️ Proteção Anti-Bot YouTube (Download Seguro)</span>
+          <span class="selo concluida" id="antibot-selo">MULTI-CAMADA ATIVA</span>
+        </div>
+        <div class="antibot-controles">
+          <label class="antibot-campo">
+            Autenticação de Navegador:
+            <select id="antibot-navegador">
+              <option value="auto" selected>Automático (Firefox + Multi-Cliente TV/Android/iOS + cookies.txt)</option>
+              <option value="firefox">Mozilla Firefox (--cookies-from-browser firefox)</option>
+              <option value="edge">Microsoft Edge (--cookies-from-browser edge)</option>
+              <option value="chrome">Google Chrome (--cookies-from-browser chrome)</option>
+              <option value="brave">Brave Browser (--cookies-from-browser brave)</option>
+              <option value="cookies_txt">Apenas arquivo cookies.txt local</option>
+            </select>
+          </label>
+          <label class="btn antibot-btn-cookies" for="arq-cookies-txt" title="Importar arquivo cookies.txt no formato Netscape (extensão Get cookies.txt LOCALLY)">
+            📂 Importar cookies.txt
+            <input type="file" id="arq-cookies-txt" accept=".txt" hidden>
+          </label>
+        </div>
+        <p class="antibot-resumo" id="antibot-resumo">
+          ✔ <b>cookies.txt</b> ativo na raiz do RVM • ✔ <b>Fallback Multi-Cliente</b> (Android VR / TV / iOS) • ✔ <b>Interceptador Automático em Background</b> monitorando bloqueios.
+        </p>
+      </div>
+
       <p class="aviso-chave" id="aviso-chave" hidden></p>
     </form>
 
@@ -360,6 +389,31 @@
           <label class="interruptor"><input type="checkbox" data-cfg="credito.na_tela" checked disabled> Mostrar obrigatoriamente o nome do canal no vídeo (Travado por Diretriz)</label>
           <label>Texto parametrizado no vídeo<input data-cfg="credito.texto_tela" placeholder="Créditos: {canal}"><span class="dica">{canal} é substituído automaticamente pelo nome do canal original</span></label>
           <label>Texto obrigatório no fim da descrição<textarea rows="3" data-cfg="credito.na_descricao"></textarea><span class="dica">{canal} e {link} são trocados pelo canal original e pelo link do episódio</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Proteção Anti-Bot do YouTube (Cookies & Fallback)</legend>
+          <div class="diretriz-nota-ajustes">
+            <strong>🛡️ Contorno Automático ("Sign in to confirm you’re not a bot"):</strong> Combina leitura de <code>cookies.txt</code>, extração do navegador (<code>--cookies-from-browser</code>), alternância de clientes (<code>android_vr</code>, <code>tv_embedded</code>, <code>ios</code>) e o Interceptador em Background (<code>logger_papai.py</code>).
+          </div>
+          <div class="grade-2">
+            <label>Navegador para extração de cookies
+              <select id="ajustes-antibot-navegador">
+                <option value="auto">Automático (Firefox + Multi-Cliente + cookies.txt)</option>
+                <option value="firefox">Mozilla Firefox (Recomendado no Windows)</option>
+                <option value="edge">Microsoft Edge</option>
+                <option value="chrome">Google Chrome</option>
+                <option value="brave">Brave Browser</option>
+                <option value="cookies_txt">Apenas arquivo cookies.txt</option>
+              </select>
+            </label>
+            <label>Arquivo de Cookies (Netscape)
+              <span class="linha-chave">
+                <input id="ajustes-cookies-status" value="cookies.txt ativo na raiz do projeto" readonly>
+                <label class="btn" for="arq-cookies-txt">📂 Enviar cookies.txt</label>
+              </span>
+            </label>
+          </div>
         </fieldset>
 
         <div class="barra-salvar">

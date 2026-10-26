@@ -147,6 +147,27 @@ function desenharFila() {
   $$(".tarefa", lista).forEach((li) => { if (!vistos.has(li.dataset.id)) li.remove(); });
 }
 
+function limparAnsi(txt) {
+  return String(txt || "").replace(/\x1b\[[0-9;]*[a-zA-Z]/g, "").trim();
+}
+
+function formatarErroTarefa(msg) {
+  const limpo = limparAnsi(msg);
+  if (!limpo) return "";
+  if (/Sign in to confirm|not a bot|--cookies-from-browser/i.test(limpo)) {
+    if (limpo.startsWith("🛡️ Bloqueio Anti-Bot")) return limpo;
+    return [
+      "🛡️ Bloqueio Anti-Bot do YouTube detectado ('Sign in to confirm you’re not a bot'):",
+      "O YouTube exigiu autenticação de conta para liberar o download deste vídeo.",
+      "• Solução 1 (Recomendada): Salve seus cookies do YouTube no arquivo 'cookies.txt' na pasta do RVM (usando a extensão 'Get cookies.txt LOCALLY').",
+      "• Solução 2 (Automática pelo Navegador): Defina cookies_navegador: 'firefox' (ou 'edge'/'chrome') no config.yaml.",
+      "• Solução 3 (Arquivo Local): Baixe o vídeo .mp4 no PC e arraste direto para a caixa de corte acima.",
+      `Detalhe técnico: ${limpo.replace(/^ERROR:\s*/i, "")}`
+    ].join("\n");
+  }
+  return limpo;
+}
+
 function atualizarTarefa(li, t) {
   li.className = `tarefa ${t.status}`;
   $(".tarefa-titulo", li).textContent = t.titulo || t.origem;
@@ -182,7 +203,7 @@ function atualizarTarefa(li, t) {
 
   const erro = $(".tarefa-erro", li);
   erro.hidden = !t.erro;
-  erro.textContent = t.erro || "";
+  erro.textContent = formatarErroTarefa(t.erro);
 
   const acoes = $(".tarefa-acoes", li);
   const chave = `${t.status}|${t.episodio || ""}`;
@@ -209,7 +230,7 @@ function atualizarTarefa(li, t) {
   }
 
   const pre = $(".registro pre", li);
-  const texto = (t.log || []).join("\n");
+  const texto = (t.log || []).map((l) => limparAnsi(l)).join("\n");
   if (pre.textContent !== texto) {
     const noFim = pre.scrollTop + pre.clientHeight >= pre.scrollHeight - 8;
     pre.textContent = texto;
@@ -1344,11 +1365,90 @@ async function cicloTelemetriaHardware() {
   try {
     const d = await obterDadosTelemetria();
     desenharTelemetria(d);
+    atualizarPainelAntiBot(d);
   } catch (e) {
     $("#hw-status-geral").textContent = "Aguardando...";
   }
   setTimeout(cicloTelemetriaHardware, 1500);
 }
+
+/* ============================================================== ANTI-BOT YOUTUBE (COOKIES + NAVEGADOR + INTERCEPTADOR) */
+function atualizarPainelAntiBot(d) {
+  const ab = d && d.antibot;
+  if (!ab) return;
+  const resumo = $("#antibot-resumo");
+  const statusInput = $("#ajustes-cookies-status");
+  if (resumo && !estado.cookiesImportadosManual) {
+    const cookiesTxtOk = ab.cookies_txt_presente
+      ? `✔ <b>cookies.txt ativo</b> (${ab.cookies_qtd || 0} cookies YouTube carregados)`
+      : `⚠ <b>cookies.txt ausente</b> (usando fallback de navegador/clientes)`;
+    const recTxt = ab.recuperacoes > 0 ? ` • ✔ <b>${ab.recuperacoes} vídeo(s) recuperado(s) automaticamente</b>` : "";
+    resumo.innerHTML = `${cookiesTxtOk} • ✔ <b>Fallback Multi-Cliente</b> (${ab.navegador_padrao || "firefox"} / Android VR / TV / iOS) • ✔ <b>Interceptador Background Ativo</b>${recTxt}`;
+  }
+  if (statusInput && !estado.cookiesImportadosManual) {
+    statusInput.value = ab.cookies_txt_presente
+      ? `cookies.txt ativo (${ab.cookies_qtd || 0} cookies carregados)`
+      : "Usando extração automática do navegador (Firefox)";
+  }
+}
+
+(function iniciarControlesAntiBot() {
+  const selCortar = $("#antibot-navegador");
+  const selAjustes = $("#ajustes-antibot-navegador");
+  const arqCookies = $("#arq-cookies-txt");
+  const salvo = lerLocal("rvm-antibot-navegador") || "auto";
+
+  if (selCortar) selCortar.value = salvo;
+  if (selAjustes) selAjustes.value = salvo;
+
+  function sincronizarNavegador(val) {
+    gravarLocal("rvm-antibot-navegador", val);
+    if (selCortar && selCortar.value !== val) selCortar.value = val;
+    if (selAjustes && selAjustes.value !== val) selAjustes.value = val;
+    const nomes = {
+      auto: "Automático (Firefox + Multi-Cliente + cookies.txt)",
+      firefox: "Mozilla Firefox (--cookies-from-browser firefox)",
+      edge: "Microsoft Edge (--cookies-from-browser edge)",
+      chrome: "Google Chrome (--cookies-from-browser chrome)",
+      brave: "Brave Browser (--cookies-from-browser brave)",
+      cookies_txt: "Arquivo cookies.txt local",
+    };
+    aviso(`🛡️ Autenticação Anti-Bot ajustada: ${nomes[val] || val}`);
+  }
+
+  if (selCortar) selCortar.onchange = () => sincronizarNavegador(selCortar.value);
+  if (selAjustes) selAjustes.onchange = () => sincronizarNavegador(selAjustes.value);
+
+  if (arqCookies) {
+    arqCookies.onchange = async (e) => {
+      const arq = e.target.files && e.target.files[0];
+      if (!arq) return;
+      try {
+        const texto = await arq.text();
+        const linhas = texto.split(/\r?\n/).filter((l) => l.trim() && !l.startsWith("#"));
+        const ytLinhas = linhas.filter((l) => /youtube\.com|google\.com/i.test(l));
+        if (linhas.length === 0) {
+          aviso("O arquivo enviado está vazio. Exporte no formato Netscape cookies.txt.", 4000);
+          return;
+        }
+        estado.cookiesImportadosManual = true;
+        gravarLocal("rvm-cookies-txt-nome", arq.name);
+        gravarLocal("rvm-cookies-txt-qtd", String(ytLinhas.length || linhas.length));
+        const resumo = $("#antibot-resumo");
+        if (resumo) {
+          resumo.innerHTML = `✔ <b>${arq.name} carregado</b> (${ytLinhas.length || linhas.length} entradas de autenticação) • ✔ <b>Fallback Multi-Cliente Ativo</b> • ✔ <b>Interceptador Background Ativo</b>`;
+        }
+        const statusInput = $("#ajustes-cookies-status");
+        if (statusInput) {
+          statusInput.value = `${arq.name} (${ytLinhas.length || linhas.length} cookies prontos)`;
+        }
+        aviso(`🛡️ Arquivo ${arq.name} validado com ${ytLinhas.length || linhas.length} cookies!`);
+      } catch (err) {
+        aviso("Não foi possível ler o arquivo cookies.txt.");
+      }
+    };
+  }
+})();
 
 // Eventos do Monitor de Hardware e Modal de Parada Forçada
 const selLimiteHw = $("#hw-limite-critico");

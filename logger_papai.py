@@ -667,6 +667,7 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
             "motivos": motivos_criticos,
             "mensagem": "; ".join(motivos_criticos) if motivos_criticos else "Operando dentro dos limites seguros.",
         },
+        "antibot": _obter_status_antibot(raiz),
         "historico_log": list(_historico_telemetria),
     }
 
@@ -700,6 +701,194 @@ def registrar_parada_forcada_usuario(motivo: str = "", tarefa_id: str = "") -> N
         detalhes=f"Leitura no momento da parada: CPU={cpu_p}% | RAM={ram_p}% | GPU={gpu_p}%",
         nivel="ALERTA_PARADA_FORCADA",
     )
+
+
+_urls_antibot_em_recuperacao: set = set()
+_urls_antibot_recuperadas: set = set()
+_contador_recuperacoes_antibot: int = 0
+
+
+def _obter_status_antibot(raiz: Path) -> Dict[str, Any]:
+    """Retorna o status da camada Anti-Bot (cookies.txt, navegador padrão e interceptador)."""
+    arq_cookies = raiz / "cookies.txt"
+    presente = arq_cookies.exists() and arq_cookies.stat().st_size > 30
+    qtd_cookies = 0
+    if presente:
+        try:
+            linhas = arq_cookies.read_text(encoding="utf-8", errors="replace").splitlines()
+            qtd_cookies = sum(1 for l in linhas if l.strip() and not l.startswith("#"))
+        except Exception:
+            qtd_cookies = 0
+    return {
+        "ativo": True,
+        "cookies_txt_presente": presente,
+        "cookies_qtd": qtd_cookies,
+        "navegador_padrao": "firefox",
+        "deno_ativo": (raiz / "bin" / "deno.exe").exists(),
+        "recuperacoes": _contador_recuperacoes_antibot,
+    }
+
+
+def _slug_seguro(texto: str) -> str:
+    import unicodedata
+    s = unicodedata.normalize("NFKD", str(texto or "video")).encode("ascii", "ignore").decode("ascii")
+    s = re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
+    return (s[:42] or "video").strip("-")
+
+
+def _executar_recuperacao_antibot(raiz: Path, url: str, ids_falhos: List[str]) -> None:
+    """
+    Baixa automaticamente em background o vídeo do YouTube bloqueado pelo Anti-Bot
+    usando yt-dlp atualizado + deno.exe + cookies.txt / Firefox / Android VR,
+    e reenvia para a fila do RVM como arquivo local preservando Canal Original, Título e Link.
+    """
+    global _contador_recuperacoes_antibot
+    try:
+        import urllib.request
+        import yt_dlp
+
+        bin_dir = str(raiz / "bin")
+        if bin_dir not in os.environ.get("PATH", ""):
+            os.environ["PATH"] = bin_dir + os.pathsep + os.environ.get("PATH", "")
+
+        pasta_entrada = raiz / "entrada"
+        pasta_entrada.mkdir(parents=True, exist_ok=True)
+        arq_cookies = raiz / "cookies.txt"
+
+        estrategias = []
+        if arq_cookies.exists() and arq_cookies.stat().st_size > 30:
+            estrategias.append(("cookies.txt", {"cookiefile": str(arq_cookies)}))
+        estrategias.append(("firefox", {"cookiesfrombrowser": ("firefox",)}))
+        estrategias.append((
+            "android_vr",
+            {"extractor_args": {"youtube": {"player_client": ["android_vr", "tv_embedded"]}}},
+        ))
+        estrategias.append(("default", {}))
+
+        info_extraida = None
+        caminho_baixado = None
+        estrategia_vencedora = ""
+
+        for nome_est, extra_opts in estrategias:
+            try:
+                opts_meta = {
+                    "quiet": True,
+                    "no_warnings": True,
+                    "noplaylist": True,
+                    "no_color": True,
+                    **extra_opts,
+                }
+                with yt_dlp.YoutubeDL(opts_meta) as ydl:
+                    meta = ydl.extract_info(url, download=False)
+                if not meta:
+                    continue
+
+                vid_id = meta.get("id") or "yt"
+                titulo = (meta.get("title") or "Video YouTube").strip()
+                canal = (meta.get("channel") or meta.get("uploader") or "Criador Original").strip()
+                slug_base = f"{_slug_seguro(titulo)}-{_slug_seguro(vid_id)}"
+                destino_mp4 = pasta_entrada / f"{slug_base}.mp4"
+
+                if not destino_mp4.exists() or destino_mp4.stat().st_size < 10000:
+                    opts_down = {
+                        "format": "bv*[height<=1080]+ba/b[height<=1080]/b",
+                        "merge_output_format": "mp4",
+                        "outtmpl": str(pasta_entrada / f"{slug_base}.%(ext)s"),
+                        "noplaylist": True,
+                        "quiet": True,
+                        "no_warnings": True,
+                        "no_color": True,
+                        **extra_opts,
+                    }
+                    with yt_dlp.YoutubeDL(opts_down) as ydl_d:
+                        ydl_d.extract_info(url, download=True)
+
+                candidatos = sorted(pasta_entrada.glob(f"{slug_base}.*"))
+                candidatos = [c for c in candidatos if c.suffix.lower() in (".mp4", ".mkv", ".webm", ".mov")]
+                if candidatos:
+                    caminho_baixado = candidatos[0]
+                    info_extraida = {"titulo": titulo, "canal": canal, "link": url}
+                    estrategia_vencedora = nome_est
+                    break
+            except Exception:
+                continue
+
+        if not caminho_baixado or not info_extraida:
+            return
+
+        # Remove da fila os cards antigos com erro de bot para este mesmo link antes de injetar a tarefa recuperada
+        arq_tarefas = raiz / "trabalho" / "tarefas.json"
+        if arq_tarefas.exists():
+            try:
+                atuais = json.loads(arq_tarefas.read_text(encoding="utf-8", errors="replace"))
+                if isinstance(atuais, list):
+                    filtradas = [t for t in atuais if t.get("id") not in ids_falhos]
+                    arq_tarefas.write_text(json.dumps(filtradas, ensure_ascii=False, indent=2), encoding="utf-8")
+            except Exception:
+                pass
+
+        # Envia para a API local do RVM com canal original, link e arquivo MP4 já baixado
+        corpo = json.dumps({
+            "origem": str(caminho_baixado),
+            "canal": info_extraida["canal"],
+            "link": info_extraida["link"],
+        }).encode("utf-8")
+        req = urllib.request.Request(
+            "http://127.0.0.1:5050/api/tarefas",
+            data=corpo,
+            headers={"Content-Type": "application/json", "X-RVM": "1"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            _ = resp.read()
+
+        _urls_antibot_recuperadas.add(url)
+        _contador_recuperacoes_antibot += 1
+        registrar_erro_critico(
+            origem=f"INTERCEPTADOR_ANTIBOT_YOUTUBE [{estrategia_vencedora}]",
+            mensagem=f"Download recuperado automaticamente para '{info_extraida['titulo']}' (Canal: {info_extraida['canal']}).",
+            detalhes=(
+                f"URL original       : {url}\n"
+                f"Estratégia usada   : {estrategia_vencedora}\n"
+                f"Arquivo salvo em   : {caminho_baixado}\n"
+                f"Ação               : Tarefa reinserida automaticamente na fila do RVM com créditos ao canal '{info_extraida['canal']}'."
+            ),
+            nivel="RECUPERACAO_AUTOMATICA",
+        )
+    except Exception as e:
+        registrar_erro_critico(
+            origem="INTERCEPTADOR_ANTIBOT_YOUTUBE [ERRO]",
+            mensagem=f"Falha ao tentar recuperar automaticamente {url}: {e}",
+            detalhes=traceback.format_exc(),
+            nivel="AVISO",
+        )
+    finally:
+        _urls_antibot_em_recuperacao.discard(url)
+
+
+def _interceptar_e_recuperar_bloqueio_youtube(raiz: Path, tarefas: List[Dict[str, Any]]) -> None:
+    """Detecta tarefas que pararam em 'baixar' por bloqueio Anti-Bot do YouTube e aciona a recuperação."""
+    por_url: Dict[str, List[str]] = {}
+    for t in tarefas:
+        if t.get("status") != "erro" or t.get("etapa") != "baixar":
+            continue
+        origem = str(t.get("origem") or "").strip()
+        erro = str(t.get("erro") or "")
+        if not origem.startswith(("http://", "https://")):
+            continue
+        if any(p in erro for p in ("Sign in to confirm", "not a bot", "--cookies-from-browser")):
+            por_url.setdefault(origem, []).append(str(t.get("id") or ""))
+
+    for url, ids_falhos in por_url.items():
+        if url in _urls_antibot_em_recuperacao or url in _urls_antibot_recuperadas:
+            continue
+        _urls_antibot_em_recuperacao.add(url)
+        threading.Thread(
+            target=_executar_recuperacao_antibot,
+            args=(raiz, url, ids_falhos),
+            name="RecuperadorAntiBotYT",
+            daemon=True,
+        ).start()
 
 
 def _tentar_registrar_rotas_flask() -> None:
@@ -1045,6 +1234,21 @@ def _monitorar_tarefas_e_ffmpeg():
                     conteudo = arq_tarefas.read_text(encoding="utf-8", errors="replace")
                     tarefas = json.loads(conteudo)
                     if isinstance(tarefas, list):
+                        ansi_re = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]")
+                        mudou_tarefas = False
+                        for t in tarefas:
+                            if isinstance(t.get("erro"), str) and "\x1b[" in t["erro"]:
+                                t["erro"] = ansi_re.sub("", t["erro"]).strip()
+                                mudou_tarefas = True
+                            if isinstance(t.get("log"), list) and any("\x1b[" in str(l) for l in t["log"]):
+                                t["log"] = [ansi_re.sub("", str(l)) for l in t["log"]]
+                                mudou_tarefas = True
+                        if mudou_tarefas:
+                            try:
+                                arq_tarefas.write_text(json.dumps(tarefas, ensure_ascii=False, indent=2), encoding="utf-8")
+                            except Exception:
+                                pass
+                        _interceptar_e_recuperar_bloqueio_youtube(raiz, tarefas)
                         for t in tarefas:
                             tid = t.get("id", "sem-id")
                             status = t.get("status", "")

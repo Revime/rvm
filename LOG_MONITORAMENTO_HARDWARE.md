@@ -157,5 +157,26 @@ Foi adicionada parametrização obrigatória em [`config.yaml`](./config.yaml), 
   - `.grade-ajuste` mantém os campos *"Texto na tela"*, *"Começa em (s)"* e *"Termina em (s)"* sempre legíveis em qualquer resolução (`960px`, `720px` e `480px`).
   - Barras da linha do tempo (`desenharLinhaTempo` em [`app.js`](./_internal/agente/static/app.js)) limitadas com segurança dentro de `0%–100%` da régua.
 
+---
+
+## 8. Proteção Anti-Bot do YouTube (`Sign in to confirm you're not a bot`) — Solução Combinada em 4 Camadas
+
+### 8.1. Diagnóstico do Erro Apresentado (`https://youtu.be/Ytu-EJPiuAc`)
+- **Erro original**: `ERROR: [youtube] Ytu-EJPiuAc: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication.` acompanhado de códigos ANSI brutos (`\x1b[0;31mERROR:\x1b[0m`) exibidos na tela.
+- **Causa técnica**:
+  1. O protetor BotGuard do YouTube exigiu sessão autenticada ou *PO Token* após downloads sequenciais no cliente web padrão.
+  2. No Windows, navegadores baseados em Chromium v127+ (Chrome/Edge) bloqueiam o banco SQLite de cookies ou usam *DPAPI App-Bound Encryption*, enquanto o **Mozilla Firefox** permite extração direta sem bloqueio (`--cookies-from-browser firefox`) e o cliente **`android_vr`** contorna o desafio sem login.
+
+### 8.2. Solução Combinada Implementada (4 Camadas)
+1. **Sanitização de ANSI e Diagnóstico Amigável na UI ([`app.js`](./_internal/agente/static/app.js) e [`logger_papai.py`](./logger_papai.py))**:
+   - Função `limparAnsi()` e `formatarErroTarefa()` removem todos os caracteres `\x1b[0;31m` e exibem explicação estruturada em português no card da fila.
+2. **Painel Anti-Bot na Interface Web ([`app.html`](./_internal/agente/static/app.html) e [`app.css`](./_internal/agente/static/app.css))**:
+   - Adicionado painel **🛡️ Proteção Anti-Bot YouTube (`#painel-antibot-yt`)** na aba **Cortar** e seção dedicada na aba **Ajustes**, com seletor de navegador (`Automático`, `Firefox`, `Edge`, `Chrome`, `Brave`, `Apenas cookies.txt`) e botão **📂 Importar cookies.txt**.
+3. **Plugin Nativo de Fallback para `yt-dlp` ([`_internal/yt_dlp_plugins/extractor/rvm_antibot.py`](./_internal/yt_dlp_plugins/extractor/rvm_antibot.py))**:
+   - Desativa cores ANSI (`no_color: True`), carrega automaticamente `cookies.txt` da raiz do projeto e alterna entre os clientes `tv_embedded`, `android_vr`, `ios`, `mweb` e cookies do navegador configurado em [`config.yaml`](./config.yaml).
+4. **Interceptador Automático em Background ([`logger_papai.py`](./logger_papai.py) — `_interceptar_e_recuperar_bloqueio_youtube`)**:
+   - Monitora `trabalho/tarefas.json` a cada ciclo; ao detectar qualquer tarefa parada em `baixar` por bloqueio Anti-Bot do YouTube, realiza o download automático em background usando `yt-dlp 2026.10.21` + `bin/deno.exe` + `cookies.txt` / `Firefox` / `android_vr` para a pasta `entrada/`, preservando o **Título**, **Canal Original (`VEXLO CLIPS`)** e **Link Original**, e reinjeta a tarefa automaticamente na fila do RVM.
+
+
 
 
