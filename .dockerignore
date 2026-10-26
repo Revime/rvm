@@ -9,6 +9,8 @@ RVM.exe
 saida/
 trabalho/
 chaves.txt
+client_secret.json
+youtube_token.json
 *.key
 .env
 __pycache__/

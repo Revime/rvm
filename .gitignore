@@ -11,14 +11,15 @@ RVM.exe
 # Repositorio clonado aninhado
 rvm/
 
-# Pastas geradas em execucao e chaves privadas
+# Pastas geradas em execucao e chaves privadas / OAuth YouTube
 saida/
 trabalho/
 chaves.txt
+client_secret.json
+youtube_token.json
 *.key
 .env
 
 # Cache do Python
 __pycache__/
 *.pyc
-
