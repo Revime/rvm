@@ -5,7 +5,7 @@
 
 ia:
   # Qual IA escolhe os melhores trechos: claude | gemini | ollama
-  provedor: "claude"
+  provedor: "ollama"
   modelo_claude: "claude-sonnet-5-5"
   modelo_gemini: "gemini-flash-latest"
   modelo_ollama: "qwen3:8b"          # so se usar o Ollama (gratis, local)
