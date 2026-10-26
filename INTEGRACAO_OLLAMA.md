@@ -14,22 +14,15 @@ Este documento descreve como configurar e utilizar o **Ollama** localmente no pr
 
 ---
 
-## 2. Download do Modelo de IA
+## 2. Modelo de IA Instalado
 
-O RVM está configurado por padrão para utilizar o modelo **`qwen3:8b`**.
+Verificando com `ollama list`, sua máquina já possui o modelo **`gemma4:e4b`** instalado (6.6 GB).
 
-Abra o **PowerShell** ou **Prompt de Comando** e execute:
+Caso precise instalá-lo novamente em outra máquina:
 
 ```powershell
-ollama pull qwen3:8b
+ollama pull gemma4:e4b
 ```
-
-> **Alternativa para computadores com menos memória (RAM/VRAM):**
-> Caso queira um modelo mais leve e rápido:
-> ```powershell
-> ollama pull qwen3:4b
-> ```
-> *(Se optar por outro modelo, atualize o nome em `modelo_ollama` no `config.yaml` ou na aba **Ajustes**).*
 
 Para verificar os modelos instalados na máquina:
 
@@ -41,7 +34,7 @@ ollama list
 
 ## 3. Configuração no RVM
 
-O arquivo [`config.yaml`](./config.yaml) já foi atualizado para usar o Ollama como provedor padrão:
+O arquivo [`config.yaml`](./config.yaml) foi configurado para usar o **`gemma4:e4b`** no Ollama como provedor padrão:
 
 ```yaml
 ia:
@@ -49,7 +42,7 @@ ia:
   provedor: "ollama"
   modelo_claude: "claude-sonnet-5-5"
   modelo_gemini: "gemini-flash-latest"
-  modelo_ollama: "qwen3:8b"          # so se usar o Ollama (gratis, local)
+  modelo_ollama: "gemma4:e4b"        # modelo instalado localmente no Ollama
   ollama_url: "http://localhost:11434"
 ```
 
@@ -58,7 +51,7 @@ ia:
 2. Acesse a aba **Ajustes** (`#ajustes`).
 3. Em **Inteligência artificial → Quem escolhe os trechos**, confirme que está selecionado **`Ollama (grátis, no seu PC)`**.
 4. Expanda a seção **Modelos** para conferir ou alterar:
-   - **Modelo do Ollama**: `qwen3:8b`
+   - **Modelo do Ollama**: `gemma4:e4b`
    - **Endereço do Ollama**: `http://localhost:11434`
 5. Clique em **Salvar ajustes**.
 
@@ -74,7 +67,7 @@ Caso esteja executando via [`docker-compose.yml`](./docker-compose.yml):
    ```
 2. Baixe o modelo dentro do container do Ollama:
    ```powershell
-   docker exec -it rvm-ollama ollama pull qwen3:8b
+   docker exec -it rvm-ollama ollama pull gemma4:e4b
    ```
 3. Para comunicação entre containers, utilize `http://ollama:11434` como URL do Ollama (ou `http://host.docker.internal:11434` caso queira usar o Ollama instalado diretamente no Windows).
 
