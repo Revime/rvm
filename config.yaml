@@ -25,14 +25,14 @@ transcricao:
   dispositivo: "auto"      # auto | cpu | cuda
 
 video:
-  # auto      = decide sozinho em cada cena (recomendado)
-  # rosto     = sempre segue o rosto principal
+  # auto      = decide sozinho em cada cena
+  # rosto     = sempre segue o rosto principal (quadro unico sem dividir a tela)
   # desfocado = video inteiro no meio com fundo desfocado
-  enquadramento: "auto"
+  enquadramento: "rosto"
   # Quando a cena mostra 2 pessoas longe uma da outra:
   #   dividido  = tela dividida (uma pessoa em cima, outra embaixo)
-  #   desfocado = mostra a cena inteira com fundo desfocado
-  dois_rostos: "dividido"
+  #   desfocado = mostra a cena inteira com fundo desfocado (evita duplicidade na imagem)
+  dois_rostos: "desfocado"
   fps_max: 30
   qualidade_crf: 20      # menor = melhor qualidade e arquivo maior (18 a 23)
   preset: "veryfast"

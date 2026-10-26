@@ -566,8 +566,10 @@ function atualizarCard(card, ep, c) {
     $(".contador", card).textContent = `${(c.titulo || "").length}/100`;
   }
   $(".corte-num", card).textContent = `Corte ${c.numero}`;
+  const temDividido = c.layouts && c.layouts.dividido > 0;
+  const infoLayout = temDividido ? " • tela dividida (use Refazer vídeo para quadro único)" : "";
   $(".corte-meta", card).textContent =
-    `${Math.round(c.duracao)} s, nota ${c.nota != null ? Number(c.nota).toLocaleString("pt-BR") : "?"}, a partir de ${mmss(c.inicio)}`;
+    `${Math.round(c.duracao)} s, nota ${c.nota != null ? Number(c.nota).toLocaleString("pt-BR") : "?"}, a partir de ${mmss(c.inicio)}${infoLayout}`;
   $(".corte-motivo", card).textContent = c.motivo || "";
   $(".corte-motivo", card).hidden = !c.motivo;
   $(".credito", card).textContent = c.credito || "";
@@ -700,6 +702,10 @@ async function acaoCorte(card, acao) {
       return;
     }
     if (acao === "refazer") {
+      if (estado.config && estado.config.video && estado.config.video.dois_rostos === "dividido") {
+        const dCfg = await api("/api/config", { body: { video: { enquadramento: "rosto", dois_rostos: "desfocado" } } });
+        estado.config = dCfg.config;
+      }
       await api(base, { body: textosDoCard(card) });
       await api(`${base}/refazer`, {
         body: {
@@ -710,7 +716,7 @@ async function acaoCorte(card, acao) {
         },
       });
       delete card.dataset.sujo;
-      aviso("Refazendo o corte. Ele entrou na fila.");
+      aviso("Refazendo o corte em quadro único. Ele entrou na fila.");
       $("video", card).pause();
     } else if (acao === "salvar") {
       await api(base, { body: textosDoCard(card) });
