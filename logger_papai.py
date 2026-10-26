@@ -257,6 +257,15 @@ def auditar_pastas_de_trabalho_e_saida() -> int:
                         if limpo != dados[campo]:
                             dados[campo] = limpo
                             modificado = True
+                if "ypp_monetization" not in dados or "titles" not in dados:
+                    try:
+                        from pipeline.orchestrator import YPPPipelineOrchestrator
+                        YPPPipelineOrchestrator().process_all_episodes()
+                        conteudo = arq_json.read_text(encoding="utf-8", errors="replace")
+                        dados = json.loads(conteudo)
+                        modificado = True
+                    except Exception:
+                        pass
                 if modificado:
                     arq_json.write_text(json.dumps(dados, ensure_ascii=False, indent=2), encoding="utf-8")
                     _arquivos_auditados_mtime[chave_cache] = arq_json.stat().st_mtime

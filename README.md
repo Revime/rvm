@@ -105,3 +105,18 @@ O arquivo [`log do papai.txt`](./log%20do%20papai.txt) registra automaticamente:
 | **3** | `MOTOR_VIDEO / ENQUADRAMENTO` | `Enquadramento: dividido 100%` gerando duplicidade vertical de imagem em cenas com multidão. | Configurado `video.dois_rostos: "desfocado"` no [`config.yaml`](./config.yaml). |
 | **4** | `MOTOR_VIDEO / AREA_DE_TRABALHO` | Recorte lateral (`rosto 100%`) cortando tarjas 16:9 e texto `.ass` com `WrapStyle: 2` + fonte `110px` vazando das bordas. | Configurado `video.enquadramento: "desfocado"`, `legenda.tamanho: 78`, `palavras_por_bloco: 2`, `titulo_na_tela.tamanho: 58` e `WrapStyle: 0` com `MarginL/R = 80`. |
 | **5** | `GUARDIAO_ASS (corte_01..04.ass)` | `re.PatternError: invalid group reference 26 at position 22` na substituição regex `\26` em `logger_papai.py`, gerando repetição de logs. | Substituído o `re.sub` por parser determinístico `_ajustar_linha_style_ass` (`split(',')`), adicionado cache de `mtime` por arquivo e deduplicação de erros em [`logger_papai.py`](./logger_papai.py). |
+
+
+---
+
+## 8. Pipeline de Monetização YPP (`MONETIZATION_GUIDELINE.md`)
+
+O projeto conta com o pacote modular [`pipeline/`](./pipeline) e configurações centralizadas em [`settings.py`](./settings.py), cumprindo 100% das diretrizes anti-*Reused Content* do YouTube Partner Program (YPP):
+
+- [`pipeline/ingestor_and_transcriber.py`](./pipeline/ingestor_and_transcriber.py): Extração de timestamps palavra por palavra e filtro `silenceremove` (`> 0.35s` a `-35dB`).
+- [`pipeline/nlp_viral_scorer.py`](./pipeline/nlp_viral_scorer.py): Ranking por entidades de *GTA 6 / Rockstar Games*, extração de *Cold Open* (`3–5s`), limites estritos de duração (`35s–55s` para Shorts e `485s–720s` para Long-Form), *Thematic Clustering* (2–4 criadores) e adaptação *Cross-Language* (`en` -> `pt-BR`).
+- [`pipeline/commentary_generator.py`](./pipeline/commentary_generator.py): Geração de narração original (*Intro Context Bridge* de `10–15s`, transições de `5–8s` e *Seamless Loop Bridge* de `1.5s`).
+- [`pipeline/visual_transformer.py`](./pipeline/visual_transformer.py): Composição FFmpeg `filter_complex` em passagem única (`60 FPS`, split-screen `55%/45%`, zoom dinâmico a cada `4–6s`, cobertura de B-Roll `>= 40%`, velocidade `1.08x`, ducking `-22dB`/`-18dB`, normalização `-14 LUFS` e legendas karaokê em `Y=55%` com destaque `#FFD700`).
+- [`pipeline/metadata_and_seo.py`](./pipeline/metadata_and_seo.py): Geração automática de `titles` (3 opções `<= 55` caracteres), `pinned_comment` polarizador, `related_video_link_tag` e `thumbnail_spec`.
+
+Consulte o diagnóstico completo em [`DIAGNOSTICO_YPP_MONETIZATION.md`](./DIAGNOSTICO_YPP_MONETIZATION.md).

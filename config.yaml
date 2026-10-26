@@ -1,6 +1,6 @@
 # =====================================================
-#  RVM - Agente de cortes  |  configuracao
-#  Edite aqui ou pela aba Ajustes do RVM. Chaves de API ficam no chaves.txt
+#  RVM - Agente de cortes & YPP Gaming Pipeline | configuracao
+#  Cumpre 100% das regras de MONETIZATION_GUIDELINE.md
 # =====================================================
 
 ia:
@@ -13,8 +13,8 @@ ia:
 
 cortes:
   quantidade: 5          # quantos cortes gerar por episodio
-  duracao_min: 25        # segundos
-  duracao_max: 120        # segundos (2 minutos = 120)
+  duracao_min: 35        # Shorts YPP: estritamente entre 35s e 55s
+  duracao_max: 55        # Shorts YPP: maximo 55s
   bloco_minutos: 20      # a transcricao vai para a IA em pedacos deste tamanho
   idioma: "pt"
 
@@ -25,16 +25,11 @@ transcricao:
   dispositivo: "cpu"       # auto | cpu | cuda
 
 video:
-  # desfocado = preserva 100% da area da imagem original no centro com fundo desfocado (nunca corta textos/bordas do video)
-  # rosto     = aproxima no rosto (pode cortar laterais de videos 16:9 com tarjas)
-  # auto      = decide sozinho em cada cena
+  # desfocado = preserva a area da imagem original sem cortar textos/bordas
   enquadramento: "desfocado"
-  # Quando a cena mostra 2 pessoas longe uma da outra:
-  #   desfocado = mostra a cena inteira com fundo desfocado (sem cortar ou duplicar imagem)
-  #   dividido  = tela dividida
   dois_rostos: "desfocado"
-  fps_max: 30
-  qualidade_crf: 20      # menor = melhor qualidade e arquivo maior (18 a 23)
+  fps_max: 60              # YPP Monetization: 60 FPS obrigatorio (Shorts e Long-Form)
+  qualidade_crf: 20        # menor = melhor qualidade e arquivo maior (18 a 23)
   preset: "veryfast"
 
 legenda:
@@ -43,9 +38,10 @@ legenda:
   tamanho: 78              # dimensionado para nunca ultrapassar a area segura de 1080px
   maiusculas: true
   palavras_por_bloco: 2    # 2 palavras por bloco evitam estouro horizontal na tela
-  cor: "#FFFFFF"
-  cor_destaque: "#FFE600"
-  contorno: 6
+  cor: "#FFFFFF"           # Branco para palavras inativas
+  cor_destaque: "#FFD700"  # Amarelo Ouro (#FFD700) para enfase de palavra ativa (Secao 5)
+  contorno: 8              # Contorno preto pesado (heavy black stroke)
+  eixo_y_pct: 0.55         # Centralizado no eixo Y: 55% (juncao do split-screen 55%/45%)
 
 titulo_na_tela:
   ativar: true
@@ -66,3 +62,54 @@ youtube:
 
 revisao:
   porta: 5050
+
+# =====================================================
+#  CONSTANTES DE MONETIZACAO YPP (MONETIZATION_GUIDELINE.md)
+# =====================================================
+monetizacao_ypp:
+  nicho: "Gaming (GTA 6 / Rockstar Games)"
+  # Limites de tempo e ritmo visual (Secao 4.2 e Secao 7)
+  max_static_seconds: 8
+  zoom_interval_min_seconds: 4
+  zoom_interval_max_seconds: 6
+  slow_zoom_factor: 1.12
+  punch_in_zoom_factor: 1.15
+  broll_min_coverage_ratio: 0.40
+  speed_multiplier_shorts: 1.08
+  speed_multiplier_min: 1.05
+  speed_multiplier_max: 1.10
+  silence_threshold_db: -35
+  silence_min_duration: 0.35
+
+  # Parametros de audio e narracao TTS (Secao 4.1 e 4.3)
+  cold_open_min_seconds: 3.0
+  cold_open_max_seconds: 5.0
+  intro_bridge_min_seconds: 10.0
+  intro_bridge_max_seconds: 15.0
+  inter_clip_bridge_min_seconds: 5.0
+  inter_clip_bridge_max_seconds: 8.0
+  seamless_loop_bridge_seconds: 1.5
+  ducking_bg_db: -22
+  ducking_en_dub_db: -18
+  target_lufs: -14
+
+  # Especificacoes Formato A: YouTube Shorts (Secao 5A)
+  shorts:
+    width: 1080
+    height: 1920
+    fps: 60
+    min_duration_seconds: 35
+    max_duration_seconds: 55
+    top_speaker_ratio: 0.55
+    bottom_gameplay_ratio: 0.45
+    subtitle_y_ratio: 0.55
+
+  # Especificacoes Formato B: Long-Form Compilation (Secao 5B)
+  long_form:
+    width: 1920
+    height: 1080
+    fps: 60
+    min_duration_seconds: 485
+    max_duration_seconds: 720
+    min_clips_cluster: 2
+    max_clips_cluster: 4
