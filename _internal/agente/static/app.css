@@ -508,8 +508,8 @@ fieldset > label { margin-top: 12px; }
   width: 9px; height: 9px; background: var(--ok); display: inline-block; transform: rotate(45deg);
   box-shadow: 0 0 10px var(--ok); animation: piscar-luz 1.4s steps(2) infinite;
 }
-.telemetria-ponto.aviso { background: var(--aviso); box-shadow: 0 0 10px var(--aviso); }
-.telemetria-ponto.critico { background: var(--nao); box-shadow: 0 0 14px var(--nao); animation-duration: 0.5s; }
+.telemetria-ponto.estado-aviso { background: var(--aviso); box-shadow: 0 0 10px var(--aviso); }
+.telemetria-ponto.estado-critico { background: var(--nao); box-shadow: 0 0 14px var(--nao); animation-duration: 0.5s; }
 .telemetria-contexto {
   font: 400 12px var(--mono); color: var(--suave); text-transform: none; letter-spacing: 0.02em;
 }
@@ -529,35 +529,48 @@ fieldset > label { margin-top: 12px; }
 }
 
 .telemetria-grade {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
 }
 .medidor-card {
+  position: relative !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
   background: rgba(7, 6, 13, 0.78);
-  padding: 12px 15px;
+  padding: 12px 14px;
   clip-path: var(--chanfro-p);
   box-shadow: inset 0 0 0 1px var(--linha-forte), inset 3px 0 0 var(--ciano);
   transition: box-shadow 0.2s, background 0.2s;
 }
-.medidor-card.aviso {
+.medidor-card.estado-aviso {
   box-shadow: inset 0 0 0 1px rgba(255, 181, 71, 0.55), inset 3px 0 0 var(--aviso);
   background: linear-gradient(90deg, rgba(255, 181, 71, 0.08), rgba(7, 6, 13, 0.85) 60%);
 }
-.medidor-card.critico {
+.medidor-card.estado-critico {
   box-shadow: inset 0 0 0 1px var(--nao), inset 3px 0 0 var(--nao), 0 0 18px rgba(255, 61, 110, 0.22);
   background: linear-gradient(90deg, rgba(255, 61, 110, 0.16), rgba(7, 6, 13, 0.88) 65%);
 }
 .medidor-cabeca {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
 }
 .medidor-nome {
-  font: 700 12px var(--mono); letter-spacing: 0.08em; color: var(--suave); text-transform: uppercase;
+  font: 700 11.5px var(--mono); letter-spacing: 0.06em; color: var(--suave); text-transform: uppercase;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.medidor-valor {
-  font: 700 20px/1 var(--mono); color: var(--ciano);
+.medidor-temp-selo {
+  margin-left: auto;
+  padding: 2px 6px;
+  font: 600 11px var(--mono);
+  color: var(--amarelo);
+  background: rgba(252, 238, 10, 0.1);
+  border: 1px solid rgba(252, 238, 10, 0.3);
+  white-space: nowrap;
 }
-.medidor-card.aviso .medidor-valor { color: var(--aviso); }
-.medidor-card.critico .medidor-valor { color: var(--nao); text-shadow: 0 0 10px rgba(255, 61, 110, 0.65); }
+.medidor-valor {
+  font: 700 19px/1 var(--mono); color: var(--ciano); white-space: nowrap;
+}
+.medidor-card.estado-aviso .medidor-valor { color: var(--aviso); }
+.medidor-card.estado-critico .medidor-valor { color: var(--nao); text-shadow: 0 0 10px rgba(255, 61, 110, 0.65); }
 
 .medidor-barra {
   height: 8px; margin: 9px 0 8px; background: #040308; overflow: hidden;
@@ -570,24 +583,27 @@ fieldset > label { margin-top: 12px; }
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.55);
   transition: width 0.45s ease, background 0.25s ease;
 }
-.medidor-card.aviso .medidor-barra i {
+.medidor-card.estado-aviso .medidor-barra i {
   background: linear-gradient(90deg, var(--amarelo), var(--aviso));
   box-shadow: 0 0 12px rgba(255, 181, 71, 0.65);
 }
-.medidor-card.critico .medidor-barra i {
+.medidor-card.estado-critico .medidor-barra i {
   background: linear-gradient(90deg, var(--magenta), var(--nao));
   box-shadow: 0 0 14px var(--nao);
 }
 .medidor-rodape {
-  display: flex; justify-content: space-between; align-items: center; gap: 8px;
-  font: 11.5px var(--mono); color: var(--suave);
+  display: flex; justify-content: space-between; align-items: center; gap: 6px;
+  font: 11px var(--mono); color: var(--suave);
+}
+.medidor-rodape > span:first-child {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .medidor-tag {
-  font: 700 10.5px var(--mono); text-transform: uppercase; letter-spacing: 0.08em;
-  padding: 2px 7px; background: rgba(61, 255, 168, 0.12); color: var(--ok);
+  font: 700 10px var(--mono); text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 2px 6px; background: rgba(61, 255, 168, 0.12); color: var(--ok); flex: none;
 }
-.medidor-card.aviso .medidor-tag { background: rgba(255, 181, 71, 0.16); color: var(--aviso); }
-.medidor-card.critico .medidor-tag { background: rgba(255, 61, 110, 0.22); color: var(--nao); }
+.medidor-card.estado-aviso .medidor-tag { background: rgba(255, 181, 71, 0.16); color: var(--aviso); }
+.medidor-card.estado-critico .medidor-tag { background: rgba(255, 61, 110, 0.22); color: var(--nao); }
 
 /* Gaveta de log de telemetria */
 .telemetria-log {
@@ -661,6 +677,9 @@ fieldset > label { margin-top: 12px; }
 }
 
 /* ---------------- telas menores ---------------- */
+@media (max-width: 1050px) {
+  .telemetria-grade { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 900px) {
   .ajustes { grid-template-columns: 1fr; }
   .previa { position: static; order: -1; display: flex; gap: 16px; align-items: flex-end; }

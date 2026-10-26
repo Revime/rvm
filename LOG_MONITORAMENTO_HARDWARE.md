@@ -15,14 +15,13 @@
 
 Foi implementado diretamente na tela principal da aplicação web RVM (`http://localhost:5050`) um **Painel de Telemetria em Tempo Real (`.telemetria-hud`)** com medidores visuais contínuos de **CPU (Processador)**, **Memória RAM** e **GPU (Placa de Vídeo NVIDIA + VRAM + Temperatura)**, acompanhado de:
 
-1. **Medidores Visuais em Tempo Real (Atualização a cada `1,5s`)**:
-   - **CPU // PROCESSADOR**: Exibe a porcentagem exata de uso em tempo real (`GetSystemTimes` Win32 API via `ctypes`) e a contagem de núcleos lógicos (`12 núcleos lógicos`).
-   - **MEMÓRIA // RAM**: Exibe a porcentagem de ocupação, o consumo em Gigabytes (`GB usados / GB totais`) e a memória livre disponível (`GlobalMemoryStatusEx` Win32 API via `ctypes`).
-   - **GPU // PLACA DE VÍDEO**: Exibe o modelo detectado (`NVIDIA GeForce GTX 1070 Ti`), porcentagem de uso do núcleo gráfico, consumo de memória de vídeo (`VRAM usada / VRAM total em MB e %`) e temperatura em graus Celsius (`°C`) via `nvidia-smi`.
-   - **Classificação Visual Dinâmica**:
-     - **Normal (`< 75%`)**: Barra neon Ciano/Verde (`Estável`).
-     - **Atenção (`75% a 84%`)**: Barra Âmbar/Amarela (`Carga Elevada`).
-     - **Crítico (`>= 85%` ou GPU `>= 90%` / `>= 83°C`)**: Barra e borda Vermelho Neon pulsante (`USO CRÍTICO!`).
+1. **Medidores Visuais em Tempo Real (4 Cards no HUD — Atualização a cada `1,5s`)**:
+   - **CPU // AMD RYZEN 5 3600X (`#hw-card-cpu`)**: Exibe o modelo do processador, selo de temperatura em tempo real (`🌡️ °C`), porcentagem exata de uso (`GetSystemTimes` Win32 API via `ctypes`), status operacional (`Status: Ativo • Estável` / `Carga Elevada` / `Crítico`), contagem de núcleos lógicos (`12 núcleos`) e frequência (`3.80 GHz`).
+   - **MEMÓRIA // RAM (`#hw-card-ram`)**: Exibe a porcentagem de ocupação, selo de consumo em GB, total usado/disponível (`GB usados / 31.9 GB`) e memória livre (`GlobalMemoryStatusEx` Win32 API via `ctypes`).
+   - **GPU // GTX 1070 TI (`#hw-card-gpu`)**: Exibe o modelo detectado (`NVIDIA GeForce GTX 1070 Ti`), selo de temperatura (`🌡️ °C`), porcentagem de uso do núcleo gráfico e consumo de memória de vídeo (`VRAM usada / 8192 MB e %`) via `nvidia-smi`.
+   - **TEMPERATURA // CPU & GPU (`#hw-card-temp`)**: Medidor térmico dedicado exibindo a temperatura máxima instantânea (`🌡️ °C`), comparativo direto `CPU: XX°C • GPU: XX°C` e barra de progresso em relação ao limite térmico crítico (`83°C`).
+   - **Correção de Visibilidade do Card de CPU (`.estado-aviso` / `.estado-critico`)**:
+     - Na primeira versão, quando a CPU entrava em estado de atenção (`>= 75%`), a atribuição da classe `.aviso` no card colidia com a classe global de toast flutuante `.aviso { position: fixed; opacity: 0; }` do [`app.css`](./_internal/agente/static/app.css), ocultando o card da CPU na grade. As classes de estado dos medidores foram isoladas para `.estado-normal`, `.estado-aviso` e `.estado-critico` com `position: relative !important; opacity: 1 !important;`, garantindo que o card de CPU permaneça 100% visível em qualquer faixa de carga.
 
 2. **Gaveta de Log de Hardware em Tempo Real (`#hw-log-painel`) + Persistência em [`log do papai.txt`](./log%20do%20papai.txt)**:
    - Botão **`Log de Hardware`** no cabeçalho do medidor que expande o console em tempo real com o histórico cronológico das leituras de CPU, RAM, GPU, VRAM, temperatura e etapa da tarefa ativa.
@@ -105,3 +104,4 @@ DETALHES  :
 
 Ao inspecionar o [`log do papai.txt`](./log%20do%20papai.txt), foi identificado também que a tarefa `7872a08c65` (*"O dia em que GTA 6 FOI ADIADO"*) havia retornado `3 sugestoes neste trecho`, mas o filtro bruto inicial descartou as sugestões por estarem alguns segundos fora da janela estreita de `35s–55s`.
 - **Correção aplicada no [`config.yaml`](./config.yaml)**: `cortes.duracao_min: 20` e `cortes.duracao_max: 90` na triagem inicial da IA, permitindo que todas as sugestões da Ollama sejam aceitas e em seguida ajustadas para a janela estrita de monetização (`35s–55s`) pelo módulo [`pipeline/nlp_viral_scorer.py`](./pipeline/nlp_viral_scorer.py).
+

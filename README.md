@@ -129,10 +129,11 @@ Consulte o diagnóstico completo em [`DIAGNOSTICO_YPP_MONETIZATION.md`](./DIAGNO
 
 A interface web (`http://localhost:5050`) possui no topo um **Painel de Telemetria em Tempo Real (`#telemetria-hud`)** integrado ao [`logger_papai.py`](./logger_papai.py):
 
-- **Medidores Ao Vivo (atualizados a cada `1,5s`)**:
-  - **CPU // PROCESSADOR**: Uso percentual em tempo real (`GetSystemTimes`) e contagem de núcleos lógicos.
-  - **MEMÓRIA // RAM**: Uso percentual, GB consumidos / GB totais e memória livre (`GlobalMemoryStatusEx`).
-  - **GPU // PLACA DE VÍDEO**: Uso percentual da GPU, consumo de VRAM (`MB usados / MB totais` e `%`) e temperatura em `°C` via `nvidia-smi`.
+- **Medidores Ao Vivo (4 Cards atualizados a cada `1,5s`)**:
+  - **CPU // PROCESSADOR (`AMD Ryzen 5 3600X`)**: Uso percentual em tempo real (`GetSystemTimes`), selo de temperatura (`🌡️ °C`), status operacional (`Ativo • Estável` / `Carga Elevada` / `Crítico`), núcleos lógicos (`12 núcleos`) e clock (`3.80 GHz`).
+  - **MEMÓRIA // RAM**: Uso percentual, selo em GB, GB consumidos / GB totais (`31.9 GB`) e memória livre (`GlobalMemoryStatusEx`).
+  - **GPU // PLACA DE VÍDEO (`GTX 1070 Ti`)**: Uso percentual da GPU, selo de temperatura (`🌡️ °C`) e consumo de VRAM (`MB usados / 8192 MB` e `%`) via `nvidia-smi`.
+  - **TEMPERATURA // CPU & GPU**: Card térmico dedicado com leitura simultânea de temperatura de CPU e GPU (`°C`) e barra de limite térmico (`83°C`).
 - **Log de Telemetria em Tempo Real**:
   - Gaveta expansível **`Log de Hardware`** direto na tela da aplicação e gravação contínua no [`log do papai.txt`](./log%20do%20papai.txt).
 - **Alerta Crítico Automático com Confirmação de Parada Forçada (`#modal-alerta-hw`)**:

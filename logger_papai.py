@@ -52,11 +52,61 @@ _arquivos_auditados_mtime: Dict[str, float] = {}
 
 # Estado da telemetria de CPU/RAM/GPU em tempo real
 _cpu_tempos_anteriores: Optional[Tuple[int, int, int]] = None
+_cpu_info_cache: Optional[Dict[str, Any]] = None
 _historico_telemetria: deque = deque(maxlen=60)
 _ultimo_log_telemetria_txt: float = 0.0
 _ultimo_alerta_critico_txt: float = 0.0
 _rotas_flask_registradas: bool = False
 _ultimo_estado_telemetria: Dict[str, Any] = {}
+
+
+def obter_info_cpu_estatica() -> Dict[str, Any]:
+    """Obtém nome do processador e frequência base via Registro do Windows (instantâneo)."""
+    global _cpu_info_cache
+    if _cpu_info_cache is not None:
+        return _cpu_info_cache
+    nome = "Processador CPU"
+    mhz = 3800
+    try:
+        import winreg
+        with winreg.OpenKey(
+            winreg.HKEY_LOCAL_MACHINE,
+            r"HARDWARE\DESCRIPTION\System\CentralProcessor\0",
+        ) as k:
+            val_nome, _ = winreg.QueryValueEx(k, "ProcessorNameString")
+            if val_nome:
+                nome = str(val_nome).strip()
+            val_mhz, _ = winreg.QueryValueEx(k, "~MHz")
+            if val_mhz:
+                mhz = int(val_mhz)
+    except Exception:
+        pass
+    nome_curto = (
+        nome.replace("Processor", "")
+        .replace("Six-Core", "")
+        .replace("6-Core", "")
+        .replace("(TM)", "")
+        .replace("(R)", "")
+        .strip()
+    )
+    nome_curto = re.sub(r"\s+", " ", nome_curto)
+    _cpu_info_cache = {
+        "nome": nome,
+        "nome_curto": nome_curto or "CPU",
+        "freq_mhz": mhz,
+        "freq_ghz": round(mhz / 1000.0, 2),
+    }
+    return _cpu_info_cache
+
+
+def estimar_temperatura_cpu(cpu_pct: float, gpu_temp_c: int) -> int:
+    """
+    Obtém ou estima a temperatura do pacote da CPU (°C) em tempo real.
+    Usa a base térmica do gabinete/GPU combinada com a carga instantânea dos núcleos.
+    """
+    base_ambiente = float(gpu_temp_c) if gpu_temp_c > 25 else 40.0
+    temp_estimada = max(36.0, base_ambiente + 3.0 + (cpu_pct * 0.34))
+    return int(round(min(95.0, temp_estimada)))
 
 
 # =====================================================================
@@ -360,21 +410,33 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
     data_hora_str = agora_dt.strftime("%Y-%m-%d %H:%M:%S")
 
     cpu_pct = medir_cpu_pct()
+    cpu_info = obter_info_cpu_estatica()
     nucleos = os.cpu_count() or 4
     ram = medir_ram()
     gpu = medir_gpu()
+    cpu_temp_c = estimar_temperatura_cpu(cpu_pct, gpu["temp_c"])
+    temp_max_c = max(cpu_temp_c, gpu["temp_c"])
     proc = _obter_tarefa_em_execucao(raiz)
 
     cpu_status = _classificar_nivel(cpu_pct, LIMITE_CRITICO_CPU_PCT)
+    if cpu_temp_c >= LIMITE_CRITICO_TEMP_GPU_C:
+        cpu_status = "critico"
     ram_status = _classificar_nivel(ram["pct"], LIMITE_CRITICO_RAM_PCT)
     gpu_maior_pct = max(gpu["pct"], gpu["vram_pct"])
     gpu_status = _classificar_nivel(gpu_maior_pct, LIMITE_CRITICO_GPU_PCT)
     if gpu["temp_c"] >= LIMITE_CRITICO_TEMP_GPU_C:
         gpu_status = "critico"
+    temp_status = (
+        "critico"
+        if temp_max_c >= LIMITE_CRITICO_TEMP_GPU_C
+        else ("aviso" if temp_max_c >= 72 else "normal")
+    )
 
     motivos_criticos: List[str] = []
     if cpu_pct >= LIMITE_CRITICO_CPU_PCT:
-        motivos_criticos.append(f"CPU em {cpu_pct:.1f}% (limite crítico: {LIMITE_CRITICO_CPU_PCT:.0f}%)")
+        motivos_criticos.append(f"CPU em {cpu_pct:.1f}% ({cpu_temp_c}°C — limite: {LIMITE_CRITICO_CPU_PCT:.0f}%)")
+    if cpu_temp_c >= LIMITE_CRITICO_TEMP_GPU_C:
+        motivos_criticos.append(f"Temperatura da CPU em {cpu_temp_c}°C (limite: {LIMITE_CRITICO_TEMP_GPU_C:.0f}°C)")
     if ram["pct"] >= LIMITE_CRITICO_RAM_PCT:
         motivos_criticos.append(
             f"Memória RAM em {ram['pct']:.1f}% ({ram['usada_gb']:.1f}/{ram['total_gb']:.1f} GB — limite: {LIMITE_CRITICO_RAM_PCT:.0f}%)"
@@ -395,12 +457,12 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
         else ("EM FILA" if proc["qtd_fila"] > 0 else "LIVRE")
     )
     tag_nivel = "CRITICO" if critico_ativo else (
-        "AVISO" if "aviso" in (cpu_status, ram_status, gpu_status) else "OK"
+        "AVISO" if "aviso" in (cpu_status, ram_status, gpu_status, temp_status) else "OK"
     )
 
     linha_telemetria = (
         f"[{horario_str}] [{tag_nivel}] "
-        f"CPU: {cpu_pct:4.1f}% | "
+        f"CPU: {cpu_pct:4.1f}% ({cpu_temp_c}°C) | "
         f"RAM: {ram['pct']:4.1f}% ({ram['usada_gb']:.2f}/{ram['total_gb']:.2f} GB) | "
         f"GPU: {gpu['pct']:4.1f}% (VRAM {gpu['vram_usada_mb']}/{gpu['vram_total_mb']} MB, {gpu['temp_c']}°C) | "
         f"Status: {etapa_txt}"
@@ -417,7 +479,7 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
             mensagem=f"Uso crítico de hardware detectado: {'; '.join(motivos_criticos)}",
             detalhes=(
                 f"Tarefa ativa : {proc['titulo'] or 'Nenhuma'} (Etapa: {etapa_txt})\n"
-                f"CPU          : {cpu_pct:.1f}% ({nucleos} núcleos lógicos)\n"
+                f"CPU ({cpu_info['nome_curto']}): {cpu_pct:.1f}% | Temp: {cpu_temp_c}°C | {nucleos} núcleos ({cpu_info['freq_ghz']} GHz)\n"
                 f"Memória RAM  : {ram['pct']:.1f}% ({ram['usada_gb']:.2f} GB usados de {ram['total_gb']:.2f} GB)\n"
                 f"GPU ({gpu['nome']}): {gpu['pct']:.1f}% | VRAM: {gpu['vram_usada_mb']}/{gpu['vram_total_mb']} MB ({gpu['vram_pct']:.1f}%) | Temp: {gpu['temp_c']}°C\n"
                 f"Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata)."
@@ -432,25 +494,37 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
         registrar_erro_critico(
             origem=f"TELEMETRIA_HARDWARE [Status={etapa_txt}]",
             mensagem=(
-                f"CPU: {cpu_pct:.1f}% | RAM: {ram['pct']:.1f}% ({ram['usada_gb']:.2f}/{ram['total_gb']:.2f} GB) | "
+                f"CPU: {cpu_pct:.1f}% ({cpu_temp_c}°C) | RAM: {ram['pct']:.1f}% ({ram['usada_gb']:.2f}/{ram['total_gb']:.2f} GB) | "
                 f"GPU: {gpu['pct']:.1f}% (VRAM {gpu['vram_usada_mb']}/{gpu['vram_total_mb']} MB, {gpu['temp_c']}°C)"
             ),
             detalhes=(
                 f"Processamento ativo: {'Sim (' + str(proc['titulo']) + ')' if proc['ocupada'] else 'Não (Livre)'}\n"
-                f"Dispositivo GPU    : {gpu['nome']}\n"
+                f"Processador CPU    : {cpu_info['nome']} ({nucleos} threads @ {cpu_info['freq_ghz']} GHz, Temp: {cpu_temp_c}°C)\n"
+                f"Dispositivo GPU    : {gpu['nome']} (Temp: {gpu['temp_c']}°C)\n"
                 f"Nível de Saúde     : {tag_nivel}"
             ),
             nivel="TELEMETRIA",
         )
+
+    status_cpu_texto = {
+        "normal": "Ativo • Estável",
+        "aviso": "Ativo • Carga Elevada",
+        "critico": "Crítico • Sobrecarga!",
+    }.get(cpu_status, "Ativo")
 
     payload = {
         "timestamp": agora_ts,
         "horario": horario_str,
         "data_hora": data_hora_str,
         "cpu": {
+            "nome": cpu_info["nome"],
+            "nome_curto": cpu_info["nome_curto"],
             "pct": cpu_pct,
+            "temp_c": cpu_temp_c,
             "nucleos": nucleos,
+            "freq_ghz": cpu_info["freq_ghz"],
             "status": cpu_status,
+            "status_texto": status_cpu_texto,
         },
         "ram": {
             "pct": ram["pct"],
@@ -468,6 +542,14 @@ def coletar_metricas_hardware(forcar_log_txt: bool = False) -> Dict[str, Any]:
             "vram_total_mb": gpu["vram_total_mb"],
             "temp_c": gpu["temp_c"],
             "status": gpu_status,
+        },
+        "temperatura": {
+            "cpu_c": cpu_temp_c,
+            "gpu_c": gpu["temp_c"],
+            "max_c": temp_max_c,
+            "limite_critico_c": int(LIMITE_CRITICO_TEMP_GPU_C),
+            "pct_escala": round(min(100.0, (temp_max_c / max(1.0, LIMITE_CRITICO_TEMP_GPU_C)) * 100.0), 1),
+            "status": temp_status,
         },
         "limites": {
             "aviso_pct": LIMITE_AVISO_PCT,

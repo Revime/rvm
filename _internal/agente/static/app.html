@@ -55,12 +55,13 @@
       <!-- Medidor CPU -->
       <div class="medidor-card" id="hw-card-cpu">
         <div class="medidor-cabeca">
-          <span class="medidor-nome">CPU // PROCESSADOR</span>
+          <span class="medidor-nome" id="hw-cpu-nome">CPU // PROCESSADOR</span>
+          <span class="medidor-temp-selo" id="hw-cpu-temp">🌡️ --°C</span>
           <strong class="medidor-valor" id="hw-cpu-pct">0.0%</strong>
         </div>
         <div class="medidor-barra"><i id="hw-cpu-barra" style="width: 0%"></i></div>
         <div class="medidor-rodape">
-          <span id="hw-cpu-detalhe">Calculando núcleos...</span>
+          <span id="hw-cpu-detalhe">Status: Ativo • Calculando núcleos...</span>
           <span class="medidor-tag" id="hw-cpu-tag">Normal</span>
         </div>
       </div>
@@ -69,6 +70,7 @@
       <div class="medidor-card" id="hw-card-ram">
         <div class="medidor-cabeca">
           <span class="medidor-nome">MEMÓRIA // RAM</span>
+          <span class="medidor-temp-selo" id="hw-ram-uso-gb">0.0 GB</span>
           <strong class="medidor-valor" id="hw-ram-pct">0.0%</strong>
         </div>
         <div class="medidor-barra"><i id="hw-ram-barra" style="width: 0%"></i></div>
@@ -82,12 +84,26 @@
       <div class="medidor-card" id="hw-card-gpu">
         <div class="medidor-cabeca">
           <span class="medidor-nome" id="hw-gpu-nome">GPU // PLACA DE VÍDEO</span>
+          <span class="medidor-temp-selo" id="hw-gpu-temp">🌡️ --°C</span>
           <strong class="medidor-valor" id="hw-gpu-pct">0.0%</strong>
         </div>
         <div class="medidor-barra"><i id="hw-gpu-barra" style="width: 0%"></i></div>
         <div class="medidor-rodape">
-          <span id="hw-gpu-detalhe">VRAM: 0 / 0 MB • 0°C</span>
+          <span id="hw-gpu-detalhe">VRAM: 0 / 0 MB • Temp: 0°C</span>
           <span class="medidor-tag" id="hw-gpu-tag">Normal</span>
+        </div>
+      </div>
+
+      <!-- Medidor Temperatura (CPU & GPU) -->
+      <div class="medidor-card" id="hw-card-temp">
+        <div class="medidor-cabeca">
+          <span class="medidor-nome">TEMPERATURA // CPU & GPU</span>
+          <strong class="medidor-valor" id="hw-temp-max">0°C</strong>
+        </div>
+        <div class="medidor-barra"><i id="hw-temp-barra" style="width: 0%"></i></div>
+        <div class="medidor-rodape">
+          <span id="hw-temp-detalhe">CPU: --°C • GPU: --°C (Máx: 83°C)</span>
+          <span class="medidor-tag" id="hw-temp-tag">Normal</span>
         </div>
       </div>
     </div>
@@ -382,16 +398,16 @@
 
     <div class="modal-hw-metricas">
       <div class="modal-hw-item">
-        <span>CPU</span>
-        <strong id="modal-hw-cpu">0%</strong>
+        <span>CPU & Temp</span>
+        <strong id="modal-hw-cpu">0% • 0°C</strong>
       </div>
       <div class="modal-hw-item">
         <span>Memória RAM</span>
         <strong id="modal-hw-ram">0%</strong>
       </div>
       <div class="modal-hw-item">
-        <span>GPU / VRAM</span>
-        <strong id="modal-hw-gpu">0%</strong>
+        <span>GPU & Temp</span>
+        <strong id="modal-hw-gpu">0% • 0°C</strong>
       </div>
     </div>
 

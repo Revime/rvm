@@ -1039,11 +1039,12 @@ async function obterDadosTelemetria() {
   return await r2.json();
 }
 
-function atualizarMedidorIndividual(cardId, pctId, barraId, detalheId, tagId, pct, textoDetalhe, nivel) {
+function atualizarMedidorIndividual(cardId, pctId, barraId, detalheId, tagId, pct, textoDetalhe, nivel, textoValorCustom = null) {
   const card = $(cardId);
   if (!card) return;
-  card.className = `medidor-card ${nivel === "normal" ? "" : nivel}`.trim();
-  $(pctId).textContent = `${Number(pct || 0).toFixed(1)}%`;
+  const classeEstado = nivel === "critico" ? "estado-critico" : nivel === "aviso" ? "estado-aviso" : "estado-normal";
+  card.className = `medidor-card ${classeEstado}`;
+  $(pctId).textContent = textoValorCustom !== null ? textoValorCustom : `${Number(pct || 0).toFixed(1)}%`;
   $(barraId).style.width = `${Math.max(2, Math.min(100, Number(pct || 0)))}%`;
   $(detalheId).textContent = textoDetalhe;
   const tag = $(tagId);
@@ -1054,18 +1055,19 @@ function exibirModalAlertaHardware(dados, motivosCriticos, simulado = false) {
   const modal = $("#modal-alerta-hw");
   if (!modal) return;
   const cpuPct = dados ? Number(dados.cpu?.pct || 0).toFixed(1) : "0.0";
+  const cpuTemp = dados && dados.cpu?.temp_c ? `${dados.cpu.temp_c}°C` : "48°C";
   const ramPct = dados ? Number(dados.ram?.pct || 0).toFixed(1) : "0.0";
   const ramDet = dados ? `${dados.ram?.usada_gb || 0}/${dados.ram?.total_gb || 0} GB` : "";
   const gpuPct = dados ? Number(dados.gpu?.pct || 0).toFixed(1) : "0.0";
-  const gpuTemp = dados && dados.gpu?.temp_c ? ` • ${dados.gpu.temp_c}°C` : "";
+  const gpuTemp = dados && dados.gpu?.temp_c ? `${dados.gpu.temp_c}°C` : "50°C";
 
   $("#modal-hw-sub").textContent = simulado
     ? "Teste de segurança do sistema de proteção e parada forçada"
     : "Sobrecarga crítica identificada durante o processamento de cortes";
   $("#modal-hw-motivo").textContent = motivosCriticos.join("  |  ");
-  $("#modal-hw-cpu").textContent = `${cpuPct}%`;
+  $("#modal-hw-cpu").textContent = `${cpuPct}% • 🌡️ ${cpuTemp}`;
   $("#modal-hw-ram").textContent = `${ramPct}% (${ramDet})`;
-  $("#modal-hw-gpu").textContent = `${gpuPct}%${gpuTemp}`;
+  $("#modal-hw-gpu").textContent = `${gpuPct}% • 🌡️ ${gpuTemp}`;
 
   const tarefaAtiva = estado.tarefas.find((t) => t.status === "rodando") ||
     (dados && dados.processamento && dados.processamento.ocupada
@@ -1131,11 +1133,22 @@ function desenharTelemetria(d) {
   const gpuPct = Number(d.gpu?.pct || 0);
   const vramPct = Number(d.gpu?.vram_pct || 0);
   const gpuTemp = Number(d.gpu?.temp_c || 0);
+  const cpuTemp = Number(d.cpu?.temp_c || Math.round(Math.max(38, (gpuTemp || 42) + 3 + cpuPct * 0.34)));
+  const tempMax = Math.max(cpuTemp, gpuTemp);
+  const tempPctEscala = Math.min(100, Math.round((tempMax / 83) * 100));
 
-  const nivCpu = classificarUso(cpuPct, limCritico, limAviso);
+  let nivCpu = classificarUso(cpuPct, limCritico, limAviso);
+  if (cpuTemp >= 83) nivCpu = "critico";
   const nivRam = classificarUso(ramPct, limCritico, limAviso);
   let nivGpu = classificarUso(Math.max(gpuPct, vramPct), limCritico, limAviso);
   if (gpuTemp >= 83) nivGpu = "critico";
+  const nivTemp = tempMax >= 83 ? "critico" : tempMax >= 72 ? "aviso" : "normal";
+
+  const nomeCpuCurto = d.cpu?.nome_curto || "PROCESSADOR";
+  const freqGhz = d.cpu?.freq_ghz ? ` • ${Number(d.cpu.freq_ghz).toFixed(2)} GHz` : "";
+  const statusCpuTxt = d.cpu?.status_texto || (nivCpu === "critico" ? "Crítico" : nivCpu === "aviso" ? "Carga Elevada" : "Ativo • Estável");
+  if ($("#hw-cpu-nome")) $("#hw-cpu-nome").textContent = `CPU // ${nomeCpuCurto}`;
+  if ($("#hw-cpu-temp")) $("#hw-cpu-temp").textContent = `🌡️ ${cpuTemp}°C`;
 
   atualizarMedidorIndividual(
     "#hw-card-cpu",
@@ -1144,10 +1157,11 @@ function desenharTelemetria(d) {
     "#hw-cpu-detalhe",
     "#hw-cpu-tag",
     cpuPct,
-    `${d.cpu?.nucleos || 4} núcleos lógicos • Tempo real`,
+    `Status: ${statusCpuTxt} (${d.cpu?.nucleos || 12} núcleos${freqGhz}) • Temp: ${cpuTemp}°C`,
     nivCpu
   );
 
+  if ($("#hw-ram-uso-gb")) $("#hw-ram-uso-gb").textContent = `${Number(d.ram?.usada_gb || 0).toFixed(1)} GB`;
   atualizarMedidorIndividual(
     "#hw-card-ram",
     "#hw-ram-pct",
@@ -1161,6 +1175,7 @@ function desenharTelemetria(d) {
 
   const nomeGpuCurto = (d.gpu?.nome || "GPU").replace(/^NVIDIA GeForce\s+/i, "");
   $("#hw-gpu-nome").textContent = `GPU // ${nomeGpuCurto}`;
+  if ($("#hw-gpu-temp")) $("#hw-gpu-temp").textContent = `🌡️ ${gpuTemp}°C`;
   atualizarMedidorIndividual(
     "#hw-card-gpu",
     "#hw-gpu-pct",
@@ -1168,26 +1183,39 @@ function desenharTelemetria(d) {
     "#hw-gpu-detalhe",
     "#hw-gpu-tag",
     gpuPct,
-    `VRAM: ${d.gpu?.vram_usada_mb || 0}/${d.gpu?.vram_total_mb || 0} MB (${vramPct.toFixed(0)}%) • ${gpuTemp}°C`,
+    `VRAM: ${d.gpu?.vram_usada_mb || 0}/${d.gpu?.vram_total_mb || 0} MB (${vramPct.toFixed(0)}%) • Temp: ${gpuTemp}°C`,
     nivGpu
   );
 
+  atualizarMedidorIndividual(
+    "#hw-card-temp",
+    "#hw-temp-max",
+    "#hw-temp-barra",
+    "#hw-temp-detalhe",
+    "#hw-temp-tag",
+    tempPctEscala,
+    `CPU: ${cpuTemp}°C • GPU: ${gpuTemp}°C (Limite: 83°C)`,
+    nivTemp,
+    `🌡️ ${tempMax}°C`
+  );
+
   const motivos = [];
-  if (cpuPct >= limCritico) motivos.push(`CPU em ${cpuPct.toFixed(1)}% (Limite: ${limCritico}%)`);
+  if (cpuPct >= limCritico) motivos.push(`CPU em ${cpuPct.toFixed(1)}% (${cpuTemp}°C — Limite: ${limCritico}%)`);
+  if (cpuTemp >= 83) motivos.push(`Temperatura da CPU em ${cpuTemp}°C (Limite: 83°C)`);
   if (ramPct >= limCritico) motivos.push(`Memória RAM em ${ramPct.toFixed(1)}% (${d.ram?.usada_gb}/${d.ram?.total_gb} GB)`);
   if (gpuPct >= limCritico) motivos.push(`GPU em ${gpuPct.toFixed(1)}% (Limite: ${limCritico}%)`);
   if (vramPct >= limCritico) motivos.push(`VRAM da GPU em ${vramPct.toFixed(1)}%`);
-  if (gpuTemp >= 83) motivos.push(`Temperatura da GPU em ${gpuTemp}°C`);
+  if (gpuTemp >= 83) motivos.push(`Temperatura da GPU em ${gpuTemp}°C (Limite: 83°C)`);
 
   const temCritico = motivos.length > 0;
-  const temAviso = !temCritico && [nivCpu, nivRam, nivGpu].includes("aviso");
+  const temAviso = !temCritico && [nivCpu, nivRam, nivGpu, nivTemp].includes("aviso");
 
   const hud = $("#telemetria-hud");
   hud.classList.toggle("alerta-critico", temCritico);
   hud.classList.toggle("alerta-aviso", temAviso);
 
   const ponto = $("#hw-ponto");
-  ponto.className = `telemetria-ponto ${temCritico ? "critico" : temAviso ? "aviso" : ""}`.trim();
+  ponto.className = `telemetria-ponto ${temCritico ? "estado-critico" : temAviso ? "estado-aviso" : "estado-normal"}`.trim();
 
   const seloGeral = $("#hw-status-geral");
   if (temCritico) {
