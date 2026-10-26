@@ -302,9 +302,15 @@ form.addEventListener("submit", async (e) => {
   try {
     btn.disabled = true;
     if (estado.arquivo) {
+      const canalArq = $("#canal").value.trim();
+      if (!canalArq) {
+        aviso("📌 Diretriz Obrigatória: Informe o nome do canal original do vídeo para prestar os créditos ao criador.", 4000);
+        $("#canal").focus();
+        return;
+      }
       const up = await enviarArquivo(estado.arquivo);
       corpo.origem = up.caminho;
-      corpo.canal = $("#canal").value.trim();
+      corpo.canal = canalArq;
       corpo.link = $("#link").value.trim();
     } else {
       corpo.origem = $("#origem").value.trim();
@@ -424,6 +430,37 @@ function desenharLinhaTempo(el, ep) {
   }
 }
 
+function formatarBlocoCreditoObrigatorio(canal, link) {
+  const nomeCanal = (canal || "").trim() || "Criador Original";
+  let bloco = `🎥 Créditos ao Criador Original: ${nomeCanal}`;
+  if (link && link.trim()) bloco += `\n🔗 Episódio completo: ${link.trim()}`;
+  return bloco;
+}
+
+function sincronizarCamposCreditoCard(card) {
+  const inpCanal = $(".f-canal-original", card);
+  const inpTela = $(".f-credito-tela", card);
+  const elCredito = $(".credito", card);
+  if (!inpCanal) return;
+  const canal = inpCanal.value.trim() || card.dataset.canalPadrao || "Criador Original";
+  const link = card.dataset.linkOriginal || "";
+  if (inpTela) inpTela.value = `Créditos: ${canal}`;
+  if (elCredito) elCredito.textContent = formatarBlocoCreditoObrigatorio(canal, link);
+}
+
+function validarDiretrizCreditoCorte(card) {
+  const inpCanal = $(".f-canal-original", card);
+  if (!inpCanal) return true;
+  const val = inpCanal.value.trim();
+  if (!val) {
+    aviso("📌 Diretriz Obrigatória: Informe o nome do canal original para prestar os créditos ao criador.", 4000);
+    inpCanal.focus();
+    return false;
+  }
+  sincronizarCamposCreditoCard(card);
+  return true;
+}
+
 function criarCard(epId, n) {
   const card = $("#tpl-corte").content.firstElementChild.cloneNode(true);
   card.dataset.ep = epId;
@@ -431,6 +468,10 @@ function criarCard(epId, n) {
   card.id = `corte-${epId}-${n}`;
   const marcarSujo = () => { card.dataset.sujo = "1"; };
   $$("input, textarea", card).forEach((i) => i.addEventListener("input", marcarSujo));
+  const inpCanal = $(".f-canal-original", card);
+  if (inpCanal) {
+    inpCanal.addEventListener("input", () => sincronizarCamposCreditoCard(card));
+  }
   const titulo = $(".f-titulo", card);
   titulo.addEventListener("input", () => { $(".contador", card).textContent = `${titulo.value.length}/100`; });
   $$("[data-acao]", card).forEach((b) => (b.onclick = () => acaoCorte(card, b.dataset.acao)));
@@ -560,6 +601,11 @@ function atualizarCard(card, ep, c) {
     card.dataset.versao = versao;
     if (mudouVideo) delete card.dataset.sujo;
   }
+  const canalOrig = (c.canal || ep.canal || "Criador Original").trim();
+  const linkOrig = (c.link_original || ep.link || "").trim();
+  card.dataset.canalPadrao = canalOrig;
+  card.dataset.linkOriginal = linkOrig;
+
   if (!card.dataset.sujo) {
     definirValor($(".f-titulo", card), c.titulo || "");
     definirValor($(".f-descricao", card), c.descricao || "");
@@ -567,6 +613,7 @@ function atualizarCard(card, ep, c) {
     definirValor($(".f-gancho", card), c.gancho || "");
     definirValor($(".f-inicio", card), Number(c.inicio).toFixed(1));
     definirValor($(".f-fim", card), Number(c.fim).toFixed(1));
+    if ($(".f-canal-original", card)) definirValor($(".f-canal-original", card), canalOrig);
     $(".f-legenda", card).checked = c.legenda !== false;
     $(".contador", card).textContent = `${(c.titulo || "").length}/100`;
   }
@@ -574,10 +621,10 @@ function atualizarCard(card, ep, c) {
   const temRecorte = c.layouts && (c.layouts.dividido > 0 || c.layouts.rosto > 0);
   const infoLayout = temRecorte ? " • recorte de borda detectado (use Refazer vídeo para imagem 100% íntegra)" : " • área 100% íntegra";
   $(".corte-meta", card).textContent =
-    `${Math.round(c.duracao)} s, nota ${c.nota != null ? Number(c.nota).toLocaleString("pt-BR") : "?"}, a partir de ${mmss(c.inicio)}${infoLayout}`;
+    `${Math.round(c.duracao)} s, nota ${c.nota != null ? Number(c.nota).toLocaleString("pt-BR") : "?"}, a partir de ${mmss(c.inicio)}${infoLayout} • Créditos: ${canalOrig}`;
   $(".corte-motivo", card).textContent = c.motivo || "";
   $(".corte-motivo", card).hidden = !c.motivo;
-  $(".credito", card).textContent = c.credito || "";
+  sincronizarCamposCreditoCard(card);
   $(".transcricao p", card).textContent = c.texto || "";
   card.dataset.status = c.status;
   card.className = `corte ${c.status}`;
@@ -601,22 +648,29 @@ function atualizarCard(card, ep, c) {
 }
 
 function textosDoCard(card) {
+  sincronizarCamposCreditoCard(card);
+  const canal = ($(".f-canal-original", card) && $(".f-canal-original", card).value.trim()) || card.dataset.canalPadrao || "Criador Original";
+  const credito = ($(".credito", card) && $(".credito", card).textContent.trim()) || formatarBlocoCreditoObrigatorio(canal, card.dataset.linkOriginal || "");
   return {
     titulo: $(".f-titulo", card).value,
     descricao: $(".f-descricao", card).value,
     hashtags: $(".f-hashtags", card).value,
+    canal,
+    credito,
   };
 }
 
 async function acaoCorte(card, acao) {
   const base = `/api/cortes/${encodeURIComponent(card.dataset.ep)}/${card.dataset.n}`;
   try {
+    if (["copiar", "pedir-confirmacao-yt", "enviar-yt", "refazer", "salvar", "aprovado"].includes(acao)) {
+      if (!validarDiretrizCreditoCorte(card)) return;
+    }
     if (acao === "copiar") {
       const t = textosDoCard(card);
-      const credito = $(".credito", card).textContent;
-      const texto = [t.titulo, t.descricao, credito, t.hashtags].filter((x) => x && x.trim()).join("\n\n");
+      const texto = [t.titulo, t.descricao, t.credito, t.hashtags].filter((x) => x && x.trim()).join("\n\n");
       await copiar(texto);
-      aviso("Texto do post copiado");
+      aviso("Texto do post copiado com os créditos obrigatórios ao criador original!");
       return;
     }
     if (acao === "copiar-link-yt") {
@@ -670,7 +724,11 @@ async function acaoCorte(card, acao) {
         $(".conf-linha-agendamento", card).hidden = true;
       }
       const priv = $(".p-privacidade", card).value;
+      const canalCriador = ($(".f-canal-original", card) && $(".f-canal-original", card).value.trim()) || card.dataset.canalPadrao || "Criador Original";
       $(".conf-canal", card).textContent = (estado.youtube && estado.youtube.canal) || "Canal conectado";
+      if ($(".conf-credito-criador", card)) {
+        $(".conf-credito-criador", card).textContent = `🎥 Créditos: ${canalCriador} (Divulgação obrigatória ativa)`;
+      }
       $(".conf-titulo", card).textContent = tituloVal;
       $(".conf-visibilidade", card).textContent = quando
         ? `Privado até o horário agendado (depois Público)`
@@ -712,6 +770,11 @@ async function acaoCorte(card, acao) {
           video: { enquadramento: "desfocado", dois_rostos: "desfocado" },
           legenda: { tamanho: 78, palavras_por_bloco: 2, contorno: 6 },
           titulo_na_tela: { tamanho: 58 },
+          credito: {
+            na_tela: true,
+            texto_tela: "Créditos: {canal}",
+            na_descricao: "🎥 Créditos ao Criador Original: {canal}\n🔗 Episódio completo: {link}",
+          },
         },
       });
       estado.config = dCfg.config;
@@ -818,7 +881,10 @@ async function carregarAjustes() {
   estado.config = d.config;
   for (const el of $$("[data-cfg]", formAjustes)) {
     const v = caminho(d.config, el.dataset.cfg);
-    if (el.type === "checkbox") el.checked = !!v;
+    if (el.dataset.cfg === "credito.na_tela") {
+      el.checked = true;
+      el.disabled = true;
+    } else if (el.type === "checkbox") el.checked = !!v;
     else {
       if (el.tagName === "SELECT" && v != null && ![...el.options].some((o) => o.value === String(v))) {
         el.add(new Option(String(v), String(v)));
@@ -932,6 +998,11 @@ function lerAjustes() {
     let v = el.type === "checkbox" ? el.checked : el.value;
     if (["number", "range"].includes(el.type)) v = Number(v);
     saida[secao][chave] = v;
+  }
+  saida.credito = saida.credito || {};
+  saida.credito.na_tela = true;
+  if (!saida.credito.texto_tela || !saida.credito.texto_tela.includes("{canal}")) {
+    saida.credito.texto_tela = "Créditos: {canal}";
   }
   return saida;
 }

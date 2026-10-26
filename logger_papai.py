@@ -783,18 +783,71 @@ def _ajustar_linha_style_ass(linha: str) -> str:
         campos[19] = "80"  # MarginL
         campos[20] = "80"  # MarginR
     elif nome_estilo == "Credito":
-        campos[19] = "80"
-        campos[20] = "80"
+        campos[2] = "40"   # Fontsize legível para o crédito obrigatório
+        campos[16] = "4"   # Outline nítido
+        campos[19] = "80"  # MarginL
+        campos[20] = "80"  # MarginR
 
     return f"{prefixo}: " + ",".join(campos)
 
 
+def _obter_canal_do_episodio(caminho_ass: Path) -> str:
+    """Busca o nome do canal original a partir de trabalho/<ep>/info.json ou saida/<ep>/corte_01.json."""
+    try:
+        ep_dir = caminho_ass.parent.parent
+        ep_id = ep_dir.name
+        raiz = obter_caminho_raiz()
+        for candidato in (
+            ep_dir / "info.json",
+            raiz / "saida" / ep_id / "corte_01.json",
+            raiz / "saida" / ep_id / "episodio.json",
+        ):
+            if candidato.exists():
+                dados = json.loads(candidato.read_text(encoding="utf-8", errors="replace"))
+                canal = (dados.get("canal") or dados.get("uploader") or dados.get("channel") or "").strip()
+                if canal:
+                    return canal
+    except Exception:
+        pass
+    return "Criador Original"
+
+
+def _garantir_prefixo_credito_ass(linha: str) -> str:
+    """
+    Garante que toda linha Dialogue de estilo 'Credito' no .ass exiba explicitamente
+    'Créditos: <Nome do Canal Original>'.
+    """
+    if not linha.startswith("Dialogue:") or ",Credito," not in linha:
+        return linha
+    partes = linha.split(",", 9)
+    if len(partes) < 10:
+        return linha
+    texto = partes[9]
+    # Separa tags de formatação ASS {\an5\pos(...)} do texto visível
+    m = re.match(r"^((?:\{[^}]*\})+)(.+)$", texto)
+    if m:
+        tags = m.group(1)
+        visivel = m.group(2).strip()
+    else:
+        tags = r"{\an5\pos(540,1458)}"
+        visivel = texto.strip()
+
+    if not visivel:
+        return linha
+    if not re.match(r"^(cr[eé]ditos?|canal\s+original)\s*:", visivel, flags=re.IGNORECASE):
+        visivel = f"Créditos: {visivel}"
+    partes[9] = f"{tags}{visivel}"
+    return ",".join(partes)
+
+
 def auditar_e_ajustar_arquivo_ass(caminho_ass: Path) -> bool:
     """
-    Garante que o arquivo de legenda .ass respeite a área de trabalho de imagem (1080x1920):
+    Garante que o arquivo de legenda .ass respeite a área de trabalho de imagem (1080x1920)
+    e cumpra a Diretriz Obrigatória de Créditos ao Criador Original:
     1. Troca 'WrapStyle: 2' (sem quebra de linha) por 'WrapStyle: 0' (quebra inteligente automática).
-    2. Ajusta margens laterais seguras (MarginL=80, MarginR=80) e fontes máximas (Legenda=78, Titulo=58).
-    3. Sanitiza termos truncados ou corrompidos.
+    2. Ajusta margens laterais seguras (MarginL=80, MarginR=80) e fontes máximas (Legenda=78, Titulo=58, Credito=40).
+    3. Garante que o crédito do canal original ('Créditos: <Canal>') esteja presente e visível no vídeo.
+    4. Sanitiza termos truncados ou corrompidos.
     """
     try:
         if not caminho_ass.exists():
@@ -807,13 +860,32 @@ def auditar_e_ajustar_arquivo_ass(caminho_ass: Path) -> bool:
 
         original = caminho_ass.read_text(encoding="utf-8", errors="replace")
         linhas_processadas = []
+        tem_dialogue_credito = False
         for linha in original.splitlines():
             if linha.startswith("WrapStyle:"):
                 linhas_processadas.append("WrapStyle: 0")
             elif linha.startswith("Style:"):
                 linhas_processadas.append(_ajustar_linha_style_ass(linha))
+            elif linha.startswith("Dialogue:") and ",Credito," in linha:
+                tem_dialogue_credito = True
+                linhas_processadas.append(_garantir_prefixo_credito_ass(sanitizar_texto_seguro(linha)))
             else:
                 linhas_processadas.append(sanitizar_texto_seguro(linha))
+
+        # Se o arquivo .ass não tiver linha de Crédito, injeta obrigatoriamente o crédito do canal original
+        if not tem_dialogue_credito and "[Events]" in original:
+            canal_ep = _obter_canal_do_episodio(caminho_ass)
+            linha_credito_obrigatoria = (
+                f"Dialogue: 1,0:00:00.00,0:00:59.00,Credito,,0,0,0,,{{\\an5\\pos(540,1458)}}Créditos: {canal_ep}"
+            )
+            novas_linhas = []
+            inserido = False
+            for l in linhas_processadas:
+                novas_linhas.append(l)
+                if not inserido and l.startswith("Format:") and "Text" in l:
+                    novas_linhas.append(linha_credito_obrigatoria)
+                    inserido = True
+            linhas_processadas = novas_linhas
 
         novo = "\n".join(linhas_processadas) + ("\n" if original.endswith("\n") else "")
 
@@ -864,6 +936,36 @@ def auditar_pastas_de_trabalho_e_saida() -> int:
                         if limpo != dados[campo]:
                             dados[campo] = limpo
                             modificado = True
+
+                # Diretriz Obrigatória: Garante divulgação do nome do canal original em todo corte
+                canal_orig = (dados.get("canal") or "").strip()
+                if not canal_orig:
+                    canal_orig = "Criador Original"
+                    dados["canal"] = canal_orig
+                    modificado = True
+                link_orig = (dados.get("link_original") or dados.get("link") or "").strip()
+                credito_padrao = f"🎥 Créditos ao Criador Original: {canal_orig}"
+                if link_orig:
+                    credito_padrao += f"\n🔗 Episódio completo: {link_orig}"
+                if dados.get("credito") != credito_padrao:
+                    dados["credito"] = credito_padrao
+                    modificado = True
+                diretriz_obj = {
+                    "obrigatorio": True,
+                    "nota_diretriz": (
+                        "DIRETRIZ OBRIGATÓRIA DE AUTORIA: Todo corte deve divulgar obrigatoriamente "
+                        "o nome do canal original no vídeo (overlay na tela) e na descrição/créditos, "
+                        "prestando os devidos créditos ao criador original."
+                    ),
+                    "canal_original": canal_orig,
+                    "link_original": link_orig,
+                    "credito_tela": f"Créditos: {canal_orig}",
+                    "credito_descricao": credito_padrao,
+                }
+                if dados.get("diretriz_credito_criador") != diretriz_obj:
+                    dados["diretriz_credito_criador"] = diretriz_obj
+                    modificado = True
+
                 if "ypp_monetization" not in dados or "titles" not in dados:
                     try:
                         from pipeline.orchestrator import YPPPipelineOrchestrator

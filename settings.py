@@ -110,6 +110,18 @@ MAX_TITLE_CHARS: int = 55
 TITLE_OPTIONS_COUNT: int = 3
 MAX_THUMBNAIL_OVERLAY_WORDS: int = 3
 
+# Section 6.5: Mandatory Original Creator Credit Directive
+MANDATORY_CREATOR_CREDIT_DIRECTIVE: bool = True
+CREATOR_CREDIT_DIRECTIVE_NOTE: str = (
+    "DIRETRIZ OBRIGATÓRIA: Todo corte deve divulgar obrigatoriamente o nome do canal original "
+    "tanto na sobreposição visual (overlay na tela) quanto nos metadados/descrição da publicação, "
+    "prestando os devidos créditos ao criador original do conteúdo."
+)
+CREATOR_CREDIT_SCREEN_TEMPLATE: str = "Créditos: {canal}"
+CREATOR_CREDIT_DESCRIPTION_TEMPLATE: str = (
+    "🎥 Créditos ao Criador Original: {canal}\n🔗 Episódio completo: {link}"
+)
+
 # Section 8: Real-Time Hardware Telemetry & Critical Alert Thresholds
 HW_MONITOR_INTERVAL_SECONDS: float = 1.5
 HW_LOG_INTERVAL_SECONDS: float = 15.0

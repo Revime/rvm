@@ -175,6 +175,18 @@
         <button data-f="todos">Todos</button>
       </div>
     </div>
+
+    <div class="diretriz-editor-banner" role="note" aria-label="Nota Diretriz de Créditos Obrigatórios">
+      <div class="diretriz-editor-topo">
+        <span class="diretriz-icone">📌</span>
+        <strong>NOTA DIRETRIZ DO EDITOR DE CORTES — DIVULGAÇÃO OBRIGATÓRIA DO CANAL ORIGINAL</strong>
+        <span class="selo concluida">PARAMETRIZAÇÃO ATIVA</span>
+      </div>
+      <p>
+        Por diretriz obrigatória da aplicação, <b>100% dos cortes gerados e editados</b> devem conter e divulgar de forma visível o <b>nome do canal original do vídeo</b> (tanto na sobreposição de tela <code>Créditos: {canal}</code> quanto no bloco oficial da descrição), prestando os devidos créditos ao criador original.
+      </p>
+    </div>
+
     <div id="episodios"></div>
     <div class="vazio" id="cortes-vazio" hidden>
       <p>Ainda não tem nenhum corte.</p>
@@ -341,10 +353,13 @@
         </fieldset>
 
         <fieldset>
-          <legend>Crédito do canal original</legend>
-          <label class="interruptor"><input type="checkbox" data-cfg="credito.na_tela"> Mostrar o nome do canal no vídeo</label>
-          <label>Texto no vídeo<input data-cfg="credito.texto_tela"><span class="dica">{canal} vira o nome do canal</span></label>
-          <label>Texto no fim da descrição<textarea rows="3" data-cfg="credito.na_descricao"></textarea><span class="dica">{canal} e {link} são trocados pelo canal e pelo link do episódio</span></label>
+          <legend>Crédito do canal original (Diretriz Obrigatória)</legend>
+          <div class="diretriz-nota-ajustes">
+            <strong>📌 Diretriz Obrigatória de Autoria:</strong> A divulgação do nome do canal original no vídeo e na descrição é obrigatória em todos os cortes para prestar os devidos créditos ao criador original.
+          </div>
+          <label class="interruptor"><input type="checkbox" data-cfg="credito.na_tela" checked disabled> Mostrar obrigatoriamente o nome do canal no vídeo (Travado por Diretriz)</label>
+          <label>Texto parametrizado no vídeo<input data-cfg="credito.texto_tela" placeholder="Créditos: {canal}"><span class="dica">{canal} é substituído automaticamente pelo nome do canal original</span></label>
+          <label>Texto obrigatório no fim da descrição<textarea rows="3" data-cfg="credito.na_descricao"></textarea><span class="dica">{canal} e {link} são trocados pelo canal original e pelo link do episódio</span></label>
         </fieldset>
 
         <div class="barra-salvar">
@@ -464,7 +479,26 @@
       <p class="corte-motivo"></p>
       <label>Título do post <span class="contador"></span><input class="f-titulo" maxlength="100"></label>
       <label>Descrição<textarea class="f-descricao" rows="3"></textarea></label>
-      <p class="credito"></p>
+
+      <div class="diretriz-credito-corte" role="region" aria-label="Diretriz Obrigatória de Créditos ao Criador Original">
+        <div class="diretriz-credito-cabeca">
+          <span>🎥 <strong>DIRETRIZ OBRIGATÓRIA: CRÉDITO AO CANAL ORIGINAL</strong></span>
+          <span class="selo rodando">OBRIGATÓRIO</span>
+        </div>
+        <p class="diretriz-credito-texto">
+          Nota Diretriz: É obrigatória em cada corte a divulgação do nome do canal original na imagem do vídeo e na descrição do post para prestar os créditos ao criador original.
+        </p>
+        <div class="grade-2 diretriz-credito-campos">
+          <label>Canal Original (Criador) *
+            <input class="f-canal-original" type="text" required placeholder="Nome do canal criador original">
+          </label>
+          <label>Crédito Parametrizado na Tela (Vídeo)
+            <input class="f-credito-tela" type="text" readonly>
+          </label>
+        </div>
+        <p class="credito"></p>
+      </div>
+
       <label>Hashtags<input class="f-hashtags"></label>
       <div class="grade-ajuste">
         <label>Texto na tela<input class="f-gancho" maxlength="60"></label>
@@ -522,7 +556,8 @@
         <div class="postar-confirmacao" hidden>
           <strong>Confirmar publicação no YouTube?</strong>
           <div class="yt-resumo">
-            <div><span class="rotulo">Canal:</span> <b class="conf-canal"></b></div>
+            <div><span class="rotulo">Canal de Publicação:</span> <b class="conf-canal"></b></div>
+            <div><span class="rotulo">Créditos ao Criador Original:</span> <b class="conf-credito-criador"></b></div>
             <div><span class="rotulo">Título:</span> <b class="conf-titulo"></b></div>
             <div><span class="rotulo">Status / Visibilidade:</span> <b class="conf-visibilidade"></b></div>
             <div class="conf-linha-agendamento" hidden><span class="rotulo">Agendado para:</span> <b class="conf-agendar"></b></div>

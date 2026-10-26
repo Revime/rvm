@@ -51,10 +51,14 @@ titulo_na_tela:
   cor_fundo: "#FFFFFF"
 
 credito:
+  # DIRETRIZ OBRIGATORIA: Todo corte deve divulgar obrigatoriamente o nome do canal original
+  # na tela do video e na descricao para prestar os devidos creditos ao criador original.
+  obrigatorio: true
+  diretriz: "DIRETRIZ OBRIGATÓRIA DE AUTORIA: É obrigatória em 100% dos cortes a exibição do nome do canal original no vídeo e na descrição, prestando os devidos créditos ao criador original."
   na_tela: true
-  texto_tela: "{canal}"
-  # Texto adicionado no fim da descricao de cada post
-  na_descricao: "Corte do {canal}\nEpisodio completo: {link}"
+  texto_tela: "Créditos: {canal}"
+  # Texto adicionado obrigatoriamente na descricao de cada post
+  na_descricao: "🎥 Créditos ao Criador Original: {canal}\n🔗 Episódio completo: {link}"
 
 youtube:
   # Como os cortes sobem: public (publico) | unlisted (nao listado) | private (privado)

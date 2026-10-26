@@ -36,6 +36,7 @@ class SEOMetadataPackage:
     pinned_comment: str
     related_video_link_tag: str
     thumbnail_spec: ThumbnailSpec
+    creator_credit_directive: Dict[str, Any]
 
 
 class MetadataAndSEOGenerator:
@@ -164,12 +165,28 @@ class MetadataAndSEOGenerator:
         matched_keywords: List[str],
         speaker_channel: str = "",
         long_form_video_id: Optional[str] = None,
+        original_video_url: str = "",
     ) -> Dict[str, Any]:
         """Builds the full Section 6 metadata dictionary ready to write to the companion .json."""
+        canal_nome = (speaker_channel or "Criador Original").strip()
+        credito_tela = settings.CREATOR_CREDIT_SCREEN_TEMPLATE.format(canal=canal_nome)
+        credito_descricao = settings.CREATOR_CREDIT_DESCRIPTION_TEMPLATE.format(
+            canal=canal_nome,
+            link=original_video_url or "https://youtube.com",
+        )
         pkg = SEOMetadataPackage(
-            titles=self.generate_three_titles(base_title, matched_keywords, speaker_channel),
+            titles=self.generate_three_titles(base_title, matched_keywords, canal_nome),
             pinned_comment=self.generate_polarizing_pinned_comment(transcript_text, matched_keywords),
             related_video_link_tag=long_form_video_id or self.default_long_form_id,
             thumbnail_spec=self.generate_thumbnail_spec(clip_start, clip_end, hook_text, matched_keywords),
+            creator_credit_directive={
+                "mandatory": settings.MANDATORY_CREATOR_CREDIT_DIRECTIVE,
+                "directive_note": settings.CREATOR_CREDIT_DIRECTIVE_NOTE,
+                "original_channel": canal_nome,
+                "original_video_url": original_video_url,
+                "on_screen_credit": credito_tela,
+                "description_credit": credito_descricao,
+            },
         )
         return asdict(pkg)
+

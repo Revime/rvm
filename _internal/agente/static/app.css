@@ -349,7 +349,55 @@ article.corte.renderizando .refazendo { display: grid; }
 .corte-motivo { margin: 8px 0 4px; color: var(--suave); font-size: 14px; border-left: 2px solid var(--magenta); padding-left: 10px; }
 .corte-dados > label { margin-top: 13px; }
 .contador { float: right; font-weight: 400; font-size: 12px; }
-.credito { margin: 6px 0 0; padding: 8px 12px; border-left: 2px solid var(--linha-forte); color: var(--suave); font: 12.5px var(--mono); white-space: pre-line; background: rgba(7, 6, 13, 0.5); }
+.credito {
+  margin: 10px 0 0; padding: 9px 12px; border-left: 3px solid var(--amarelo);
+  color: var(--amarelo); font: 600 12.5px/1.55 var(--mono); white-space: pre-line;
+  background: rgba(252, 238, 10, 0.07);
+}
+.diretriz-editor-banner {
+  margin: 14px 0 24px; padding: 14px 18px;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.10), rgba(15, 13, 26, 0.92));
+  border-left: 3px solid var(--ciano);
+  box-shadow: inset 0 0 0 1px rgba(0, 240, 255, 0.28);
+  clip-path: var(--chanfro-p);
+}
+.diretriz-editor-topo {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font: 700 13.5px var(--titulo); letter-spacing: 0.05em; color: var(--ciano);
+}
+.diretriz-editor-topo .selo { margin-left: auto; }
+.diretriz-editor-banner p {
+  margin: 6px 0 0; font-size: 13.5px; color: var(--texto); line-height: 1.5;
+}
+.diretriz-editor-banner code {
+  font-family: var(--mono); font-size: 12px; padding: 1px 6px;
+  background: rgba(252, 238, 10, 0.14); color: var(--amarelo);
+}
+.diretriz-credito-corte {
+  margin-top: 14px; padding: 13px 15px;
+  background: linear-gradient(180deg, rgba(23, 20, 39, 0.92), rgba(11, 9, 20, 0.92));
+  border-left: 3px solid var(--amarelo);
+  box-shadow: inset 0 0 0 1px rgba(252, 238, 10, 0.28);
+  clip-path: var(--chanfro-p);
+}
+.diretriz-credito-cabeca {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+  font: 700 12.5px var(--mono); color: var(--amarelo); letter-spacing: 0.05em;
+}
+.diretriz-credito-texto {
+  margin: 5px 0 8px; font-size: 12.5px; color: var(--suave); line-height: 1.45;
+}
+.diretriz-credito-campos { margin-top: 8px; }
+.f-credito-tela {
+  font-family: var(--mono); color: var(--ciano); background: rgba(0, 240, 255, 0.06);
+  border-color: rgba(0, 240, 255, 0.35); cursor: default;
+}
+.diretriz-nota-ajustes {
+  margin: 4px 0 12px; padding: 10px 14px;
+  background: rgba(252, 238, 10, 0.08); border-left: 3px solid var(--amarelo);
+  font-size: 13px; color: var(--texto); line-height: 1.5;
+}
+.diretriz-nota-ajustes strong { color: var(--amarelo); }
 .grade-ajuste { display: grid; grid-template-columns: 1fr 140px 140px; gap: 12px; margin-top: 13px; }
 .corte-dados > .interruptor { margin-top: 14px; }
 .corte-dados > .interruptor .dica { margin: 0; font-weight: 400; }

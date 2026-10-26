@@ -47,6 +47,8 @@ Para impedir que qualquer informação visual do vídeo original ou texto de leg
    - **Quebra de linha inteligente (`WrapStyle: 0`) e Margens (`MarginL: 80`, `MarginR: 80`)**: O módulo [`logger_papai.py`](./logger_papai.py) audita os arquivos `.ass` gerados em `trabalho/*/tmp/*.ass` via parser determinístico de colunas (`_ajustar_linha_style_ass`), garantindo que `WrapStyle: 0` esteja ativo e que nenhum texto ultrapasse os `920px` centrais da área útil de `1080px`.
 3. **Sanitização de Transcrição**:
    - Corrige automaticamente distorções fonéticas conhecidas geradas pelo modelo Whisper em CPU antes da exibição e exportação.
+4. **Diretriz Obrigatória de Créditos ao Criador Original (`credito.obrigatorio: true`)**:
+   - Em **100% dos cortes**, o Editor de Cortes (`#aba-cortes`) e o motor de legendas `.ass` ([`logger_papai.py`](./logger_papai.py)) parametrizam obrigatoriamente a exibição do nome do canal original na imagem do vídeo (`Créditos: {canal}`) e no bloco oficial da descrição (`🎥 Créditos ao Criador Original: {canal}\n🔗 Episódio completo: {link}`), bloqueando aprovações, cópias ou postagens caso o nome do canal original seja omitido.
 
 ---
 

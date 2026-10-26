@@ -2313,3 +2313,51 @@ DETALHES  :
   Nível de Saúde     : OK
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:25:38
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 38.5% (44°C) | RAM: 41.5% (13.26/31.93 GB) | GPU: 2.0% (VRAM 1145/8192 MB, 52°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 44°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 52°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:28:39
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 13.2% (40°C) | RAM: 40.4% (12.89/31.93 GB) | GPU: 1.0% (VRAM 1117/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:31:39
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 18.5% (40°C) | RAM: 40.8% (13.03/31.93 GB) | GPU: 0.0% (VRAM 1121/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:38:54
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 14.1% (40°C) | RAM: 40.9% (13.06/31.93 GB) | GPU: 1.0% (VRAM 1095/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+

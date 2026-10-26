@@ -125,7 +125,7 @@ class VisualTransformer:
             "Alignment, MarginL, MarginR, MarginV, Encoding\n"
             f"Style: Legenda,Poppins,78,&H00FFFFFF,&H0000D7FF,&H00000000,&H80000000,-1,0,0,0,100,100,0,0,1,8,3,5,80,80,{margin_v},1\n"
             "Style: Titulo,Poppins,58,&H00111111,&H00111111,&H00FFFFFF,&H00000000,-1,0,0,0,100,100,0,0,3,16,0,8,80,80,180,1\n"
-            "Style: Credito,Poppins,38,&H33FFFFFF,&H33FFFFFF,&H99000000,&H00000000,-1,0,0,0,100,100,0,0,1,2,0,5,80,80,0,1\n"
+            "Style: Credito,Poppins,40,&H00FFFFFF,&H0000D7FF,&H00000000,&H64000000,-1,0,0,0,100,100,0,0,1,4,2,5,80,80,0,1\n"
         )
 
     def upgrade_existing_ass_to_ypp_spec(self, ass_path: Path) -> bool:
@@ -265,3 +265,4 @@ class VisualTransformer:
             subtitle_y_position_px=920,
             filter_complex_graph="long_form_multi_source_mashup_1920x1080_60fps",
         )
+
