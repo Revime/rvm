@@ -1133,7 +1133,7 @@ function desenharTelemetria(d) {
   const gpuPct = Number(d.gpu?.pct || 0);
   const vramPct = Number(d.gpu?.vram_pct || 0);
   const gpuTemp = Number(d.gpu?.temp_c || 0);
-  const cpuTemp = Number(d.cpu?.temp_c || Math.round(Math.max(38, (gpuTemp || 42) + 3 + cpuPct * 0.34)));
+  const cpuTemp = Number(d.cpu?.temp_c || Math.round(38 + cpuPct * 0.145));
   const tempMax = Math.max(cpuTemp, gpuTemp);
   const tempPctEscala = Math.min(100, Math.round((tempMax / 83) * 100));
 

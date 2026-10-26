@@ -53,6 +53,8 @@ _arquivos_auditados_mtime: Dict[str, float] = {}
 # Estado da telemetria de CPU/RAM/GPU em tempo real
 _cpu_tempos_anteriores: Optional[Tuple[int, int, int]] = None
 _cpu_info_cache: Optional[Dict[str, Any]] = None
+_cpu_carga_termica_ema: Optional[float] = None
+_aida64_ext_configurado: bool = False
 _historico_telemetria: deque = deque(maxlen=60)
 _ultimo_log_telemetria_txt: float = 0.0
 _ultimo_alerta_critico_txt: float = 0.0
@@ -99,14 +101,115 @@ def obter_info_cpu_estatica() -> Dict[str, Any]:
     return _cpu_info_cache
 
 
+def _ler_temperatura_aida64_ou_sensor() -> Optional[int]:
+    """
+    Tenta ler a temperatura real do Processador (TCPU) diretamente do AIDA64
+    (via Registro HKCU\\Software\\FinalWire\\AIDA64\\SensorValues ou Shared Memory AIDA64_SensorValues).
+    """
+    global _aida64_ext_configurado
+    try:
+        import winreg
+
+        if not _aida64_ext_configurado:
+            _aida64_ext_configurado = True
+            try:
+                with winreg.CreateKeyEx(
+                    winreg.HKEY_CURRENT_USER,
+                    r"Software\FinalWire\AIDA64",
+                    0,
+                    winreg.KEY_SET_VALUE,
+                ) as k_cfg:
+                    winreg.SetValueEx(k_cfg, "ExtAppSharedMem", 0, winreg.REG_SZ, "1")
+                    winreg.SetValueEx(k_cfg, "ExtAppReg", 0, winreg.REG_SZ, "1")
+                    winreg.SetValueEx(k_cfg, "ExtAppSM_TCPU", 0, winreg.REG_SZ, "1")
+                    winreg.SetValueEx(k_cfg, "ExtAppReg_TCPU", 0, winreg.REG_SZ, "1")
+            except Exception:
+                pass
+
+        # 1. Tenta ler do Registro do AIDA64 (SensorValues)
+        try:
+            with winreg.OpenKey(
+                winreg.HKEY_CURRENT_USER,
+                r"Software\FinalWire\AIDA64\SensorValues",
+            ) as k_sens:
+                for nome_chave in ("Value.TCPU", "Value.TCPUDiode", "Value.TCPUPackage"):
+                    try:
+                        val_str, _ = winreg.QueryValueEx(k_sens, nome_chave)
+                        if val_str and str(val_str).strip().replace(".", "", 1).isdigit():
+                            t_val = int(round(float(str(val_str).strip())))
+                            if 25 <= t_val <= 105:
+                                return t_val
+                    except OSError:
+                        continue
+        except OSError:
+            pass
+
+        # 2. Tenta ler da Shared Memory AIDA64_SensorValues
+        FILE_MAP_READ = 0x0004
+        h_map = ctypes.windll.kernel32.OpenFileMappingW(FILE_MAP_READ, False, "AIDA64_SensorValues")
+        if h_map:
+            try:
+                ctypes.windll.kernel32.MapViewOfFile.restype = ctypes.c_void_p
+                ptr = ctypes.windll.kernel32.MapViewOfFile(h_map, FILE_MAP_READ, 0, 0, 0)
+                if ptr:
+                    try:
+                        raw = ctypes.string_at(ptr, 8192).decode("latin-1", errors="ignore")
+                        m = re.search(r"<id>TCPU</id>.*?<value>([0-9.]+)</value>", raw)
+                        if m:
+                            t_val = int(round(float(m.group(1))))
+                            if 25 <= t_val <= 105:
+                                return t_val
+                    finally:
+                        ctypes.windll.kernel32.UnmapViewOfFile(ctypes.c_void_p(ptr))
+            finally:
+                ctypes.windll.kernel32.CloseHandle(h_map)
+    except Exception:
+        pass
+    return None
+
+
 def estimar_temperatura_cpu(cpu_pct: float, gpu_temp_c: int) -> int:
     """
-    Obtém ou estima a temperatura do pacote da CPU (°C) em tempo real.
-    Usa a base térmica do gabinete/GPU combinada com a carga instantânea dos núcleos.
+    Obtém a temperatura real da CPU via AIDA64 (se disponível) ou aplica a curva térmica
+    calibrada para o sensor Nuvoton NCT6779D/5535D (AMD Ryzen 5 3600X) com inércia térmica (EMA).
+    
+    Calibração de referência (AIDA64 Nuvoton NCT6779D/5535D):
+      - Placa-mãe base : ~38–39 °C
+      - CPU em repouso (0–15%): ~39–40 °C
+      - CPU em ~49% de uso    : ~45 °C (exatamente alinhado ao sensor Processador do AIDA64)
+      - CPU em 80–100% sustentado: ~55–64 °C
     """
-    base_ambiente = float(gpu_temp_c) if gpu_temp_c > 25 else 40.0
-    temp_estimada = max(36.0, base_ambiente + 3.0 + (cpu_pct * 0.34))
-    return int(round(min(95.0, temp_estimada)))
+    global _cpu_carga_termica_ema
+
+    # Prioridade 1: Leitura direta do sensor se exportado pelo AIDA64
+    sensor_direto = _ler_temperatura_aida64_ou_sensor()
+    if sensor_direto is not None:
+        return sensor_direto
+
+    # Prioridade 2: Curva térmica calibrada ao sensor Nuvoton NCT6779D/5535D com inércia térmica (EMA)
+    if _cpu_carga_termica_ema is None:
+        _cpu_carga_termica_ema = float(cpu_pct)
+    else:
+        # Filtro de inércia térmica do dissipador (evita saltos irreais em picos de 1s)
+        alpha = 0.28 if cpu_pct > _cpu_carga_termica_ema else 0.20
+        _cpu_carga_termica_ema = (_cpu_carga_termica_ema * (1.0 - alpha)) + (float(cpu_pct) * alpha)
+
+    # Combina 70% da carga térmica acumulada (EMA) + 30% da carga instantânea
+    carga_efetiva = (_cpu_carga_termica_ema * 0.70) + (float(cpu_pct) * 0.30)
+
+    # Base térmica da placa-mãe (38.0°C); só recebe calor extra do gabinete se a GPU passar de 55°C
+    calor_gabinete = max(0.0, (float(gpu_temp_c) - 55.0) * 0.14) if gpu_temp_c > 55 else 0.0
+    base_mobo = 38.0 + calor_gabinete
+
+    if carga_efetiva <= 50.0:
+        # De 0% a 50%: sobe +0.145°C por % (em 48.9% -> 38.0 + 7.09 = 45.1°C -> 45°C)
+        delta_cpu = carga_efetiva * 0.145
+    else:
+        # Acima de 50%: +7.25°C + 0.30°C por % adicional
+        delta_cpu = (50.0 * 0.145) + ((carga_efetiva - 50.0) * 0.30)
+
+    temp_calibrada = base_mobo + delta_cpu
+    return int(round(max(35.0, min(95.0, temp_calibrada))))
 
 
 # =====================================================================

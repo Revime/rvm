@@ -906,3 +906,1410 @@ DETALHES  :
   Nível de Saúde     : OK
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:02:50
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 29.4% (66°C) | RAM: 40.7% (12.99/31.93 GB) | GPU: 2.0% (VRAM 1197/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 66°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:03:20
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 11.8% (60°C) | RAM: 41.4% (13.22/31.93 GB) | GPU: 1.0% (VRAM 1201/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 60°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:03:50
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 29.1% (66°C) | RAM: 43.5% (13.89/31.93 GB) | GPU: 1.0% (VRAM 1199/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 66°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:04:21
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.1% (71°C) | RAM: 42.9% (13.68/31.93 GB) | GPU: 0.0% (VRAM 1198/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 71°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:04:51
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 49.0% (73°C) | RAM: 42.4% (13.54/31.93 GB) | GPU: 1.0% (VRAM 1186/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:05:22
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 48.2% (72°C) | RAM: 40.7% (12.98/31.93 GB) | GPU: 2.0% (VRAM 1202/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:05:52
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 49.3% (73°C) | RAM: 41.1% (13.12/31.93 GB) | GPU: 0.0% (VRAM 1202/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:06:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 47.9% (72°C) | RAM: 40.9% (13.05/31.93 GB) | GPU: 1.0% (VRAM 1197/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:06:53
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 43.4% (71°C) | RAM: 40.6% (12.97/31.93 GB) | GPU: 1.0% (VRAM 1202/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 71°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:07:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 48.3% (72°C) | RAM: 40.9% (13.07/31.93 GB) | GPU: 0.0% (VRAM 1255/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:07:54
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 46.6% (72°C) | RAM: 40.9% (13.07/31.93 GB) | GPU: 1.0% (VRAM 1199/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 53°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:08:25
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 47.0% (73°C) | RAM: 40.6% (12.96/31.93 GB) | GPU: 0.0% (VRAM 1198/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:08:55
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 46.4% (73°C) | RAM: 40.8% (13.03/31.93 GB) | GPU: 1.0% (VRAM 1198/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:09:26
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.8% (73°C) | RAM: 40.7% (13.00/31.93 GB) | GPU: 0.0% (VRAM 1202/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:09:56
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.1% (72°C) | RAM: 40.6% (12.97/31.93 GB) | GPU: 0.0% (VRAM 1187/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:10:27
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.5% (72°C) | RAM: 42.3% (13.50/31.93 GB) | GPU: 2.0% (VRAM 1199/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:10:57
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.7% (72°C) | RAM: 40.9% (13.07/31.93 GB) | GPU: 0.0% (VRAM 1202/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:11:27
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 46.8% (73°C) | RAM: 40.4% (12.89/31.93 GB) | GPU: 0.0% (VRAM 1199/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:11:58
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.8% (73°C) | RAM: 40.0% (12.78/31.93 GB) | GPU: 0.0% (VRAM 1199/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:12:28
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.0% (72°C) | RAM: 40.4% (12.91/31.93 GB) | GPU: 0.0% (VRAM 1199/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:12:58
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.6% (72°C) | RAM: 40.8% (13.02/31.93 GB) | GPU: 0.0% (VRAM 1200/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:13:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 57.8% (77°C) | RAM: 40.8% (13.04/31.93 GB) | GPU: 0.0% (VRAM 1200/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 77°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 54°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:13:40
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: GPU em 95.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 22.9% | Temp: 82°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 49.7% (15.85 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 95.0% | VRAM: 6457/8192 MB (78.8%) | Temp: 71°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:13:59
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 24.7% (84°C) | RAM: 49.9% (15.92/31.93 GB) | GPU: 91.0% (VRAM 6457/8192 MB, 73°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 84°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 73°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:14:10
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 85°C (limite: 83°C); GPU em 90.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 21.8% | Temp: 85°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 49.8% (15.91 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 90.0% | VRAM: 6457/8192 MB (78.8%) | Temp: 75°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:14:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 20.9% (89°C) | RAM: 49.5% (15.80/31.93 GB) | GPU: 91.0% (VRAM 6449/8192 MB, 79°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 89°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 79°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:14:40
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 85°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 19.2% | Temp: 85°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 49.5% (15.82 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 0.0% | VRAM: 6460/8192 MB (78.9%) | Temp: 75°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:14:59
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 27.8% (93°C) | RAM: 50.2% (16.04/31.93 GB) | GPU: 90.0% (VRAM 6457/8192 MB, 81°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 93°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 81°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:15:10
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 92°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 22.2% | Temp: 92°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 50.2% (16.04 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 88.0% | VRAM: 6445/8192 MB (78.7%) | Temp: 81°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:15:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 20.2% (91°C) | RAM: 50.2% (16.01/31.93 GB) | GPU: 90.0% (VRAM 6457/8192 MB, 81°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 91°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 81°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:15:41
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 95°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 34.0% | Temp: 95°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 50.8% (16.21 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 88.0% | VRAM: 6487/8192 MB (79.2%) | Temp: 81°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:16:01
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 41.8% (81°C) | RAM: 51.3% (16.37/31.93 GB) | GPU: 0.0% (VRAM 6467/8192 MB, 64°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 81°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 64°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:16:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 29.8% (74°C) | RAM: 51.5% (16.43/31.93 GB) | GPU: 1.0% (VRAM 6452/8192 MB, 61°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 61°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:17:02
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.8% (79°C) | RAM: 55.5% (17.73/31.93 GB) | GPU: 2.0% (VRAM 6525/8192 MB, 60°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 79°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 60°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:17:23
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 88°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 75.8% | Temp: 88°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 55.1% (17.60 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 1.0% | VRAM: 6474/8192 MB (79.0%) | Temp: 59°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:17:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 99.8% (95°C) | RAM: 49.4% (15.76/31.93 GB) | GPU: 1.0% (VRAM 6455/8192 MB, 59°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 95°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 59°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:18:04
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 38.6% (74°C) | RAM: 48.4% (15.45/31.93 GB) | GPU: 0.0% (VRAM 6458/8192 MB, 58°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 58°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:18:34
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 35.4% (72°C) | RAM: 50.9% (16.26/31.93 GB) | GPU: 1.0% (VRAM 6415/8192 MB, 57°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 57°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:19:05
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 38.5% (73°C) | RAM: 55.4% (17.69/31.93 GB) | GPU: 1.0% (VRAM 6420/8192 MB, 57°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 57°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:19:35
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.0% (74°C) | RAM: 55.4% (17.68/31.93 GB) | GPU: 0.0% (VRAM 6419/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:20:06
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 39.5% (72°C) | RAM: 55.6% (17.74/31.93 GB) | GPU: 1.0% (VRAM 6423/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:20:36
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 35.9% (71°C) | RAM: 55.4% (17.69/31.93 GB) | GPU: 0.0% (VRAM 6420/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 71°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:21:06
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: CPU em 88.8% (89°C — limite: 85%); Temperatura da CPU em 89°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 88.8% | Temp: 89°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 43.8% (13.98 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 1.0% | VRAM: 1167/8192 MB (14.2%) | Temp: 56°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:21:06
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 88.8% (89°C) | RAM: 43.8% (13.98/31.93 GB) | GPU: 1.0% (VRAM 1167/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 89°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:21:38
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 45.0% (74°C) | RAM: 40.2% (12.83/31.93 GB) | GPU: 0.0% (VRAM 1211/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:22:09
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: CPU em 86.2% (88°C — limite: 85%); Temperatura da CPU em 88°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 86.2% | Temp: 88°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 45.6% (14.55 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 1.0% | VRAM: 1169/8192 MB (14.3%) | Temp: 56°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:22:09
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 86.2% (88°C) | RAM: 45.6% (14.55/31.93 GB) | GPU: 1.0% (VRAM 1169/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 88°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : CRITICO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:22:40
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.6% (74°C) | RAM: 40.3% (12.88/31.93 GB) | GPU: 1.0% (VRAM 1158/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:23:10
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 44.3% (74°C) | RAM: 45.3% (14.47/31.93 GB) | GPU: 1.0% (VRAM 1183/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 74°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:23:15
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=b7b16b4b50]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 87°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : 40 minutos do esgoto dos memes do discord kkkkk (Etapa: BAIXAR (9%))
+  CPU (AMD Ryzen 5 3600X): 83.3% | Temp: 87°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 44.9% (14.35 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 1.0% | VRAM: 1195/8192 MB (14.6%) | Temp: 56°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:23:41
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 37.1% (72°C) | RAM: 39.9% (12.75/31.93 GB) | GPU: 0.0% (VRAM 1195/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 72°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:24:12
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=BAIXAR (9%)]
+MENSAGEM  : CPU: 60.9% (80°C) | RAM: 45.1% (14.40/31.93 GB) | GPU: 1.0% (VRAM 1178/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Sim (40 minutos do esgoto dos memes do discord kkkkk)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 80°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 56°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:27:12
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 43.2% (73°C) | RAM: 40.9% (13.07/31.93 GB) | GPU: 1.0% (VRAM 1199/8192 MB, 55°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 73°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 55°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:30:13
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 50.8% (75°C) | RAM: 40.0% (12.78/31.93 GB) | GPU: 0.0% (VRAM 1193/8192 MB, 55°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 75°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 55°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:30:41
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 83°C (limite: 83°C); GPU em 95.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 19.6% | Temp: 83°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 48.8% (15.60 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 95.0% | VRAM: 6458/8192 MB (78.8%) | Temp: 73°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:31:12
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 88°C (limite: 83°C); GPU em 90.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 24.1% | Temp: 88°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 49.2% (15.72 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 90.0% | VRAM: 6463/8192 MB (78.9%) | Temp: 77°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:31:42
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 85°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 23.5% | Temp: 85°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 49.3% (15.75 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 0.0% | VRAM: 6454/8192 MB (78.8%) | Temp: 74°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:32:14
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: CPU em 92.4% (95°C — limite: 85%); Temperatura da CPU em 95°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 92.4% | Temp: 95°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 53.4% (17.05 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 0.0% | VRAM: 6463/8192 MB (78.9%) | Temp: 62°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:32:48
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 89°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 75.5% | Temp: 89°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 50.2% (16.03 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 0.0% | VRAM: 6464/8192 MB (78.9%) | Temp: 60°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:33:14
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 40.1% (76°C) | RAM: 53.4% (17.06/31.93 GB) | GPU: 0.0% (VRAM 6464/8192 MB, 59°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 76°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 59°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:33:19
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: Temperatura da CPU em 89°C (limite: 83°C)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU (AMD Ryzen 5 3600X): 80.5% | Temp: 89°C | 12 núcleos (3.8 GHz)
+  Memória RAM  : 50.1% (15.99 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 0.0% | VRAM: 6452/8192 MB (78.8%) | Temp: 59°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:36:14
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% (48°C) | RAM: 48.2% (15.38/31.93 GB) | GPU: 0.0% (VRAM 6423/8192 MB, 44°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 48°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 44°C)
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:39:14
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.6% (42°C) | RAM: 36.8% (11.74/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 38°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 42°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 38°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:42:14
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.4% (40°C) | RAM: 36.6% (11.67/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 36°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 36°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:45:14
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.4% (40°C) | RAM: 36.8% (11.74/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 36°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 36°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:48:15
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% (39°C) | RAM: 36.8% (11.75/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:51:15
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.8% (39°C) | RAM: 36.9% (11.77/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:54:15
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% (39°C) | RAM: 37.0% (11.82/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 13:57:15
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% (38°C) | RAM: 36.9% (11.77/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:00:16
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% (38°C) | RAM: 36.9% (11.77/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:03:16
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.0% (38°C) | RAM: 37.1% (11.85/31.93 GB) | GPU: 0.0% (VRAM 1168/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:06:16
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.3% (38°C) | RAM: 37.1% (11.85/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:09:17
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.8% (38°C) | RAM: 37.2% (11.89/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:12:17
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.5% (38°C) | RAM: 37.3% (11.90/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:15:17
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.2% (38°C) | RAM: 37.4% (11.93/31.93 GB) | GPU: 0.0% (VRAM 1168/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:18:18
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.6% (39°C) | RAM: 37.3% (11.91/31.93 GB) | GPU: 0.0% (VRAM 1168/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:21:18
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.3% (38°C) | RAM: 37.4% (11.95/31.93 GB) | GPU: 0.0% (VRAM 1168/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:24:19
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.3% (38°C) | RAM: 37.5% (11.99/31.93 GB) | GPU: 0.0% (VRAM 1172/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:27:19
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% (38°C) | RAM: 37.5% (11.98/31.93 GB) | GPU: 0.0% (VRAM 1170/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:30:20
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% (38°C) | RAM: 37.4% (11.94/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:33:21
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% (38°C) | RAM: 37.4% (11.93/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:36:21
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.4% (39°C) | RAM: 37.5% (11.98/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:39:22
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.2% (38°C) | RAM: 37.6% (12.01/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:42:22
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% (38°C) | RAM: 37.6% (12.01/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:45:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% (38°C) | RAM: 37.7% (12.03/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:48:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.2% (38°C) | RAM: 37.6% (12.02/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:51:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.1% (38°C) | RAM: 37.7% (12.05/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:54:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.9% (38°C) | RAM: 37.8% (12.05/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 14:57:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.6% (39°C) | RAM: 37.9% (12.09/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:00:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.2% (39°C) | RAM: 37.8% (12.07/31.93 GB) | GPU: 0.0% (VRAM 1170/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:03:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.7% (39°C) | RAM: 37.9% (12.11/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 35°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:06:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.6% (38°C) | RAM: 37.9% (12.11/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:09:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.2% (38°C) | RAM: 38.0% (12.12/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:12:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.3% (38°C) | RAM: 38.1% (12.15/31.93 GB) | GPU: 0.0% (VRAM 1169/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:15:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.7% (38°C) | RAM: 37.9% (12.11/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:18:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% (38°C) | RAM: 38.0% (12.13/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:21:25
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.5% (38°C) | RAM: 38.0% (12.14/31.93 GB) | GPU: 1.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:24:26
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.4% (38°C) | RAM: 38.0% (12.13/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:27:27
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.5% (38°C) | RAM: 38.0% (12.13/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:30:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.0% (38°C) | RAM: 38.1% (12.17/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:33:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.2% (38°C) | RAM: 38.1% (12.17/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:36:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.6% (38°C) | RAM: 38.1% (12.17/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:39:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.6% (38°C) | RAM: 38.1% (12.17/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:42:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.9% (38°C) | RAM: 38.1% (12.15/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:45:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.3% (38°C) | RAM: 38.2% (12.19/31.93 GB) | GPU: 1.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:48:32
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.4% (38°C) | RAM: 38.2% (12.21/31.93 GB) | GPU: 1.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:51:32
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.7% (38°C) | RAM: 38.2% (12.20/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:54:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% (38°C) | RAM: 38.3% (12.24/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 15:57:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.0% (38°C) | RAM: 38.4% (12.26/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:00:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.7% (39°C) | RAM: 38.5% (12.30/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:03:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.4% (38°C) | RAM: 38.4% (12.26/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:06:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.9% (38°C) | RAM: 38.4% (12.27/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:09:34
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.9% (38°C) | RAM: 38.6% (12.34/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 38°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:12:34
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.1% (39°C) | RAM: 38.9% (12.42/31.93 GB) | GPU: 0.0% (VRAM 1167/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 39°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 34°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:22:04
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 15.6% (40°C) | RAM: 40.2% (12.82/31.93 GB) | GPU: 1.0% (VRAM 1092/8192 MB, 52°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 52°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 16:22:05
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 14.4% (40°C) | RAM: 40.2% (12.82/31.93 GB) | GPU: 1.0% (VRAM 1094/8192 MB, 52°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Processador CPU    : AMD Ryzen 5 3600X 6-Core Processor (12 threads @ 3.8 GHz, Temp: 40°C)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti (Temp: 52°C)
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
