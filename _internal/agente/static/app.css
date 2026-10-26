@@ -436,9 +436,9 @@ fieldset > label { margin-top: 12px; }
   position: absolute; left: 50%; bottom: -6%; width: 78%; height: 62%; transform: translateX(-50%);
   background: radial-gradient(circle at 50% 22%, #c99573 0 18%, transparent 18.5%), radial-gradient(ellipse at 50% 100%, #3d4a66 0 55%, transparent 56%);
 }
-.previa-titulo { position: absolute; top: 11%; left: 8%; right: 8%; text-align: center; font-family: "Poppins RVM", sans-serif; font-size: 4.6cqw; line-height: 1.5; }
+.previa-titulo { position: absolute; top: 11%; left: 7%; right: 7%; text-align: center; font-family: "Poppins RVM", sans-serif; font-size: 4.2cqw; line-height: 1.45; overflow-wrap: break-word; word-break: break-word; }
 .previa-titulo span { padding: 0.15em 0.35em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-.previa-legenda { position: absolute; top: 66%; left: 4%; right: 4%; text-align: center; font-family: "Poppins RVM", sans-serif; transform: translateY(-50%); paint-order: stroke fill; line-height: 1.1; }
+.previa-legenda { position: absolute; top: 66%; left: 7%; right: 7%; text-align: center; font-family: "Poppins RVM", sans-serif; transform: translateY(-50%); paint-order: stroke fill; line-height: 1.15; overflow-wrap: break-word; word-break: break-word; }
 .previa-credito { position: absolute; top: 74%; left: 0; right: 0; text-align: center; font: 700 2.4cqw "Poppins RVM", sans-serif; color: rgba(255, 255, 255, 0.8); }
 
 .yt-estado { margin: 0 0 14px; font: 600 13px var(--mono); color: var(--suave); }

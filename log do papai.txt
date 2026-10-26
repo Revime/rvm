@@ -36,17 +36,34 @@ DETALHES  :
   Episódio : flavio-diz-que-pedira-anulacao-d-ny1mspspk-8
   Arquivos : corte_01.mp4, corte_02.mp4, corte_03.mp4 ("layouts": {"dividido": 1.0})
   Causa    : Múltiplos rostos detectados na multidão ao fundo combinados com video.enquadramento="auto" e video.dois_rostos="dividido".
-  Solução  : Alterado config.yaml para video.enquadramento="rosto" e video.dois_rostos="desfocado".
+  Solução  : Desativado modo dividido (video.dois_rostos="desfocado").
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-DATA/HORA : 2026-10-26 00:55:00
-NIVEL     : INFO_SISTEMA
-ORIGEM    : LOGGER_PAPAI (Inicialização)
-MENSAGEM  : Monitoramento automático de erros críticos ativado com sucesso.
+DATA/HORA : 2026-10-26 01:02:21
+NIVEL     : CRITICO
+ORIGEM    : MOTOR_VIDEO / AREA_DE_TRABALHO [Tarefa 146d632640 | Episódio flavio-bolsonaro-nao-reconhece-d-bhbubcnvg-o]
+MENSAGEM  : Texto e elementos gráficos da imagem ultrapassaram/cortaram nas bordas laterais do vídeo 9:16 (1080x1920).
+DETALHES  :
+  Episódio : FLÁVIO BOLSONARO NÃO RECONHECE DERROTA E VAI PEDIR ANULAÇÃO DAS ELEIÇÕES (Itatiaia)
+  Arquivos : corte_01.mp4, corte_02.mp4, corte_03.mp4, corte_04.mp4 ("layouts": {"rosto": 1.0})
+  Causas Identificadas:
+    1. Recorte Lateral da Imagem (enquadramento="rosto"): O zoom vertical 9:16 no rosto cortou as bordas esquerda e direita do vídeo original da Itatiaia, truncando a tarja jornalística inferior ("...Bolsonaro diz que come... / ...pedirá anulação das...").
+    2. Estouro de Largura na Legenda .ASS (WrapStyle: 2 + fonte 110px + 3 palavras/bloco): O parâmetro 'WrapStyle: 2' no cabeçalho SubStation Alpha (.ass) desativa a quebra automática de linha no FFmpeg/libass; somado à fonte Poppins 110px e MarginL/MarginR de apenas 40px, palavras longas em caixa alta ultrapassavam os 1080px da área útil.
+    3. Termos Fonéticos Distorcidos pelo Whisper CPU ('small'): Palavras como "impensa" (imprensa), "nosso urismo" (nosso jurídico) e "os Estados eleições" (o resultado das eleições) foram geradas pela transcrição CPU.
+  Correções Definitivas Aplicadas:
+    1. config.yaml -> video.enquadramento = "desfocado" e video.dois_rostos = "desfocado" (mantém 100% da largura original do vídeo visível dentro dos 1080px, sem jamais cortar bordas, tarjas ou textos do vídeo).
+    2. config.yaml -> legenda.tamanho = 78 (antes 110), legenda.palavras_por_bloco = 2 (antes 3), legenda.contorno = 6 e titulo_na_tela.tamanho = 58 (antes 76).
+    3. logger_papai.py -> Guardião automático de arquivos .ass e .json que converte 'WrapStyle: 2' para 'WrapStyle: 0' (quebra inteligente automática), aplica MarginL=80 / MarginR=80 e sanitiza vocabulário corrompido.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 01:08:30
+NIVEL     : CORRECAO_APLICADA
+ORIGEM    : AUDITORIA_AREA_IMAGEM_E_TEXTO (logger_papai.py)
+MENSAGEM  : Todos os arquivos .ass e metadados .json existentes em trabalho/ e saida/ foram auditados e reajustados.
 DETALHES  :
   Arquivo  : c:\Users\Renan\Desktop\Teste\RVM\log do papai.txt
-  Limite   : 10 MB (10.485.760 bytes) com reciclagem automática dos registros mais antigos.
-  Escopo   : Exceções Python/Threads, falhas de fila (trabalho/tarefas.json), erros de IA (Ollama/Claude/Gemini), FFmpeg e YouTube.
+  Limite   : 10 MB (10.485.760 bytes) ativo.
+  Status   : Área segura de imagem (1080x1920) e integridade textual garantidas.
 --------------------------------------------------------------------------------
-

@@ -75,3 +75,26 @@ video:
 Para corrigir cortes que já haviam sido renderizados antes desta alteração:
 1. Na aba **Cortes**, clique no botão **Refazer vídeo** dentro do corte desejado (ou desmarque antes *"Colocar a legenda do RVM"* se o vídeo original da fonte já possuir legenda embutida).
 2. O RVM irá reprocessar apenas a montagem do vídeo (leva ~19 segundos por corte) já aplicando o quadro único sem duplicidade.
+
+
+
+---
+
+## 6. Segunda Auditoria — Correção de Corte Lateral de Imagem e Estouro de Texto (26/10/2026 - 01:06)
+
+**Episódio analisado:** `FLÁVIO BOLSONARO NÃO RECONHECE DERROTA E VAI PEDIR ANULAÇÃO DAS ELEIÇÕES` (`flavio-bolsonaro-nao-reconhece-d-bhbubcnvg-o` — Canal Itatiaia)
+
+### 6.1. O que houve
+1. **Corte lateral de informações do vídeo original (`Enquadramento: rosto 100%`)**:
+   O modo `rosto` recortou verticalmente (9:16) o centro da imagem original 16:9 da Itatiaia. Com isso, a tarja jornalística inferior do próprio vídeo (`"Flávio Bolsonaro diz que..." / "...pedirá anulação das..."`) teve suas extremidades esquerda e direita cortadas fora da área de trabalho da imagem.
+2. **Estouro horizontal de texto nas legendas `.ass` (`WrapStyle: 2` + fonte `110px` + `3 palavras/bloco`)**:
+   Os arquivos `.ass` gerados tinham `WrapStyle: 2` (que desativa a quebra automática de linha no `libass`/`FFmpeg`) e fonte tamanho `110` com 3 palavras por bloco, fazendo palavras extensas em caixa alta passarem dos limites laterais de `1080px`.
+3. **Termos duvidosos na transcrição CPU (`Whisper small`)**:
+   Palavras como `"impensa"` (imprensa), `"nosso urismo"` (nosso jurídico) e `"os Estados eleições"` (o resultado das eleições) foram geradas pela transcrição em CPU.
+
+### 6.2. Correção Definitiva Aplicada
+- **[`config.yaml`](./config.yaml)**:
+  - `video.enquadramento: "desfocado"` e `video.dois_rostos: "desfocado"`: preserva **100% da área horizontal e vertical da imagem original** centralizada nos `1080px`, sem jamais cortar tarjas, textos ou bordas do vídeo.
+  - `legenda.tamanho: 78` (antes `110`), `legenda.palavras_por_bloco: 2` (antes `3`), `legenda.contorno: 6` e `titulo_na_tela.tamanho: 58` (antes `76`).
+- **[`logger_papai.py`](./logger_papai.py)**:
+  - Adicionada auditoria contínua (`auditar_pastas_de_trabalho_e_saida()`) que converte `WrapStyle: 2` para `WrapStyle: 0` (quebra automática de linha respeitando margens), aplica `MarginL=80` e `MarginR=80` nos arquivos `.ass` e corrige termos corrompidos nos arquivos `.ass` e `.json`.

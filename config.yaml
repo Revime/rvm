@@ -25,13 +25,13 @@ transcricao:
   dispositivo: "auto"      # auto | cpu | cuda
 
 video:
+  # desfocado = preserva 100% da area da imagem original no centro com fundo desfocado (nunca corta textos/bordas do video)
+  # rosto     = aproxima no rosto (pode cortar laterais de videos 16:9 com tarjas)
   # auto      = decide sozinho em cada cena
-  # rosto     = sempre segue o rosto principal (quadro unico sem dividir a tela)
-  # desfocado = video inteiro no meio com fundo desfocado
-  enquadramento: "rosto"
+  enquadramento: "desfocado"
   # Quando a cena mostra 2 pessoas longe uma da outra:
-  #   dividido  = tela dividida (uma pessoa em cima, outra embaixo)
-  #   desfocado = mostra a cena inteira com fundo desfocado (evita duplicidade na imagem)
+  #   desfocado = mostra a cena inteira com fundo desfocado (sem cortar ou duplicar imagem)
+  #   dividido  = tela dividida
   dois_rostos: "desfocado"
   fps_max: 30
   qualidade_crf: 20      # menor = melhor qualidade e arquivo maior (18 a 23)
@@ -40,17 +40,17 @@ video:
 legenda:
   ativar: true
   fonte: "Poppins"         # arquivo .ttf na pasta fontes/
-  tamanho: 110
+  tamanho: 78              # dimensionado para nunca ultrapassar a area segura de 1080px
   maiusculas: true
-  palavras_por_bloco: 3
+  palavras_por_bloco: 2    # 2 palavras por bloco evitam estouro horizontal na tela
   cor: "#FFFFFF"
   cor_destaque: "#FFE600"
-  contorno: 8
+  contorno: 6
 
 titulo_na_tela:
   ativar: true
   segundos: 0            # 0 = o corte inteiro; ex: 4 = so nos primeiros 4s
-  tamanho: 76
+  tamanho: 58            # dimensionado com quebra automatica dentro das margens seguras
   cor_texto: "#111111"
   cor_fundo: "#FFFFFF"
 
