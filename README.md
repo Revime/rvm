@@ -142,3 +142,18 @@ A interface web (`http://localhost:5050`) possui no topo um **Painel de Telemetr
   - Quando o uso de CPU, RAM ou GPU atinge o limite crítico configurável (`70%`, `80%`, `85%`, `90%` ou `95%`) durante o processamento de cortes, um modal de alerta crítico é exibido perguntando ao usuário se deseja **`🛑 Sim, Forçar Parada Agora`** (cancelando imediatamente as tarefas ativas via `/api/tarefas/<id>/cancelar` e registrando no `log do papai.txt`) ou **`Continuar Processando (Pausar aviso por 2 min)`**.
 
 Consulte a documentação detalhada em [`LOG_MONITORAMENTO_HARDWARE.md`](./LOG_MONITORAMENTO_HARDWARE.md).
+
+---
+
+## 10. Diretriz Obrigatória de Créditos ao Criador Original no Editor de Cortes
+
+- Parametrizada em [`config.yaml`](./config.yaml) (`credito.obrigatorio: true`, `credito.formato: "Créditos: {canal}"`) e aplicada em [`_internal/agente/static/app.html`](./_internal/agente/static/app.html), [`_internal/agente/static/app.js`](./_internal/agente/static/app.js) e [`logger_papai.py`](./logger_papai.py).
+- Cada corte exibe a caixa **📌 Diretriz Obrigatória de Créditos ao Criador Original (`.diretriz-credito-corte`)** exigindo o preenchimento do **Canal Original do Vídeo** antes de aprovar, salvar, refazer ou publicar no YouTube, além de gravar automaticamente `Créditos: <Canal Original>` no vídeo (`.ass`) e na descrição do post.
+
+---
+
+## 11. Layout 100% Responsivo e Fluido (`app.css` & `app.html`)
+
+- **Adaptação Dinâmica a Qualquer Dimensão de Tela**: Containers principais (`.topo`, `.folha`, `.painel`, `.telemetria-hud`) dimensionados com funções fluidas `min()` e `clamp()`, aproveitando de telas ultra-wide (`1440px+`) até janelas divididas e dispositivos móveis (`320px`).
+- **Zero Informação Cortada ou Oculta**: Removidos todos os `text-overflow: ellipsis` e `white-space: nowrap` que ocultavam nomes de hardware, status ou botões; substituídos por quebra inteligente (`overflow-wrap: anywhere; word-break: break-word`) e grids auto-adaptáveis (`repeat(auto-fit, minmax(...))`).
+

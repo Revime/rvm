@@ -418,8 +418,10 @@ function desenharLinhaTempo(el, ep) {
     b.type = "button";
     b.className = `trecho ${c.status}`;
     b.dataset.n = c.numero;
-    b.style.left = `${(100 * c.inicio) / dur}%`;
-    b.style.width = `${Math.max(0.5, (100 * (c.fim - c.inicio)) / dur)}%`;
+    const leftPct = Math.min(99.5, Math.max(0, (100 * c.inicio) / dur));
+    const widthPct = Math.min(100 - leftPct, Math.max(0.5, (100 * (c.fim - c.inicio)) / dur));
+    b.style.left = `${leftPct}%`;
+    b.style.width = `${widthPct}%`;
     b.title = `Corte ${c.numero}: ${c.titulo} (${mmss(c.inicio)} a ${mmss(c.fim)})`;
     b.setAttribute("aria-label", b.title);
     const n = document.createElement("span");

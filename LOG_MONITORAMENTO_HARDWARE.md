@@ -128,4 +128,34 @@ Ao comparar o medidor do RVM com o sensor físico da placa-mãe no **AIDA64 (`Nu
      - `28% CPU, 52°C GPU` -> **`41 °C`**
      - `48.9% CPU, 55°C GPU` -> **`45 °C`** (100% alinhado ao AIDA64).
 
+---
+
+## 6. Diretriz Obrigatória de Créditos ao Criador Original no Editor de Cortes
+
+Foi adicionada parametrização obrigatória em [`config.yaml`](./config.yaml), [`logger_papai.py`](./logger_papai.py), [`_internal/agente/static/app.html`](./_internal/agente/static/app.html) e [`_internal/agente/static/app.js`](./_internal/agente/static/app.js):
+- **Banner Global de Diretriz no Editor (`.diretriz-editor-banner`)**: Informa que todo corte exige a identificação do canal original.
+- **Painel de Crédito em Cada Card de Corte (`.diretriz-credito-corte`)**:
+  - Campo obrigatório **Canal Original do Vídeo (`.f-canal-original`)**.
+  - Prévia da tarja no vídeo **(`.f-credito-tela`)**: `Créditos: <Nome do Canal>`.
+  - Bloqueio automático em `validarDiretrizCreditoCorte()` nas ações **Aprovar**, **Salvar textos**, **Refazer vídeo** e **Postar no YouTube** caso o canal original esteja em branco.
+- **Guardião de Legendas `.ass` (`logger_papai.py`)**: Garante que a linha `Dialogue: ...,Credito,...` exiba sempre `Créditos: <Canal Original>` no vídeo renderizado.
+
+---
+
+## 7. Layout 100% Responsivo e Fluido Sem Corte ou Ocultação de Informações (`app.css` & `app.html`)
+
+### 7.1. Melhorias de Responsividade Aplicadas
+- **Zero Truncamento (`text-overflow: ellipsis` removido)**:
+  - Removidos todos os `text-overflow: ellipsis; white-space: nowrap; overflow: hidden;` de `.motor`, `.medidor-nome` e `.medidor-rodape > span:first-child`.
+  - Todos os títulos, nomes de CPU/GPU, status operacionais, botões (`.btn`), selos (`.selo`) e detalhes quebram linha de forma natural (`overflow-wrap: anywhere; word-break: break-word; white-space: normal;`), garantindo que nenhuma informação seja cortada ou omitida em janelas divididas, monitores menores ou dispositivos móveis.
+- **Grids Auto-Adaptáveis (`auto-fit` + `minmax()`)**:
+  - `.telemetria-grade`: `repeat(auto-fit, minmax(min(100%, 245px), 1fr))` — adapta-se automaticamente de 4 colunas para 2 ou 1 coluna conforme a largura da tela.
+  - `.etapas`: `repeat(auto-fit, minmax(min(100%, 145px), 1fr))` — etapas da fila nunca encavalam.
+  - `.grade-2`, `.grade-3`, `.yt-passos` e `.modal-hw-metricas`: fluem automaticamente sem estourar a largura útil (`min-width: 0` global).
+- **Cards de Corte (`article.corte`) e Controles de Tempo (`.grade-ajuste`) Fluidos**:
+  - `article.corte` ajusta proporcionalmente a coluna do player e dos metadados (`minmax(190px, 236px) minmax(0, 1fr)`) e empilha em coluna única abaixo de `820px`.
+  - `.grade-ajuste` mantém os campos *"Texto na tela"*, *"Começa em (s)"* e *"Termina em (s)"* sempre legíveis em qualquer resolução (`960px`, `720px` e `480px`).
+  - Barras da linha do tempo (`desenharLinhaTempo` em [`app.js`](./_internal/agente/static/app.js)) limitadas com segurança dentro de `0%–100%` da régua.
+
+
 
