@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 Logger de Erros Críticos e Guardião de Integridade do RVM — "log do papai.txt"
-Limite máximo estrito: 10 MB (10.485.760 bytes)
+Limites estritos por arquivo:
+  - Máximo de 10.000 linhas (ao atingir, gera novo arquivo numerado: 'log do papai 1.txt', 'log do papai 2.txt', ...)
+  - Máximo de 10 MB (10.485.760 bytes)
 """
 
 import json
 import os
 import re
+import shutil
 import sys
 import threading
 import time
@@ -14,9 +17,11 @@ import traceback
 from datetime import datetime
 from pathlib import Path
 
-NOME_ARQUIVO_LOG = "log do papai.txt"
+NOME_BASE_LOG = "log do papai"
+EXTENSAO_LOG = ".txt"
+NOME_ARQUIVO_LOG = f"{NOME_BASE_LOG}{EXTENSAO_LOG}"
+LIMITE_MAX_LINHAS = 10_000
 LIMITE_MAX_BYTES = 10 * 1024 * 1024  # 10 MB (10.485.760 bytes)
-BYTES_MANTER_APOS_CORTE = int(LIMITE_MAX_BYTES * 0.85)  # Mantém os últimos 8.5 MB ao atingir 10 MB
 
 # Correções léxicas de transcrição conhecidas (evita termos truncados/duvidosos gerados pelo Whisper CPU)
 CORRECOES_TRANSCRICAO = {
@@ -30,6 +35,8 @@ CORRECOES_TRANSCRICAO = {
 
 _lock = threading.Lock()
 _iniciado = False
+_erros_internos_registrados = set()
+_arquivos_auditados_mtime = {}
 
 
 def obter_caminho_raiz() -> Path:
@@ -48,36 +55,57 @@ def obter_caminho_log() -> Path:
     return obter_caminho_raiz() / NOME_ARQUIVO_LOG
 
 
-def _garantir_limite_10mb(caminho_log: Path, novos_bytes: int) -> None:
+def obter_proximo_caminho_numerado(pasta_raiz: Path) -> Path:
     """
-    Garante que o arquivo 'log do papai.txt' nunca ultrapasse 10 MB.
-    Quando o tamanho atual + novo registro passa de 10 MB, descarta os logs mais antigos
-    do início do arquivo preservando os mais recentes.
+    Retorna o próximo arquivo numerado disponível com o mesmo nome:
+    'log do papai 1.txt', 'log do papai 2.txt', 'log do papai 3.txt', ...
+    """
+    indice = 1
+    while True:
+        candidato = pasta_raiz / f"{NOME_BASE_LOG} {indice}{EXTENSAO_LOG}"
+        if not candidato.exists():
+            return candidato
+        indice += 1
+
+
+def _contar_linhas(caminho: Path) -> int:
+    if not caminho.exists():
+        return 0
+    with open(caminho, "rb") as f:
+        return sum(1 for _ in f)
+
+
+def _rotacionar_se_necessario(caminho_log: Path, novas_linhas: int, novos_bytes: int) -> None:
+    """
+    Verifica se 'log do papai.txt' atingiu 10.000 linhas ou 10 MB.
+    Caso atinja qualquer um dos limites, gera um novo arquivo com o mesmo nome
+    acrescido de um número ('log do papai 1.txt', 'log do papai 2.txt', ...)
+    e inicia um novo 'log do papai.txt' limpo.
     """
     if not caminho_log.exists():
         return
+
     tamanho_atual = caminho_log.stat().st_size
-    if tamanho_atual + novos_bytes <= LIMITE_MAX_BYTES:
+    linhas_atuais = _contar_linhas(caminho_log)
+
+    if (linhas_atuais + novas_linhas <= LIMITE_MAX_LINHAS) and (tamanho_atual + novos_bytes <= LIMITE_MAX_BYTES):
         return
 
-    with open(caminho_log, "rb") as f:
-        if tamanho_atual > BYTES_MANTER_APOS_CORTE:
-            f.seek(tamanho_atual - BYTES_MANTER_APOS_CORTE)
-        resto = f.read()
+    pasta_raiz = caminho_log.parent
+    destino_numerado = obter_proximo_caminho_numerado(pasta_raiz)
+    shutil.move(str(caminho_log), str(destino_numerado))
 
-    pos_nl = resto.find(b"\n")
-    if pos_nl != -1:
-        resto = resto[pos_nl + 1:]
-
-    cabecalho_rotacao = (
-        f"================================================================================\n"
-        f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [SISTEMA] "
-        f"Limite de 10 MB atingido — registros antigos reciclados automaticamente.\n"
-        f"================================================================================\n"
-    ).encode("utf-8")
-
-    with open(caminho_log, "wb") as f:
-        f.write(cabecalho_rotacao + resto)
+    agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cabecalho = (
+        "================================================================================\n"
+        "                        LOG DO PAPAI — RVM (AGENTE DE CORTES)\n"
+        "          REGISTRO CENTRAL DE ERROS CRÍTICOS E AUDITORIA DE FALHAS\n"
+        "       LIMITE MÁXIMO: 10.000 LINHAS OU 10 MB POR ARQUIVO (ROTATIVO)\n"
+        "================================================================================\n"
+        f"[{agora}] [SISTEMA] Limite atingido ({linhas_atuais} linhas / {tamanho_atual} bytes). "
+        f"Histórico anterior arquivado em: '{destino_numerado.name}'.\n\n"
+    )
+    caminho_log.write_text(cabecalho, encoding="utf-8")
 
 
 def registrar_erro_critico(
@@ -86,7 +114,7 @@ def registrar_erro_critico(
     detalhes: str = "",
     nivel: str = "CRITICO",
 ) -> None:
-    """Grava um erro crítico em 'log do papai.txt' respeitando o limite de 10 MB."""
+    """Grava um erro crítico em 'log do papai.txt' respeitando o limite de 10.000 linhas e 10 MB."""
     caminho_log = obter_caminho_log()
     agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     bloco = [
@@ -103,10 +131,11 @@ def registrar_erro_critico(
     bloco.append("--------------------------------------------------------------------------------\n")
     texto = "\n".join(bloco) + "\n"
     dados = texto.encode("utf-8", errors="replace")
+    qtd_novas_linhas = texto.count("\n")
 
     with _lock:
         try:
-            _garantir_limite_10mb(caminho_log, len(dados))
+            _rotacionar_se_necessario(caminho_log, qtd_novas_linhas, len(dados))
             with open(caminho_log, "ab") as f:
                 f.write(dados)
         except Exception:
@@ -123,47 +152,80 @@ def sanitizar_texto_seguro(texto: str) -> str:
     return resultado
 
 
+def _ajustar_linha_style_ass(linha: str) -> str:
+    """
+    Ajusta de forma determinística (sem regex ambíguo) as linhas 'Style:' do formato .ass:
+    Formato V4+ Styles (23 campos):
+    0:Name, 1:Fontname, 2:Fontsize, ..., 16:Outline, 17:Shadow, 18:Alignment, 19:MarginL, 20:MarginR, 21:MarginV, 22:Encoding
+    """
+    if not linha.startswith("Style:"):
+        return linha
+    prefixo, _, resto = linha.partition(":")
+    campos = [c.strip() for c in resto.split(",")]
+    if len(campos) < 23:
+        return linha
+
+    nome_estilo = campos[0]
+    if nome_estilo == "Legenda":
+        campos[2] = "78"   # Fontsize seguro para 1080px
+        campos[16] = "6"   # Outline
+        campos[19] = "80"  # MarginL
+        campos[20] = "80"  # MarginR
+    elif nome_estilo == "Titulo":
+        campos[2] = "58"   # Fontsize seguro para gancho superior
+        campos[19] = "80"  # MarginL
+        campos[20] = "80"  # MarginR
+    elif nome_estilo == "Credito":
+        campos[19] = "80"
+        campos[20] = "80"
+
+    return f"{prefixo}: " + ",".join(campos)
+
+
 def auditar_e_ajustar_arquivo_ass(caminho_ass: Path) -> bool:
     """
     Garante que o arquivo de legenda .ass respeite a área de trabalho de imagem (1080x1920):
-    1. Troca 'WrapStyle: 2' (sem quebra de linha, que faz texto vazar da tela) por 'WrapStyle: 0' (quebra inteligente).
-    2. Ajusta margens laterais seguras (MarginL=80, MarginR=80) e fontes máximas (Legenda<=78, Titulo<=58).
+    1. Troca 'WrapStyle: 2' (sem quebra de linha) por 'WrapStyle: 0' (quebra inteligente automática).
+    2. Ajusta margens laterais seguras (MarginL=80, MarginR=80) e fontes máximas (Legenda=78, Titulo=58).
     3. Sanitiza termos truncados ou corrompidos.
     """
     try:
         if not caminho_ass.exists():
             return False
+
+        mtime = caminho_ass.stat().st_mtime
+        chave_cache = str(caminho_ass)
+        if _arquivos_auditados_mtime.get(chave_cache) == mtime:
+            return False
+
         original = caminho_ass.read_text(encoding="utf-8", errors="replace")
-        novo = original
+        linhas_processadas = []
+        for linha in original.splitlines():
+            if linha.startswith("WrapStyle:"):
+                linhas_processadas.append("WrapStyle: 0")
+            elif linha.startswith("Style:"):
+                linhas_processadas.append(_ajustar_linha_style_ass(linha))
+            else:
+                linhas_processadas.append(sanitizar_texto_seguro(linha))
 
-        # 1. Ativa quebra de linha inteligente dentro da área de trabalho 1080px
-        novo = novo.replace("WrapStyle: 2", "WrapStyle: 0")
-
-        # 2. Garante fonte e margens laterais seguras no estilo Legenda e Titulo
-        novo = re.sub(
-            r"Style:\s*Legenda,([^,]+),\d+,([^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,)\d+,(\d+,\d+,)\d+,\d+,",
-            r"Style: Legenda,\1,78,\26,\g<3>80,80,",
-            novo,
-        )
-        novo = re.sub(
-            r"Style:\s*Titulo,([^,]+),\d+,([^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+,\d+,\d+,\d+,)\d+,\d+,",
-            r"Style: Titulo,\1,58,\g<2>80,80,",
-            novo,
-        )
-
-        # 3. Sanitiza palavras corrompidas na transcrição
-        novo = sanitizar_texto_seguro(novo)
+        novo = "\n".join(linhas_processadas) + ("\n" if original.endswith("\n") else "")
 
         if novo != original:
             caminho_ass.write_text(novo, encoding="utf-8")
+            _arquivos_auditados_mtime[chave_cache] = caminho_ass.stat().st_mtime
             return True
+
+        _arquivos_auditados_mtime[chave_cache] = mtime
     except Exception as e:
-        registrar_erro_critico(
-            origem=f"GUARDIAO_ASS ({caminho_ass.name})",
-            mensagem=f"Erro ao ajustar área segura da legenda: {e}",
-            detalhes=traceback.format_exc(),
-            nivel="ERRO",
-        )
+        chave_err = f"ASS:{caminho_ass.name}:{type(e).__name__}:{e}"
+        if chave_err not in _erros_internos_registrados:
+            _erros_internos_registrados.add(chave_err)
+            registrar_erro_critico(
+                origem=f"GUARDIAO_ASS ({caminho_ass.name})",
+                mensagem=f"Erro ao ajustar área segura da legenda: {e}",
+                detalhes=traceback.format_exc(),
+                nivel="ERRO",
+            )
     return False
 
 
@@ -182,6 +244,10 @@ def auditar_pastas_de_trabalho_e_saida() -> int:
     if pasta_saida.exists():
         for arq_json in pasta_saida.rglob("corte_*.json"):
             try:
+                mtime = arq_json.stat().st_mtime
+                chave_cache = str(arq_json)
+                if _arquivos_auditados_mtime.get(chave_cache) == mtime:
+                    continue
                 conteudo = arq_json.read_text(encoding="utf-8", errors="replace")
                 dados = json.loads(conteudo)
                 modificado = False
@@ -193,7 +259,10 @@ def auditar_pastas_de_trabalho_e_saida() -> int:
                             modificado = True
                 if modificado:
                     arq_json.write_text(json.dumps(dados, ensure_ascii=False, indent=2), encoding="utf-8")
+                    _arquivos_auditados_mtime[chave_cache] = arq_json.stat().st_mtime
                     ajustados += 1
+                else:
+                    _arquivos_auditados_mtime[chave_cache] = mtime
             except Exception:
                 pass
 
@@ -230,7 +299,7 @@ def _hook_excecao_thread(args):
 def _monitorar_tarefas_e_ffmpeg():
     """
     Monitora continuamente trabalho/tarefas.json, arquivos .ass e metadados de cortes
-    para evitar estouro de área de imagem e registrar falhas críticas.
+    para evitar estouro de área de imagem e registrar falhas críticas sem duplicação.
     """
     raiz = obter_caminho_raiz()
     arq_tarefas = raiz / "trabalho" / "tarefas.json"
@@ -257,7 +326,7 @@ def _monitorar_tarefas_e_ffmpeg():
                                 avisos_cuda_registrados.add(tid)
                                 registrar_erro_critico(
                                     origem=f"HARDWARE / GPU (Tarefa {tid})",
-                                    mensagem="Placa NVIDIA detectada, mas bibliotecas cuBLAS/cuDNN ausentes — fallback para CPU.",
+                                    mensagem="Placa NVIDIA detectada sem cuBLAS/cuDNN — usando CPU (ajustado dispositivo='cpu' no config.yaml).",
                                     detalhes="\n".join(logs[-10:]),
                                     nivel="ALERTA_CRITICO",
                                 )
@@ -287,7 +356,7 @@ def _monitorar_tarefas_e_ffmpeg():
         except Exception:
             pass
 
-        time.sleep(2)
+        time.sleep(3)
 
 
 def iniciar_monitoramento() -> None:
@@ -307,16 +376,4 @@ def iniciar_monitoramento() -> None:
 
 if __name__ == "__main__":
     qtd = auditar_pastas_de_trabalho_e_saida()
-    registrar_erro_critico(
-        origem="AUDITORIA_AREA_IMAGEM_E_TEXTO",
-        mensagem=f"Reajuste de área de trabalho e sanitização concluído ({qtd} arquivos de corte/legenda ajustados).",
-        detalhes=(
-            "1. config.yaml atualizado para video.enquadramento='desfocado' e video.dois_rostos='desfocado' "
-            "(preserva 100% da largura original do vídeo sem cortar tarjas ou informações visuais).\n"
-            "2. Legendas .ass ajustadas de WrapStyle: 2 (sem quebra) para WrapStyle: 0 (quebra automática segura), "
-            "MarginL/MarginR = 80px, fonte legenda = 78px (2 palavras/bloco) e fonte título = 58px.\n"
-            "3. Sanitização de termos fonéticos corrompidos pela transcrição CPU aplicada nos metadados."
-        ),
-        nivel="CORRECAO_APLICADA",
-    )
-    print(f"Auditoria concluída: {qtd} arquivos ajustados. Log atualizado em: {obter_caminho_log()}")
+    print(f"Auditoria concluída com sucesso: {qtd} arquivos ajustados. Limite por arquivo: {LIMITE_MAX_LINHAS} linhas.")

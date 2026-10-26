@@ -12,6 +12,7 @@ O **RVM** é uma aplicação local para geração automatizada de cortes vertica
 4. [Execução Local e via Docker Compose](#4-execução-local-e-via-docker-compose)
 5. [Publicação no YouTube com Confirmação e Status em Tempo Real](#5-publicação-no-youtube-com-confirmação-e-status-em-tempo-real)
 6. [Sistema de Log de Erros Críticos (`log do papai.txt`)](#6-sistema-de-log-de-erros-críticos-log-do-papaitxt)
+7. [Histórico de Erros Críticos Identificados e Resolvidos](#7-histórico-de-erros-críticos-identificados-e-resolvidos)
 
 ---
 
@@ -20,14 +21,14 @@ O **RVM** é uma aplicação local para geração automatizada de cortes vertica
 | Arquivo / Pasta | Descrição |
 | :--- | :--- |
 | [`config.yaml`](./config.yaml) | Configurações de IA, quantidade/duração de cortes, transcrição Whisper, enquadramento de vídeo, legendas e porta web (`5050`). |
-| [`logger_papai.py`](./logger_papai.py) | Monitoramento contínuo de erros críticos, auditoria de área segura de legendas `.ass` e sanitização de transcrições. |
-| [`log do papai.txt`](./log%20do%20papai.txt) | Arquivo central de log de erros críticos e auditoria com **limite máximo estrito de 10 MB** (rotação automática). |
+| [`logger_papai.py`](./logger_papai.py) | Monitoramento contínuo de erros críticos, rotação automática em 10.000 linhas, auditoria de área segura de legendas `.ass` e sanitização de transcrições. |
+| [`log do papai.txt`](./log%20do%20papai.txt) | Arquivo central de log de erros críticos com **limite máximo de 10.000 linhas** (e 10 MB), gerando automaticamente `log do papai 1.txt`, `log do papai 2.txt`, etc. |
 | [`_internal/agente/static/`](./_internal/agente/static) | Interface web (`app.html`, `app.css`, `app.js`) servida localmente em `http://localhost:5050`. |
 | [`_internal/fontes/`](./_internal/fontes) | Fonte tipográfica `Poppins-Bold.ttf` utilizada na renderização de títulos e legendas via `libass`/`FFmpeg`. |
 | [`_internal/modelos/`](./_internal/modelos) | Modelo neural ONNX (`face_detection_yunet_2023mar.onnx`) para detecção facial. |
 | [`Dockerfile`](./Dockerfile) & [`docker-compose.yml`](./docker-compose.yml) | Containerização completa da aplicação (`rvm-app` + `rvm-ollama`). |
 | [`INTEGRACAO_OLLAMA.md`](./INTEGRACAO_OLLAMA.md) | Guia detalhado de configuração do Ollama na máquina local. |
-| [`LOG_CORRECAO_DUPLICIDADE_IMAGEM.md`](./LOG_CORRECAO_DUPLICIDADE_IMAGEM.md) | Relatório técnico das correções de enquadramento, área segura de imagem e integridade de texto. |
+| [`LOG_CORRECAO_DUPLICIDADE_IMAGEM.md`](./LOG_CORRECAO_DUPLICIDADE_IMAGEM.md) | Relatório técnico das correções de enquadramento, área segura de imagem, integridade de texto e auditoria do `log do papai.txt`. |
 
 ---
 
@@ -41,7 +42,7 @@ Para impedir que qualquer informação visual do vídeo original ou texto de leg
 2. **Área Segura para Legendas e Títulos (`.ass` / `libass`)**:
    - **Tamanho da fonte da legenda:** `78px` com no máximo **`2` palavras por bloco** e contorno `6px`.
    - **Tamanho do título na tela (gancho):** `58px` com quebra automática dentro das margens.
-   - **Quebra de linha inteligente (`WrapStyle: 0`) e Margens (`MarginL: 80`, `MarginR: 80`)**: O módulo [`logger_papai.py`](./logger_papai.py) audita automaticamente os arquivos `.ass` gerados em `trabalho/*/tmp/*.ass` garantindo que `WrapStyle: 0` esteja ativo e que nenhum texto ultrapasse os `920px` centrais da área útil de `1080px`.
+   - **Quebra de linha inteligente (`WrapStyle: 0`) e Margens (`MarginL: 80`, `MarginR: 80`)**: O módulo [`logger_papai.py`](./logger_papai.py) audita os arquivos `.ass` gerados em `trabalho/*/tmp/*.ass` via parser determinístico de colunas (`_ajustar_linha_style_ass`), garantindo que `WrapStyle: 0` esteja ativo e que nenhum texto ultrapasse os `920px` centrais da área útil de `1080px`.
 3. **Sanitização de Transcrição**:
    - Corrige automaticamente distorções fonéticas conhecidas geradas pelo modelo Whisper em CPU antes da exibição e exportação.
 
@@ -89,5 +90,18 @@ Na aba **Cortes** (`#cortes`), cada card possui:
 O arquivo [`log do papai.txt`](./log%20do%20papai.txt) registra automaticamente:
 - Exceções críticas do runtime Python e de threads em segundo plano.
 - Erros de tarefas na fila (`trabalho/tarefas.json`), falhas de conexão com Ollama/Claude/Gemini e erros do YouTube.
-- Alertas de hardware (como ausência de bibliotecas CUDA/cuBLAS) e auditorias de enquadramento/legenda.
-- **Controle de tamanho de 10 MB (`10.485.760 bytes`)**: Gerenciado por [`logger_papai.py`](./logger_papai.py), reciclando os registros mais antigos sempre que o arquivo se aproxima de 10 MB.
+- Alertas de hardware e auditorias de enquadramento/legenda.
+- **Rotação automática em 10.000 linhas (`LIMITE_MAX_LINHAS = 10_000`) e 10 MB**:
+  - Sempre que `log do papai.txt` atinge **10.000 linhas** (ou 10 MB), o [`logger_papai.py`](./logger_papai.py) move o arquivo cheio para um novo arquivo com o mesmo nome acrescido de um número sequencial (**`log do papai 1.txt`**, **`log do papai 2.txt`**, **`log do papai 3.txt`**, ...) e inicia um novo `log do papai.txt` limpo.
+
+---
+
+## 7. Histórico de Erros Críticos Identificados e Resolvidos
+
+| # | Origem no `log do papai.txt` | Erro Crítico Identificado | Solução Aplicada |
+| :-: | :--- | :--- | :--- |
+| **1** | `FILA_RVM [etapa=escolher]` | `Erro da Ollama (HTTP 404): {"error":"model 'qwen3:8b' not found"}` | Configurado `ia.modelo_ollama: "gemma4:e4b"` no [`config.yaml`](./config.yaml) para usar o modelo instalado localmente. |
+| **2** | `HARDWARE / GPU [Whisper]` | `Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador (CPU).` | Configurado `transcricao.dispositivo: "cpu"` e `transcricao.modelo: "small"` no [`config.yaml`](./config.yaml), evitando tentativa falha de inicialização CUDA sem DLLs. |
+| **3** | `MOTOR_VIDEO / ENQUADRAMENTO` | `Enquadramento: dividido 100%` gerando duplicidade vertical de imagem em cenas com multidão. | Configurado `video.dois_rostos: "desfocado"` no [`config.yaml`](./config.yaml). |
+| **4** | `MOTOR_VIDEO / AREA_DE_TRABALHO` | Recorte lateral (`rosto 100%`) cortando tarjas 16:9 e texto `.ass` com `WrapStyle: 2` + fonte `110px` vazando das bordas. | Configurado `video.enquadramento: "desfocado"`, `legenda.tamanho: 78`, `palavras_por_bloco: 2`, `titulo_na_tela.tamanho: 58` e `WrapStyle: 0` com `MarginL/R = 80`. |
+| **5** | `GUARDIAO_ASS (corte_01..04.ass)` | `re.PatternError: invalid group reference 26 at position 22` na substituição regex `\26` em `logger_papai.py`, gerando repetição de logs. | Substituído o `re.sub` por parser determinístico `_ajustar_linha_style_ass` (`split(',')`), adicionado cache de `mtime` por arquivo e deduplicação de erros em [`logger_papai.py`](./logger_papai.py). |

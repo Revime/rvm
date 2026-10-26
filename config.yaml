@@ -19,10 +19,10 @@ cortes:
   idioma: "pt"
 
 transcricao:
-  # auto = large-v3-turbo se tiver placa NVIDIA, senao small
+  # Definido 'small' e 'cpu' para evitar falha/alerta de ausencia de DLLs cuBLAS/cuDNN
   # opcoes: tiny | base | small | medium | large-v3-turbo
-  modelo: "auto"
-  dispositivo: "auto"      # auto | cpu | cuda
+  modelo: "small"
+  dispositivo: "cpu"       # auto | cpu | cuda
 
 video:
   # desfocado = preserva 100% da area da imagem original no centro com fundo desfocado (nunca corta textos/bordas do video)

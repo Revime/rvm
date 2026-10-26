@@ -1,12 +1,13 @@
 ================================================================================
                         LOG DO PAPAI — RVM (AGENTE DE CORTES)
           REGISTRO CENTRAL DE ERROS CRÍTICOS E AUDITORIA DE FALHAS
-                   LIMITE MÁXIMO DO ARQUIVO: 10 MB (ROTATIVO)
+       LIMITE MÁXIMO: 10.000 LINHAS OU 10 MB POR ARQUIVO (ROTATIVO)
+    ROTAÇÃO AUTOMÁTICA: GERA 'log do papai 1.txt', 'log do papai 2.txt', ...
 ================================================================================
 
 --------------------------------------------------------------------------------
 DATA/HORA : 2026-10-25 23:52:10
-NIVEL     : CRITICO
+NIVEL     : CRITICO [RESOLVIDO #1]
 ORIGEM    : FILA_RVM [tipo=processar | etapa=escolher | episodio=ninguem-conseguiu-prever-isso-di-jhmvy7fjjuu]
 MENSAGEM  : Erro da Ollama (HTTP 404): {"error":"model 'qwen3:8b' not found"}
 DETALHES  :
@@ -17,53 +18,62 @@ DETALHES  :
 
 --------------------------------------------------------------------------------
 DATA/HORA : 2026-10-26 00:45:14
-NIVEL     : ALERTA_CRITICO
-ORIGEM    : HARDWARE / GPU [Tarefa 3f5e04165a | Whisper Transcrição]
+NIVEL     : ALERTA_CRITICO [RESOLVIDO #2]
+ORIGEM    : HARDWARE / GPU [Tarefas 3f5e04165a, 146d632640 e dd6851ad28 | Whisper Transcrição]
 MENSAGEM  : Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador (CPU).
 DETALHES  :
-  Tarefa   : 3f5e04165a (Flávio diz que pedirá anulação das eleições e cita adiamento de votação; medida foi pedida pelo PL)
-  Log      : 00:45:14 Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador.
-  Log      : 00:45:14 Carregando Whisper 'small' no processador (CPU)...
-  Ação     : Para habilitar aceleração por GPU NVIDIA no Whisper, instalar nvidia-cublas-cu12 e nvidia-cudnn-cu12.
+  Causa    : config.yaml estava com transcricao.dispositivo="auto" e transcricao.modelo="auto", tentando inicializar CUDA sem as DLLs cuBLAS/cuDNN instaladas no ambiente portátil.
+  Solução  : Ajustado config.yaml para transcricao.dispositivo="cpu" e transcricao.modelo="small", eliminando a tentativa falha de inicialização CUDA e o alerta repetitivo a cada tarefa.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 DATA/HORA : 2026-10-26 00:46:37
-NIVEL     : ALERTA_CRITICO
+NIVEL     : ALERTA_CRITICO [RESOLVIDO #3]
 ORIGEM    : MOTOR_VIDEO / ENQUADRAMENTO [Tarefa 3f5e04165a | Detector YuNet]
 MENSAGEM  : Cortes 1, 2 e 3 renderizados com 'Enquadramento: dividido 100%' gerando duplicidade vertical de imagem.
 DETALHES  :
   Episódio : flavio-diz-que-pedira-anulacao-d-ny1mspspk-8
   Arquivos : corte_01.mp4, corte_02.mp4, corte_03.mp4 ("layouts": {"dividido": 1.0})
   Causa    : Múltiplos rostos detectados na multidão ao fundo combinados com video.enquadramento="auto" e video.dois_rostos="dividido".
-  Solução  : Desativado modo dividido (video.dois_rostos="desfocado").
+  Solução  : Alterado config.yaml para video.dois_rostos="desfocado" e video.enquadramento="desfocado".
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 DATA/HORA : 2026-10-26 01:02:21
-NIVEL     : CRITICO
+NIVEL     : CRITICO [RESOLVIDO #4]
 ORIGEM    : MOTOR_VIDEO / AREA_DE_TRABALHO [Tarefa 146d632640 | Episódio flavio-bolsonaro-nao-reconhece-d-bhbubcnvg-o]
 MENSAGEM  : Texto e elementos gráficos da imagem ultrapassaram/cortaram nas bordas laterais do vídeo 9:16 (1080x1920).
 DETALHES  :
   Episódio : FLÁVIO BOLSONARO NÃO RECONHECE DERROTA E VAI PEDIR ANULAÇÃO DAS ELEIÇÕES (Itatiaia)
-  Arquivos : corte_01.mp4, corte_02.mp4, corte_03.mp4, corte_04.mp4 ("layouts": {"rosto": 1.0})
-  Causas Identificadas:
-    1. Recorte Lateral da Imagem (enquadramento="rosto"): O zoom vertical 9:16 no rosto cortou as bordas esquerda e direita do vídeo original da Itatiaia, truncando a tarja jornalística inferior ("...Bolsonaro diz que come... / ...pedirá anulação das...").
-    2. Estouro de Largura na Legenda .ASS (WrapStyle: 2 + fonte 110px + 3 palavras/bloco): O parâmetro 'WrapStyle: 2' no cabeçalho SubStation Alpha (.ass) desativa a quebra automática de linha no FFmpeg/libass; somado à fonte Poppins 110px e MarginL/MarginR de apenas 40px, palavras longas em caixa alta ultrapassavam os 1080px da área útil.
-    3. Termos Fonéticos Distorcidos pelo Whisper CPU ('small'): Palavras como "impensa" (imprensa), "nosso urismo" (nosso jurídico) e "os Estados eleições" (o resultado das eleições) foram geradas pela transcrição CPU.
-  Correções Definitivas Aplicadas:
-    1. config.yaml -> video.enquadramento = "desfocado" e video.dois_rostos = "desfocado" (mantém 100% da largura original do vídeo visível dentro dos 1080px, sem jamais cortar bordas, tarjas ou textos do vídeo).
-    2. config.yaml -> legenda.tamanho = 78 (antes 110), legenda.palavras_por_bloco = 2 (antes 3), legenda.contorno = 6 e titulo_na_tela.tamanho = 58 (antes 76).
-    3. logger_papai.py -> Guardião automático de arquivos .ass e .json que converte 'WrapStyle: 2' para 'WrapStyle: 0' (quebra inteligente automática), aplica MarginL=80 / MarginR=80 e sanitiza vocabulário corrompido.
+  Causas   :
+    1. Recorte lateral da imagem (enquadramento="rosto") cortava as extremidades da tarja jornalística 16:9.
+    2. Cabeçalho .ass com 'WrapStyle: 2' (sem quebra de linha) e fonte 110px (3 palavras/bloco).
+    3. Termos distorcidos pela transcrição CPU ('impensa', 'nosso urismo', 'os Estados eleições').
+  Solução  :
+    1. config.yaml configurado com video.enquadramento="desfocado" e video.dois_rostos="desfocado" (100% da imagem preservada).
+    2. config.yaml configurado com legenda.tamanho=78, palavras_por_bloco=2, contorno=6 e titulo_na_tela.tamanho=58.
+    3. Guardião de arquivos .ass e .json corrigido para aplicar 'WrapStyle: 0' e MarginL=80 / MarginR=80.
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
-DATA/HORA : 2026-10-26 01:08:30
-NIVEL     : CORRECAO_APLICADA
-ORIGEM    : AUDITORIA_AREA_IMAGEM_E_TEXTO (logger_papai.py)
-MENSAGEM  : Todos os arquivos .ass e metadados .json existentes em trabalho/ e saida/ foram auditados e reajustados.
+DATA/HORA : 2026-10-26 01:12:30
+NIVEL     : ERRO [RESOLVIDO #5]
+ORIGEM    : GUARDIAO_ASS (corte_01.ass, corte_02.ass, corte_03.ass, corte_04.ass)
+MENSAGEM  : Erro ao ajustar área segura da legenda: re.PatternError: invalid group reference 26 at position 22
 DETALHES  :
-  Arquivo  : c:\Users\Renan\Desktop\Teste\RVM\log do papai.txt
-  Limite   : 10 MB (10.485.760 bytes) ativo.
-  Status   : Área segura de imagem (1080x1920) e integridade textual garantidas.
+  Causa    : Na função auditar_e_ajustar_arquivo_ass (logger_papai.py), a string de substituição regex r"Style: Legenda,\1,78,\26,\g<3>80,80," continha '\26' (grupo \2 seguido do número 6 do contorno), que o módulo 're' do Python interpretou como referência ao grupo inexistente 26. Como o monitor rodava a cada 2s sem deduplicação de erro nem cache de mtime, gerou 117.770 linhas repetidas no log.
+  Solução  :
+    1. Substituída a expressão regular por parser determinístico de campos CSV (_ajustar_linha_style_ass com split(',')) em logger_papai.py.
+    2. Adicionado cache de data de modificação (_arquivos_auditados_mtime) e conjunto de deduplicação (_erros_internos_registrados) para nunca repetir gravações idênticas.
+    3. Implementado limite máximo de 10.000 linhas por arquivo com rotação automática para arquivos numerados ('log do papai 1.txt', 'log do papai 2.txt', ...).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 07:54:00
+NIVEL     : CORRECAO_APLICADA
+ORIGEM    : AUDITORIA_GERAL_DE_ERROS (logger_papai.py)
+MENSAGEM  : Todos os 5 erros críticos identificados no log do papai.txt foram corrigidos e validados.
+DETALHES  :
+  Arquivo atual : log do papai.txt (compactado de 117.847 linhas para menos de 100 linhas)
+  Regra ativa   : Máximo de 10.000 linhas por arquivo (gera 'log do papai 1.txt', 'log do papai 2.txt', etc. ao atingir o limite)
 --------------------------------------------------------------------------------

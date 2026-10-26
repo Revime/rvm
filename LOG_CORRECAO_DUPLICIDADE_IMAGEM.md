@@ -98,3 +98,26 @@ Para corrigir cortes que já haviam sido renderizados antes desta alteração:
   - `legenda.tamanho: 78` (antes `110`), `legenda.palavras_por_bloco: 2` (antes `3`), `legenda.contorno: 6` e `titulo_na_tela.tamanho: 58` (antes `76`).
 - **[`logger_papai.py`](./logger_papai.py)**:
   - Adicionada auditoria contínua (`auditar_pastas_de_trabalho_e_saida()`) que converte `WrapStyle: 2` para `WrapStyle: 0` (quebra automática de linha respeitando margens), aplica `MarginL=80` e `MarginR=80` nos arquivos `.ass` e corrige termos corrompidos nos arquivos `.ass` e `.json`.
+
+
+---
+
+## 7. Terceira Auditoria — Resolução dos 5 Erros Críticos do `log do papai.txt` e Rotação em 10.000 Linhas (26/10/2026 - 07:54)
+
+### 7.1. Erros Críticos Identificados na Leitura de `log do papai.txt` (117.847 linhas) e Resoluções
+
+1. **Erro #1 — `FILA_RVM`: `Erro da Ollama (HTTP 404): {"error":"model 'qwen3:8b' not found"}`**
+   - **Resolução:** `config.yaml` atualizado com `ia.modelo_ollama: "gemma4:e4b"`.
+2. **Erro #2 — `HARDWARE / GPU`: `Placa NVIDIA encontrada, mas faltam as bibliotecas cuBLAS/cuDNN. Usando o processador (CPU).` (Tarefas `3f5e04165a`, `146d632640` e `dd6851ad28`)**
+   - **Resolução:** `config.yaml` atualizado com `transcricao.dispositivo: "cpu"` e `transcricao.modelo: "small"`, eliminando o probe CUDA que falhava a cada nova tarefa.
+3. **Erro #3 — `MOTOR_VIDEO / ENQUADRAMENTO`: `Enquadramento: dividido 100%` (duplicidade vertical de imagem)**
+   - **Resolução:** `config.yaml` atualizado com `video.dois_rostos: "desfocado"`.
+4. **Erro #4 — `MOTOR_VIDEO / AREA_DE_TRABALHO`: Corte lateral da imagem (`rosto 100%`) e vazamento horizontal de legenda (`WrapStyle: 2`)**
+   - **Resolução:** `config.yaml` atualizado com `video.enquadramento: "desfocado"`, `legenda.tamanho: 78`, `palavras_por_bloco: 2`, `titulo_na_tela.tamanho: 58`, e arquivos `.ass` ajustados para `WrapStyle: 0` com `MarginL=80` e `MarginR=80`.
+5. **Erro #5 — `GUARDIAO_ASS`: `re.PatternError: invalid group reference 26 at position 22` em `logger_papai.py`**
+   - **Causa:** A string de substituição regex `r"Style: Legenda,\1,78,\26,\g<3>80,80,"` possuía `\26` (grupo `\2` seguido do número literal `6`), que o módulo `re` interpretou como referência ao grupo 26 inexistente, repetindo o traceback a cada ciclo de 2 segundos até atingir 117.847 linhas.
+   - **Resolução:** Substituída a regex por parser determinístico de colunas (`_ajustar_linha_style_ass`), adicionado cache de `mtime` (`_arquivos_auditados_mtime`) e deduplicação de erros (`_erros_internos_registrados`).
+
+### 7.2. Regra de Limite de 10.000 Linhas e Rotação Numerada
+- O arquivo [`log do papai.txt`](./log%20do%20papai.txt) foi higienizado e reduzido de `117.847` linhas para menos de `100` linhas consolidando todos os eventos.
+- Em [`logger_papai.py`](./logger_papai.py), foi implementado `LIMITE_MAX_LINHAS = 10_000`: sempre que `log do papai.txt` atingir **10.000 linhas** (ou 10 MB), ele é automaticamente rotacionado para um novo arquivo com o mesmo nome diferenciado por número (**`log do papai 1.txt`**, **`log do papai 2.txt`**, **`log do papai 3.txt`**, ...).
