@@ -14,6 +14,7 @@ rvm/
 # Pastas geradas em execucao e chaves privadas / OAuth YouTube
 saida/
 trabalho/
+_internal/agente/static/telemetria.json
 chaves.txt
 client_secret.json
 youtube_token.json

@@ -25,6 +25,86 @@
 
 <main class="folha">
 
+  <!-- ============ MONITOR DE HARDWARE EM TEMPO REAL (CPU / RAM / GPU) ============ -->
+  <section class="telemetria-hud" id="telemetria-hud" aria-label="Monitor de Hardware em Tempo Real">
+    <div class="telemetria-topo">
+      <div class="telemetria-titulo">
+        <span class="telemetria-ponto" id="hw-ponto"></span>
+        <strong>Monitor de Hardware em Tempo Real</strong>
+        <span class="selo" id="hw-status-geral">Sincronizando...</span>
+        <span class="telemetria-contexto" id="hw-contexto-tarefa">Aguardando leitura...</span>
+      </div>
+      <div class="telemetria-controles">
+        <label class="telemetria-limite" title="Define a porcentagem em que o alerta crítico será disparado durante os cortes">
+          Alerta crítico em:
+          <select id="hw-limite-critico">
+            <option value="70">70%</option>
+            <option value="80">80%</option>
+            <option value="85" selected>85% (Padrão)</option>
+            <option value="90">90%</option>
+            <option value="95">95%</option>
+          </select>
+        </label>
+        <button type="button" class="btn-texto" id="hw-btn-log" aria-expanded="false">Log de Hardware (<span id="hw-log-cont">0</span>)</button>
+        <button type="button" class="btn-texto" id="hw-btn-testar-alerta" title="Testar o aviso de uso crítico e opção de parada forçada">Testar Alerta</button>
+        <button type="button" class="btn perigo hw-btn-parar" id="hw-btn-forcar-parada" hidden>🛑 Forçar Parada</button>
+      </div>
+    </div>
+
+    <div class="telemetria-grade">
+      <!-- Medidor CPU -->
+      <div class="medidor-card" id="hw-card-cpu">
+        <div class="medidor-cabeca">
+          <span class="medidor-nome">CPU // PROCESSADOR</span>
+          <strong class="medidor-valor" id="hw-cpu-pct">0.0%</strong>
+        </div>
+        <div class="medidor-barra"><i id="hw-cpu-barra" style="width: 0%"></i></div>
+        <div class="medidor-rodape">
+          <span id="hw-cpu-detalhe">Calculando núcleos...</span>
+          <span class="medidor-tag" id="hw-cpu-tag">Normal</span>
+        </div>
+      </div>
+
+      <!-- Medidor Memória RAM -->
+      <div class="medidor-card" id="hw-card-ram">
+        <div class="medidor-cabeca">
+          <span class="medidor-nome">MEMÓRIA // RAM</span>
+          <strong class="medidor-valor" id="hw-ram-pct">0.0%</strong>
+        </div>
+        <div class="medidor-barra"><i id="hw-ram-barra" style="width: 0%"></i></div>
+        <div class="medidor-rodape">
+          <span id="hw-ram-detalhe">0.0 / 0.0 GB usados</span>
+          <span class="medidor-tag" id="hw-ram-tag">Normal</span>
+        </div>
+      </div>
+
+      <!-- Medidor GPU -->
+      <div class="medidor-card" id="hw-card-gpu">
+        <div class="medidor-cabeca">
+          <span class="medidor-nome" id="hw-gpu-nome">GPU // PLACA DE VÍDEO</span>
+          <strong class="medidor-valor" id="hw-gpu-pct">0.0%</strong>
+        </div>
+        <div class="medidor-barra"><i id="hw-gpu-barra" style="width: 0%"></i></div>
+        <div class="medidor-rodape">
+          <span id="hw-gpu-detalhe">VRAM: 0 / 0 MB • 0°C</span>
+          <span class="medidor-tag" id="hw-gpu-tag">Normal</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gaveta de Log de Telemetria em Tempo Real -->
+    <div class="telemetria-log" id="hw-log-painel" hidden>
+      <div class="telemetria-log-cabeca">
+        <span>Registro de Telemetria em Tempo Real (Sincronizado com <b>log do papai.txt</b>)</span>
+        <div class="acoes-linha">
+          <button type="button" class="btn-texto" id="hw-log-copiar">Copiar Log</button>
+          <button type="button" class="btn-texto" id="hw-log-limpar">Limpar tela</button>
+        </div>
+      </div>
+      <pre id="hw-log-pre">Iniciando coleta de telemetria de CPU, RAM e GPU...</pre>
+    </div>
+  </section>
+
   <!-- ============ CORTAR ============ -->
   <section class="painel" id="aba-cortar" hidden>
     <form class="entrada" id="form-cortar" autocomplete="off">
@@ -285,6 +365,48 @@
 </main>
 
 <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<!-- ============ MODAL DE ALERTA CRÍTICO DE HARDWARE (PARADA FORÇADA) ============ -->
+<div class="modal-hw-fundo" id="modal-alerta-hw" role="alertdialog" aria-modal="true" aria-labelledby="modal-hw-titulo" hidden>
+  <div class="modal-hw-caixa">
+    <div class="modal-hw-cabeca">
+      <span class="modal-hw-icone">⚠</span>
+      <div>
+        <h2 id="modal-hw-titulo">Uso Crítico de Hardware Detectado!</h2>
+        <p class="modal-hw-sub" id="modal-hw-sub">Sobrecarga identificada durante o processamento de cortes</p>
+      </div>
+      <span class="selo erro">CRÍTICO</span>
+    </div>
+
+    <p class="modal-hw-motivo" id="modal-hw-motivo"></p>
+
+    <div class="modal-hw-metricas">
+      <div class="modal-hw-item">
+        <span>CPU</span>
+        <strong id="modal-hw-cpu">0%</strong>
+      </div>
+      <div class="modal-hw-item">
+        <span>Memória RAM</span>
+        <strong id="modal-hw-ram">0%</strong>
+      </div>
+      <div class="modal-hw-item">
+        <span>GPU / VRAM</span>
+        <strong id="modal-hw-gpu">0%</strong>
+      </div>
+    </div>
+
+    <div class="modal-hw-tarefa" id="modal-hw-tarefa"></div>
+
+    <p class="modal-hw-pergunta">
+      O uso de processamento atingiu o nível crítico configurado. Deseja <b>forçar a parada imediata</b> do processamento para proteger o computador ou continuar mesmo assim?
+    </p>
+
+    <div class="modal-hw-acoes">
+      <button type="button" class="btn perigo" id="modal-hw-confirmar-parada">🛑 Sim, Forçar Parada Agora</button>
+      <button type="button" class="btn" id="modal-hw-continuar">Continuar Processando (Pausar aviso por 2 min)</button>
+    </div>
+  </div>
+</div>
 
 <template id="tpl-tarefa">
   <li class="tarefa">

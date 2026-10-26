@@ -480,6 +480,186 @@ fieldset > label { margin-top: 12px; }
 }
 .aviso.mostrar { opacity: 1; transform: translate(-50%, 0); }
 
+/* ---------------- monitor de hardware em tempo real (HUD) ---------------- */
+.telemetria-hud {
+  padding: 18px 44px 20px;
+  background: linear-gradient(180deg, rgba(19, 16, 34, 0.95), rgba(12, 10, 22, 0.92));
+  border-bottom: 1px solid var(--linha-forte);
+  position: relative;
+}
+.telemetria-hud.alerta-aviso {
+  border-bottom-color: var(--aviso);
+  background: linear-gradient(180deg, rgba(255, 181, 71, 0.07), rgba(12, 10, 22, 0.94));
+}
+.telemetria-hud.alerta-critico {
+  border-bottom-color: var(--nao);
+  background: linear-gradient(180deg, rgba(255, 61, 110, 0.14), rgba(12, 10, 22, 0.95));
+  box-shadow: inset 0 0 28px rgba(255, 61, 110, 0.18);
+}
+.telemetria-topo {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.telemetria-titulo {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  font: 700 13.5px var(--titulo); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.telemetria-ponto {
+  width: 9px; height: 9px; background: var(--ok); display: inline-block; transform: rotate(45deg);
+  box-shadow: 0 0 10px var(--ok); animation: piscar-luz 1.4s steps(2) infinite;
+}
+.telemetria-ponto.aviso { background: var(--aviso); box-shadow: 0 0 10px var(--aviso); }
+.telemetria-ponto.critico { background: var(--nao); box-shadow: 0 0 14px var(--nao); animation-duration: 0.5s; }
+.telemetria-contexto {
+  font: 400 12px var(--mono); color: var(--suave); text-transform: none; letter-spacing: 0.02em;
+}
+.telemetria-controles {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.telemetria-limite {
+  display: inline-flex; align-items: center; gap: 7px; margin: 0;
+  font: 600 12px var(--mono); color: var(--suave);
+}
+.telemetria-limite select {
+  width: auto; margin: 0; padding: 4px 28px 4px 9px; font: 600 12px var(--mono);
+  background-color: var(--painel-2);
+}
+.hw-btn-parar {
+  padding: 7px 13px; font-size: 12px;
+}
+
+.telemetria-grade {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+}
+.medidor-card {
+  background: rgba(7, 6, 13, 0.78);
+  padding: 12px 15px;
+  clip-path: var(--chanfro-p);
+  box-shadow: inset 0 0 0 1px var(--linha-forte), inset 3px 0 0 var(--ciano);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.medidor-card.aviso {
+  box-shadow: inset 0 0 0 1px rgba(255, 181, 71, 0.55), inset 3px 0 0 var(--aviso);
+  background: linear-gradient(90deg, rgba(255, 181, 71, 0.08), rgba(7, 6, 13, 0.85) 60%);
+}
+.medidor-card.critico {
+  box-shadow: inset 0 0 0 1px var(--nao), inset 3px 0 0 var(--nao), 0 0 18px rgba(255, 61, 110, 0.22);
+  background: linear-gradient(90deg, rgba(255, 61, 110, 0.16), rgba(7, 6, 13, 0.88) 65%);
+}
+.medidor-cabeca {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+}
+.medidor-nome {
+  font: 700 12px var(--mono); letter-spacing: 0.08em; color: var(--suave); text-transform: uppercase;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.medidor-valor {
+  font: 700 20px/1 var(--mono); color: var(--ciano);
+}
+.medidor-card.aviso .medidor-valor { color: var(--aviso); }
+.medidor-card.critico .medidor-valor { color: var(--nao); text-shadow: 0 0 10px rgba(255, 61, 110, 0.65); }
+
+.medidor-barra {
+  height: 8px; margin: 9px 0 8px; background: #040308; overflow: hidden;
+  background-image: repeating-linear-gradient(90deg, transparent 0 10px, rgba(255, 255, 255, 0.04) 10px 11px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.medidor-barra i {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--ciano), var(--ok));
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.55);
+  transition: width 0.45s ease, background 0.25s ease;
+}
+.medidor-card.aviso .medidor-barra i {
+  background: linear-gradient(90deg, var(--amarelo), var(--aviso));
+  box-shadow: 0 0 12px rgba(255, 181, 71, 0.65);
+}
+.medidor-card.critico .medidor-barra i {
+  background: linear-gradient(90deg, var(--magenta), var(--nao));
+  box-shadow: 0 0 14px var(--nao);
+}
+.medidor-rodape {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  font: 11.5px var(--mono); color: var(--suave);
+}
+.medidor-tag {
+  font: 700 10.5px var(--mono); text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 2px 7px; background: rgba(61, 255, 168, 0.12); color: var(--ok);
+}
+.medidor-card.aviso .medidor-tag { background: rgba(255, 181, 71, 0.16); color: var(--aviso); }
+.medidor-card.critico .medidor-tag { background: rgba(255, 61, 110, 0.22); color: var(--nao); }
+
+/* Gaveta de log de telemetria */
+.telemetria-log {
+  margin-top: 14px; padding: 12px 14px;
+  background: #040309; border: 1px solid var(--linha-forte);
+  clip-path: var(--chanfro-p);
+}
+.telemetria-log-cabeca {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+  font: 600 12px var(--mono); color: var(--suave); margin-bottom: 8px;
+}
+.telemetria-log-cabeca b { color: var(--amarelo); }
+.telemetria-log pre {
+  margin: 0; max-height: 190px; overflow: auto; padding: 10px 12px;
+  background: #020105; color: #7dfc9a; font: 11.5px/1.55 var(--mono); white-space: pre-wrap;
+  border: 1px solid #12301d; text-shadow: 0 0 5px rgba(61, 255, 168, 0.28);
+}
+
+/* Modal de Alerta Crítico de Hardware */
+.modal-hw-fundo {
+  position: fixed; inset: 0; z-index: 95;
+  background: rgba(5, 4, 10, 0.86); backdrop-filter: blur(5px);
+  display: grid; place-items: center; padding: 20px;
+}
+.modal-hw-caixa {
+  width: min(620px, 100%);
+  background: linear-gradient(180deg, #191224, #0d0a16);
+  border: 2px solid var(--nao);
+  box-shadow: 0 0 45px rgba(255, 61, 110, 0.38), inset 0 0 24px rgba(255, 61, 110, 0.12);
+  padding: 26px 28px;
+  clip-path: var(--chanfro);
+}
+.modal-hw-cabeca {
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.modal-hw-icone {
+  font: 700 28px/1 var(--mono); color: var(--nao);
+  text-shadow: 0 0 14px var(--nao);
+}
+.modal-hw-cabeca h2 {
+  font-size: 21px; color: #fff; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.modal-hw-sub {
+  margin: 3px 0 0; font: 12.5px var(--mono); color: #ff9bb3;
+}
+.modal-hw-cabeca .selo { margin-left: auto; }
+.modal-hw-motivo {
+  margin: 16px 0 14px; padding: 11px 14px;
+  background: rgba(255, 61, 110, 0.14); border-left: 3px solid var(--nao);
+  font: 600 13px/1.5 var(--mono); color: #ffd4df;
+}
+.modal-hw-metricas {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;
+}
+.modal-hw-item {
+  background: rgba(7, 6, 13, 0.82); padding: 10px 12px;
+  border: 1px solid var(--linha-forte); text-align: center;
+}
+.modal-hw-item span { display: block; font: 600 11px var(--mono); color: var(--suave); text-transform: uppercase; }
+.modal-hw-item strong { display: block; margin-top: 4px; font: 700 18px var(--mono); color: var(--amarelo); }
+.modal-hw-tarefa {
+  padding: 9px 12px; background: rgba(252, 238, 10, 0.08); border-left: 2px solid var(--amarelo);
+  font: 12.5px var(--mono); color: var(--texto); margin-bottom: 14px;
+}
+.modal-hw-pergunta {
+  margin: 0 0 18px; font-size: 14.5px; line-height: 1.55; color: var(--texto);
+}
+.modal-hw-pergunta b { color: var(--amarelo); }
+.modal-hw-acoes {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+
 /* ---------------- telas menores ---------------- */
 @media (max-width: 900px) {
   .ajustes { grid-template-columns: 1fr; }
@@ -493,6 +673,8 @@ fieldset > label { margin-top: 12px; }
   .abas { order: 3; width: 100%; overflow-x: auto; }
   .abas a { padding: 10px 13px; font-size: 14px; }
   .folha { clip-path: none; }
+  .telemetria-hud { padding: 14px 16px 16px; }
+  .telemetria-grade, .modal-hw-metricas { grid-template-columns: 1fr; }
   .painel { padding: 26px 16px 38px; }
   h1 { font-size: 26px; }
   .entrada h1 { font-size: 30px; }

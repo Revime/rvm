@@ -110,6 +110,18 @@ MAX_TITLE_CHARS: int = 55
 TITLE_OPTIONS_COUNT: int = 3
 MAX_THUMBNAIL_OVERLAY_WORDS: int = 3
 
+# Section 8: Real-Time Hardware Telemetry & Critical Alert Thresholds
+HW_MONITOR_INTERVAL_SECONDS: float = 1.5
+HW_LOG_INTERVAL_SECONDS: float = 15.0
+CPU_WARNING_PCT: float = 75.0
+CPU_CRITICAL_PCT: float = 85.0
+RAM_WARNING_PCT: float = 75.0
+RAM_CRITICAL_PCT: float = 85.0
+GPU_WARNING_PCT: float = 75.0
+GPU_CRITICAL_PCT: float = 90.0
+GPU_TEMP_CRITICAL_C: float = 83.0
+
+
 
 def load_config() -> Dict[str, Any]:
     """Loads config.yaml and merges with default YPP monetization settings."""
@@ -117,3 +129,4 @@ def load_config() -> Dict[str, Any]:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             return yaml.safe_load(f) or {}
     return {}
+

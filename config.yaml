@@ -13,8 +13,8 @@ ia:
 
 cortes:
   quantidade: 5          # quantos cortes gerar por episodio
-  duracao_min: 35        # Shorts YPP: estritamente entre 35s e 55s
-  duracao_max: 55        # Shorts YPP: maximo 55s
+  duracao_min: 20        # faixa ampla na triagem bruta da IA para nao descartar sugestoes da Ollama (o pipeline YPP ajusta para 35s-55s)
+  duracao_max: 90        # maximo aceito na triagem inicial (ajustado em seguida pelo nlp_viral_scorer)
   bloco_minutos: 20      # a transcricao vai para a IA em pedacos deste tamanho
   idioma: "pt"
 
@@ -62,6 +62,21 @@ youtube:
 
 revisao:
   porta: 5050
+
+# =====================================================
+#  MONITORAMENTO DE HARDWARE EM TEMPO REAL (CPU / RAM / GPU)
+# =====================================================
+monitoramento_hardware:
+  ativar: true
+  intervalo_segundos: 1.5
+  intervalo_log_segundos: 15
+  alerta_aviso_pct: 75
+  alerta_critico_cpu_pct: 85
+  alerta_critico_ram_pct: 85
+  alerta_critico_gpu_pct: 90
+  alerta_critico_temp_gpu_c: 83
+  perguntar_forcar_parada: true
+
 
 # =====================================================
 #  CONSTANTES DE MONETIZACAO YPP (MONETIZATION_GUIDELINE.md)

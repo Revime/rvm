@@ -13,6 +13,8 @@ O **RVM** é uma aplicação local para geração automatizada de cortes vertica
 5. [Publicação no YouTube com Confirmação e Status em Tempo Real](#5-publicação-no-youtube-com-confirmação-e-status-em-tempo-real)
 6. [Sistema de Log de Erros Críticos (`log do papai.txt`)](#6-sistema-de-log-de-erros-críticos-log-do-papaitxt)
 7. [Histórico de Erros Críticos Identificados e Resolvidos](#7-histórico-de-erros-críticos-identificados-e-resolvidos)
+8. [Pipeline de Monetização YPP (`MONETIZATION_GUIDELINE.md`)](#8-pipeline-de-monetização-ypp-monetization_guidelinemd)
+9. [Monitoramento de Hardware em Tempo Real (GPU, RAM e CPU) e Parada Forçada](#9-monitoramento-de-hardware-em-tempo-real-gpu-ram-e-cpu-e-parada-forçada)
 
 ---
 
@@ -120,3 +122,20 @@ O projeto conta com o pacote modular [`pipeline/`](./pipeline) e configurações
 - [`pipeline/metadata_and_seo.py`](./pipeline/metadata_and_seo.py): Geração automática de `titles` (3 opções `<= 55` caracteres), `pinned_comment` polarizador, `related_video_link_tag` e `thumbnail_spec`.
 
 Consulte o diagnóstico completo em [`DIAGNOSTICO_YPP_MONETIZATION.md`](./DIAGNOSTICO_YPP_MONETIZATION.md).
+
+---
+
+## 9. Monitoramento de Hardware em Tempo Real (GPU, RAM e CPU) e Parada Forçada
+
+A interface web (`http://localhost:5050`) possui no topo um **Painel de Telemetria em Tempo Real (`#telemetria-hud`)** integrado ao [`logger_papai.py`](./logger_papai.py):
+
+- **Medidores Ao Vivo (atualizados a cada `1,5s`)**:
+  - **CPU // PROCESSADOR**: Uso percentual em tempo real (`GetSystemTimes`) e contagem de núcleos lógicos.
+  - **MEMÓRIA // RAM**: Uso percentual, GB consumidos / GB totais e memória livre (`GlobalMemoryStatusEx`).
+  - **GPU // PLACA DE VÍDEO**: Uso percentual da GPU, consumo de VRAM (`MB usados / MB totais` e `%`) e temperatura em `°C` via `nvidia-smi`.
+- **Log de Telemetria em Tempo Real**:
+  - Gaveta expansível **`Log de Hardware`** direto na tela da aplicação e gravação contínua no [`log do papai.txt`](./log%20do%20papai.txt).
+- **Alerta Crítico Automático com Confirmação de Parada Forçada (`#modal-alerta-hw`)**:
+  - Quando o uso de CPU, RAM ou GPU atinge o limite crítico configurável (`70%`, `80%`, `85%`, `90%` ou `95%`) durante o processamento de cortes, um modal de alerta crítico é exibido perguntando ao usuário se deseja **`🛑 Sim, Forçar Parada Agora`** (cancelando imediatamente as tarefas ativas via `/api/tarefas/<id>/cancelar` e registrando no `log do papai.txt`) ou **`Continuar Processando (Pausar aviso por 2 min)`**.
+
+Consulte a documentação detalhada em [`LOG_MONITORAMENTO_HARDWARE.md`](./LOG_MONITORAMENTO_HARDWARE.md).

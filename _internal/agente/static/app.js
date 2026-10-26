@@ -16,6 +16,11 @@ const estado = {
   chaves: {},
   arquivo: null,
   diagFeito: false,
+  telemetria: null,
+  hwLimiteCritico: Number(lerLocal("rvm-hw-limite-critico", "85")) || 85,
+  hwAlertaIgnoradoAte: 0,
+  hwLogsExtras: [],
+  hwEndpointModo: "auto",
 };
 
 const NOME_ETAPA = { baixar: "Baixando", transcrever: "Transcrevendo", escolher: "Escolhendo trechos", editar: "Montando vídeos", postar: "Enviando ao YouTube" };
@@ -1005,6 +1010,309 @@ async function rodarDiagnostico(testarIA) {
 $("#diag-rodar").onclick = () => rodarDiagnostico(false);
 $("#diag-ia").onclick = () => rodarDiagnostico(true);
 
+/* ====================================== MONITOR DE HARDWARE (CPU/RAM/GPU) */
+function classificarUso(pct, limiteCritico, limiteAviso = 75) {
+  if (pct >= limiteCritico) return "critico";
+  if (pct >= limiteAviso) return "aviso";
+  return "normal";
+}
+
+function registrarLogHardwareLocal(msg) {
+  const h = new Date().toLocaleTimeString("pt-BR");
+  estado.hwLogsExtras.push(`[${h}] ${msg}`);
+  if (estado.hwLogsExtras.length > 30) estado.hwLogsExtras.shift();
+}
+
+async function obterDadosTelemetria() {
+  if (estado.hwEndpointModo !== "static") {
+    try {
+      const r = await fetch(`/api/telemetria?t=${Date.now()}`, { cache: "no-store" });
+      if (r.ok) {
+        estado.hwEndpointModo = "api";
+        return await r.json();
+      }
+      if (r.status === 404) estado.hwEndpointModo = "static";
+    } catch (e) { /* tenta fallback estático */ }
+  }
+  const r2 = await fetch(`/static/telemetria.json?t=${Date.now()}`, { cache: "no-store" });
+  if (!r2.ok) throw new Error("Sem telemetria");
+  return await r2.json();
+}
+
+function atualizarMedidorIndividual(cardId, pctId, barraId, detalheId, tagId, pct, textoDetalhe, nivel) {
+  const card = $(cardId);
+  if (!card) return;
+  card.className = `medidor-card ${nivel === "normal" ? "" : nivel}`.trim();
+  $(pctId).textContent = `${Number(pct || 0).toFixed(1)}%`;
+  $(barraId).style.width = `${Math.max(2, Math.min(100, Number(pct || 0)))}%`;
+  $(detalheId).textContent = textoDetalhe;
+  const tag = $(tagId);
+  tag.textContent = { normal: "Normal", aviso: "Atenção", critico: "Crítico!" }[nivel] || "Normal";
+}
+
+function exibirModalAlertaHardware(dados, motivosCriticos, simulado = false) {
+  const modal = $("#modal-alerta-hw");
+  if (!modal) return;
+  const cpuPct = dados ? Number(dados.cpu?.pct || 0).toFixed(1) : "0.0";
+  const ramPct = dados ? Number(dados.ram?.pct || 0).toFixed(1) : "0.0";
+  const ramDet = dados ? `${dados.ram?.usada_gb || 0}/${dados.ram?.total_gb || 0} GB` : "";
+  const gpuPct = dados ? Number(dados.gpu?.pct || 0).toFixed(1) : "0.0";
+  const gpuTemp = dados && dados.gpu?.temp_c ? ` • ${dados.gpu.temp_c}°C` : "";
+
+  $("#modal-hw-sub").textContent = simulado
+    ? "Teste de segurança do sistema de proteção e parada forçada"
+    : "Sobrecarga crítica identificada durante o processamento de cortes";
+  $("#modal-hw-motivo").textContent = motivosCriticos.join("  |  ");
+  $("#modal-hw-cpu").textContent = `${cpuPct}%`;
+  $("#modal-hw-ram").textContent = `${ramPct}% (${ramDet})`;
+  $("#modal-hw-gpu").textContent = `${gpuPct}%${gpuTemp}`;
+
+  const tarefaAtiva = estado.tarefas.find((t) => t.status === "rodando") ||
+    (dados && dados.processamento && dados.processamento.ocupada
+      ? { titulo: dados.processamento.titulo, etapa: dados.processamento.etapa, pct: (dados.processamento.pct || 0) / 100 }
+      : null);
+
+  const elTarefa = $("#modal-hw-tarefa");
+  if (tarefaAtiva) {
+    const nomeEtapa = NOME_ETAPA[tarefaAtiva.etapa] || tarefaAtiva.etapa || "Processando";
+    const pctTarefa = Math.round((tarefaAtiva.pct || 0) * 100);
+    elTarefa.textContent = `Corte em execução: "${tarefaAtiva.titulo || "Episódio atual"}" — Etapa: ${nomeEtapa} (${pctTarefa}%)`;
+  } else {
+    elTarefa.textContent = "Status da fila: Monitoramento preventivo ativo (nenhuma tarefa será iniciada sem segurança).";
+  }
+
+  modal.hidden = false;
+}
+
+async function forcarParadaProcessamento(motivo = "Alerta crítico de hardware") {
+  const modal = $("#modal-alerta-hw");
+  if (modal) modal.hidden = true;
+
+  const ativas = estado.tarefas.filter((t) => ["rodando", "na_fila"].includes(t.status));
+  let canceladas = 0;
+  for (const t of ativas) {
+    try {
+      await api(`/api/tarefas/${t.id}/cancelar`, { body: {} });
+      canceladas++;
+    } catch (e) { /* continua cancelando as demais */ }
+  }
+
+  try {
+    await fetch("/api/telemetria/parada-forcada", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-RVM": "1" },
+      body: JSON.stringify({
+        motivo,
+        tarefa_id: ativas[0] ? ativas[0].id : "manual",
+      }),
+    });
+  } catch (e) { /* registrado localmente também */ }
+
+  registrarLogHardwareLocal(
+    `[PARADA FORÇADA PELO USUÁRIO] ${canceladas > 0 ? `${canceladas} tarefa(s) interrompida(s)` : "Sinal de parada enviado"} — Motivo: ${motivo}`
+  );
+  if (estado.telemetria) desenharTelemetria(estado.telemetria);
+  aviso(
+    canceladas > 0
+      ? `🛑 Parada forçada executada! ${canceladas} tarefa(s) interrompida(s) por segurança.`
+      : "🛑 Parada forçada confirmada e registrada no log de hardware.",
+    4500
+  );
+  await carregarTarefas();
+}
+
+function desenharTelemetria(d) {
+  estado.telemetria = d;
+  const limCritico = estado.hwLimiteCritico || 85;
+  const limAviso = Math.min(75, limCritico - 10);
+
+  const cpuPct = Number(d.cpu?.pct || 0);
+  const ramPct = Number(d.ram?.pct || 0);
+  const gpuPct = Number(d.gpu?.pct || 0);
+  const vramPct = Number(d.gpu?.vram_pct || 0);
+  const gpuTemp = Number(d.gpu?.temp_c || 0);
+
+  const nivCpu = classificarUso(cpuPct, limCritico, limAviso);
+  const nivRam = classificarUso(ramPct, limCritico, limAviso);
+  let nivGpu = classificarUso(Math.max(gpuPct, vramPct), limCritico, limAviso);
+  if (gpuTemp >= 83) nivGpu = "critico";
+
+  atualizarMedidorIndividual(
+    "#hw-card-cpu",
+    "#hw-cpu-pct",
+    "#hw-cpu-barra",
+    "#hw-cpu-detalhe",
+    "#hw-cpu-tag",
+    cpuPct,
+    `${d.cpu?.nucleos || 4} núcleos lógicos • Tempo real`,
+    nivCpu
+  );
+
+  atualizarMedidorIndividual(
+    "#hw-card-ram",
+    "#hw-ram-pct",
+    "#hw-ram-barra",
+    "#hw-ram-detalhe",
+    "#hw-ram-tag",
+    ramPct,
+    `${Number(d.ram?.usada_gb || 0).toFixed(1)} / ${Number(d.ram?.total_gb || 0).toFixed(1)} GB (${Number(d.ram?.livre_gb || 0).toFixed(1)} GB livres)`,
+    nivRam
+  );
+
+  const nomeGpuCurto = (d.gpu?.nome || "GPU").replace(/^NVIDIA GeForce\s+/i, "");
+  $("#hw-gpu-nome").textContent = `GPU // ${nomeGpuCurto}`;
+  atualizarMedidorIndividual(
+    "#hw-card-gpu",
+    "#hw-gpu-pct",
+    "#hw-gpu-barra",
+    "#hw-gpu-detalhe",
+    "#hw-gpu-tag",
+    gpuPct,
+    `VRAM: ${d.gpu?.vram_usada_mb || 0}/${d.gpu?.vram_total_mb || 0} MB (${vramPct.toFixed(0)}%) • ${gpuTemp}°C`,
+    nivGpu
+  );
+
+  const motivos = [];
+  if (cpuPct >= limCritico) motivos.push(`CPU em ${cpuPct.toFixed(1)}% (Limite: ${limCritico}%)`);
+  if (ramPct >= limCritico) motivos.push(`Memória RAM em ${ramPct.toFixed(1)}% (${d.ram?.usada_gb}/${d.ram?.total_gb} GB)`);
+  if (gpuPct >= limCritico) motivos.push(`GPU em ${gpuPct.toFixed(1)}% (Limite: ${limCritico}%)`);
+  if (vramPct >= limCritico) motivos.push(`VRAM da GPU em ${vramPct.toFixed(1)}%`);
+  if (gpuTemp >= 83) motivos.push(`Temperatura da GPU em ${gpuTemp}°C`);
+
+  const temCritico = motivos.length > 0;
+  const temAviso = !temCritico && [nivCpu, nivRam, nivGpu].includes("aviso");
+
+  const hud = $("#telemetria-hud");
+  hud.classList.toggle("alerta-critico", temCritico);
+  hud.classList.toggle("alerta-aviso", temAviso);
+
+  const ponto = $("#hw-ponto");
+  ponto.className = `telemetria-ponto ${temCritico ? "critico" : temAviso ? "aviso" : ""}`.trim();
+
+  const seloGeral = $("#hw-status-geral");
+  if (temCritico) {
+    seloGeral.className = "selo erro";
+    seloGeral.textContent = "USO CRÍTICO!";
+  } else if (temAviso) {
+    seloGeral.className = "selo rodando";
+    seloGeral.textContent = "Carga Elevada";
+  } else {
+    seloGeral.className = "selo concluida";
+    seloGeral.textContent = "Estável";
+  }
+
+  const tarefaRodando = estado.tarefas.find((t) => t.status === "rodando");
+  const estaProcessando = !!tarefaRodando || !!(d.processamento && d.processamento.ocupada);
+
+  const btnParar = $("#hw-btn-forcar-parada");
+  btnParar.hidden = !estaProcessando && !temCritico;
+
+  const ctx = $("#hw-contexto-tarefa");
+  if (tarefaRodando) {
+    const et = NOME_ETAPA[tarefaRodando.etapa] || tarefaRodando.etapa || "Processando";
+    ctx.textContent = `Monitorando corte: "${tarefaRodando.titulo || tarefaRodando.origem}" (${et} ${Math.round((tarefaRodando.pct || 0) * 100)}%)`;
+  } else if (d.processamento && d.processamento.ocupada) {
+    ctx.textContent = `Monitorando corte: "${d.processamento.titulo || "Em andamento"}" (${d.processamento.etapa || "ativo"} ${d.processamento.pct || 0}%)`;
+  } else {
+    ctx.textContent = `Atualizado às ${d.horario || new Date().toLocaleTimeString("pt-BR")} • Monitoramento ativo`;
+  }
+
+  // Atualiza gaveta de log de hardware
+  const linhasBase = Array.isArray(d.historico_log) ? d.historico_log : [];
+  const todasLinhas = [...linhasBase, ...estado.hwLogsExtras];
+  $("#hw-log-cont").textContent = todasLinhas.length;
+  const pre = $("#hw-log-pre");
+  const textoLog = todasLinhas.join("\n");
+  if (pre && pre.textContent !== textoLog) {
+    const noFim = pre.scrollTop + pre.clientHeight >= pre.scrollHeight - 10;
+    pre.textContent = textoLog;
+    if (noFim) pre.scrollTop = pre.scrollHeight;
+  }
+
+  // Se estiver crítico durante processamento (ou geral) e não estiver em pausa de 2 min, abre o modal perguntando se deseja forçar a parada
+  if (temCritico && Date.now() > estado.hwAlertaIgnoradoAte) {
+    const modal = $("#modal-alerta-hw");
+    if (modal && modal.hidden) {
+      registrarLogHardwareLocal(`[ALERTA CRÍTICO] ${motivos.join("; ")} — Aguardando decisão do usuário (Forçar Parada ou Continuar).`);
+      exibirModalAlertaHardware(d, motivos, false);
+    }
+  }
+}
+
+async function cicloTelemetriaHardware() {
+  try {
+    const d = await obterDadosTelemetria();
+    desenharTelemetria(d);
+  } catch (e) {
+    $("#hw-status-geral").textContent = "Aguardando...";
+  }
+  setTimeout(cicloTelemetriaHardware, 1500);
+}
+
+// Eventos do Monitor de Hardware e Modal de Parada Forçada
+const selLimiteHw = $("#hw-limite-critico");
+if (selLimiteHw) {
+  selLimiteHw.value = String(estado.hwLimiteCritico);
+  selLimiteHw.onchange = () => {
+    estado.hwLimiteCritico = Number(selLimiteHw.value) || 85;
+    estado.hwAlertaIgnoradoAte = 0;
+    gravarLocal("rvm-hw-limite-critico", String(estado.hwLimiteCritico));
+    aviso(`Limite de alerta crítico ajustado para ${estado.hwLimiteCritico}%`);
+    if (estado.telemetria) desenharTelemetria(estado.telemetria);
+  };
+}
+
+$("#hw-btn-log").onclick = () => {
+  const painel = $("#hw-log-painel");
+  painel.hidden = !painel.hidden;
+  $("#hw-btn-log").setAttribute("aria-expanded", String(!painel.hidden));
+};
+
+$("#hw-log-copiar").onclick = async () => {
+  await copiar($("#hw-log-pre").textContent || "");
+  aviso("Log de hardware copiado!");
+};
+
+$("#hw-log-limpar").onclick = () => {
+  estado.hwLogsExtras = [];
+  $("#hw-log-pre").textContent = "Log visual limpo (o histórico completo permanece salvo em 'log do papai.txt').";
+};
+
+$("#hw-btn-testar-alerta").onclick = () => {
+  const d = estado.telemetria || {
+    cpu: { pct: 91.5 },
+    ram: { pct: 88.2, usada_gb: 14.1, total_gb: 16.0 },
+    gpu: { pct: 94.0, temp_c: 79 },
+  };
+  const motivos = [
+    `Simulação de sobrecarga crítica acionada (Limite configurado: ${estado.hwLimiteCritico}%)`,
+    `Leitura atual: CPU ${Number(d.cpu?.pct || 0).toFixed(1)}% | RAM ${Number(d.ram?.pct || 0).toFixed(1)}% | GPU ${Number(d.gpu?.pct || 0).toFixed(1)}%`,
+  ];
+  registrarLogHardwareLocal("[TESTE DE ALERTA] Simulação de aviso crítico e confirmação de parada forçada aberta pelo usuário.");
+  exibirModalAlertaHardware(d, motivos, true);
+};
+
+$("#hw-btn-forcar-parada").onclick = () => {
+  const d = estado.telemetria;
+  exibirModalAlertaHardware(
+    d,
+    ["Solicitação manual de parada de emergência pelo painel de telemetria"],
+    false
+  );
+};
+
+$("#modal-hw-confirmar-parada").onclick = () => {
+  const motivo = $("#modal-hw-motivo").textContent || "Uso crítico de hardware";
+  forcarParadaProcessamento(motivo);
+};
+
+$("#modal-hw-continuar").onclick = () => {
+  estado.hwAlertaIgnoradoAte = Date.now() + 2 * 60 * 1000;
+  $("#modal-alerta-hw").hidden = true;
+  registrarLogHardwareLocal("[DECISÃO DO USUÁRIO] Continuar processando (alerta pausado por 2 minutos).");
+  aviso("Processamento mantido. O aviso crítico foi pausado por 2 minutos.");
+};
+
 /* ============================================================== INÍCIO */
 (async function iniciar() {
   try {
@@ -1031,4 +1339,5 @@ $("#diag-ia").onclick = () => rodarDiagnostico(true);
   mostrarAba();
   cicloTarefas();
   cicloCortes();
+  cicloTelemetriaHardware();
 })();

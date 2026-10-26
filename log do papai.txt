@@ -77,3 +77,808 @@ DETALHES  :
   Arquivo atual : log do papai.txt (compactado de 117.847 linhas para menos de 100 linhas)
   Regra ativa   : Máximo de 10.000 linhas por arquivo (gera 'log do papai 1.txt', 'log do papai 2.txt', etc. ao atingir o limite)
 --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:26:24
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 13.6% | RAM: 41.8% (13.33/31.93 GB) | GPU: 1.0% (VRAM 1195/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:29:25
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=EM FILA]
+MENSAGEM  : CPU: 17.5% | RAM: 42.2% (13.46/31.93 GB) | GPU: 2.0% (VRAM 1298/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:29:30
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: GPU em 100.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU          : 14.5% (12 núcleos lógicos)
+  Memória RAM  : 51.9% (16.56 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 100.0% | VRAM: 6452/8192 MB (78.8%) | Temp: 69°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:30:01
+NIVEL     : ALERTA_CRITICO_HARDWARE
+ORIGEM    : MONITOR_HARDWARE_TEMPO_REAL [Tarefa=N/A]
+MENSAGEM  : Uso crítico de hardware detectado: GPU em 91.0% (limite crítico: 90%)
+DETALHES  :
+  Tarefa ativa : Nenhuma (Etapa: EM FILA)
+  CPU          : 19.6% (12 núcleos lógicos)
+  Memória RAM  : 52.0% (16.62 GB usados de 31.93 GB)
+  GPU (NVIDIA GeForce GTX 1070 Ti): 91.0% | VRAM: 6452/8192 MB (78.8%) | Temp: 75°C
+  Ação UI      : Modal de confirmação exibido ao usuário (Opção de Forçar Parada imediata).
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:30:18
+NIVEL     : CRITICO
+ORIGEM    : FILA_RVM [tipo=processar | etapa=escolher | id=7872a08c65]
+MENSAGEM  : Falha em 'O dia em que GTA 6 FOI ADIADO: BASTIDORES NUNCA ANTES revelados de DENTRO da ROCKSTAR': A IA nao encontrou nenhum corte valido neste episodio.
+DETALHES  :
+  Origem: https://youtu.be/4CitBfEYDpI
+  Episódio: o-dia-em-que-gta-6-foi-adiado-ba-4citbfeydpi
+  Últimos registros:
+  09:27:22    22%  (42s)
+  09:27:29    27%  (48s)
+  09:27:36    32%  (56s)
+  09:27:42    37%  (62s)
+  09:27:49    42%  (69s)
+  09:27:57    47%  (77s)
+  09:28:04    52%  (84s)
+  09:28:10    57%  (90s)
+  09:28:19    62%  (99s)
+  09:28:27    67%  (107s)
+  09:28:36    72%  (116s)
+  09:28:45    77%  (125s)
+  09:28:53    82%  (133s)
+  09:29:00    87%  (139s)
+  09:29:07    92%  (147s)
+  09:29:14    97%  (154s)
+  09:29:21  Transcricao pronta: 1854 palavras, 182 frases.
+  09:29:21  IA analisando trecho 1/1 (00:00 a 09:15)...
+  09:30:15    3 sugestoes neste trecho.
+  09:30:15  ERRO: A IA nao encontrou nenhum corte valido neste episodio.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:32:26
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.5% | RAM: 45.6% (14.55/31.93 GB) | GPU: 1.0% (VRAM 6440/8192 MB, 56°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : AVISO
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:35:27
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.1% | RAM: 35.0% (11.19/31.93 GB) | GPU: 0.0% (VRAM 1195/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:38:27
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 10.8% | RAM: 35.1% (11.19/31.93 GB) | GPU: 1.0% (VRAM 1195/8192 MB, 54°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:41:28
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.5% | RAM: 35.0% (11.18/31.93 GB) | GPU: 0.0% (VRAM 1195/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:44:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.9% | RAM: 35.2% (11.24/31.93 GB) | GPU: 1.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:47:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.8% | RAM: 35.2% (11.25/31.93 GB) | GPU: 1.0% (VRAM 1145/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:50:30
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 8.4% | RAM: 35.5% (11.33/31.93 GB) | GPU: 1.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:53:30
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.4% | RAM: 35.3% (11.27/31.93 GB) | GPU: 1.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:56:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.4% | RAM: 35.5% (11.34/31.93 GB) | GPU: 1.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 09:59:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.2% | RAM: 35.8% (11.42/31.93 GB) | GPU: 0.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:02:32
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.5% | RAM: 35.9% (11.47/31.93 GB) | GPU: 0.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:05:32
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.3% | RAM: 35.8% (11.44/31.93 GB) | GPU: 0.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:08:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.0% | RAM: 36.1% (11.53/31.93 GB) | GPU: 1.0% (VRAM 1144/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:11:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.5% | RAM: 36.3% (11.59/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 53°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:14:34
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.1% | RAM: 34.6% (11.06/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 40°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:17:34
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% | RAM: 34.7% (11.06/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 36°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:20:35
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.2% | RAM: 34.9% (11.13/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:23:36
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 6.4% | RAM: 35.1% (11.22/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 35°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:26:36
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.2% | RAM: 35.0% (11.19/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:29:37
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.8% | RAM: 35.2% (11.22/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:32:38
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.2% | RAM: 35.0% (11.16/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:35:38
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.8% | RAM: 35.2% (11.23/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:38:39
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% | RAM: 35.2% (11.25/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:41:40
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.2% | RAM: 35.4% (11.30/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:44:40
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.6% | RAM: 35.1% (11.22/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:47:41
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.0% | RAM: 35.3% (11.28/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:50:42
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.9% | RAM: 35.4% (11.29/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:53:43
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.9% | RAM: 35.4% (11.31/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:56:43
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.6% | RAM: 35.2% (11.23/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 10:59:45
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.1% | RAM: 35.5% (11.34/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:02:46
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.5% | RAM: 35.7% (11.39/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:05:47
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% | RAM: 35.7% (11.41/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:08:48
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.8% | RAM: 35.8% (11.42/31.93 GB) | GPU: 0.0% (VRAM 1133/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:11:50
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.0% | RAM: 35.8% (11.42/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:14:51
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.7% | RAM: 35.7% (11.39/31.93 GB) | GPU: 0.0% (VRAM 1136/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:17:52
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% | RAM: 35.7% (11.41/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:20:54
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.5% | RAM: 35.8% (11.44/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:23:55
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% | RAM: 36.0% (11.48/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:26:56
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.3% | RAM: 35.7% (11.40/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:29:58
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.0% | RAM: 36.1% (11.53/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:32:59
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% | RAM: 35.9% (11.47/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:36:01
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% | RAM: 36.0% (11.51/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:39:02
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.9% | RAM: 36.1% (11.54/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:42:03
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.2% | RAM: 36.0% (11.49/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:45:05
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.1% | RAM: 36.0% (11.50/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:48:06
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.4% | RAM: 36.1% (11.54/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:51:08
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% | RAM: 36.2% (11.55/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:54:09
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.2% | RAM: 36.3% (11.59/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 11:57:10
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.4% | RAM: 36.4% (11.62/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:00:12
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.6% | RAM: 36.4% (11.63/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:03:13
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.8% | RAM: 36.3% (11.58/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:06:15
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.7% | RAM: 36.3% (11.59/31.93 GB) | GPU: 1.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:09:16
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 4.1% | RAM: 36.3% (11.60/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:12:18
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.3% | RAM: 36.3% (11.60/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:15:19
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 1.9% | RAM: 36.5% (11.64/31.93 GB) | GPU: 0.0% (VRAM 1134/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:18:20
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.6% | RAM: 36.5% (11.64/31.93 GB) | GPU: 0.0% (VRAM 1135/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:21:22
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.9% | RAM: 36.5% (11.64/31.93 GB) | GPU: 1.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:24:23
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.5% | RAM: 36.4% (11.62/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:27:25
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 3.0% | RAM: 36.4% (11.62/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:30:26
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.7% | RAM: 36.5% (11.65/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:33:28
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 2.9% | RAM: 36.4% (11.62/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:36:29
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 5.4% | RAM: 36.4% (11.63/31.93 GB) | GPU: 0.0% (VRAM 1132/8192 MB, 34°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:39:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 7.8% | RAM: 37.0% (11.83/31.93 GB) | GPU: 0.0% (VRAM 1144/8192 MB, 41°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:40:32
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 8.2% | RAM: 37.5% (11.98/31.93 GB) | GPU: 2.0% (VRAM 1190/8192 MB, 45°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:40:33
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 31.1% | RAM: 37.6% (12.01/31.93 GB) | GPU: 2.0% (VRAM 1189/8192 MB, 45°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+DATA/HORA : 2026-10-26 12:42:31
+NIVEL     : TELEMETRIA
+ORIGEM    : TELEMETRIA_HARDWARE [Status=LIVRE]
+MENSAGEM  : CPU: 18.7% | RAM: 37.2% (11.86/31.93 GB) | GPU: 3.0% (VRAM 1182/8192 MB, 49°C)
+DETALHES  :
+  Processamento ativo: Não (Livre)
+  Dispositivo GPU    : NVIDIA GeForce GTX 1070 Ti
+  Nível de Saúde     : OK
+--------------------------------------------------------------------------------
+
