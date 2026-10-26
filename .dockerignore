@@ -1,0 +1,15 @@
+.git
+bin/
+rvm/
+_internal/*
+!_internal/agente/
+!_internal/fontes/
+!_internal/modelos/
+RVM.exe
+saida/
+trabalho/
+chaves.txt
+*.key
+.env
+__pycache__/
+*.pyc

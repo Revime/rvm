@@ -1,0 +1,36 @@
+services:
+  rvm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rvm-app
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+    env_file:
+      - path: ./chaves.txt
+        required: false
+    environment:
+      - TZ=America/Sao_Paulo
+      - PYTHONUNBUFFERED=1
+      - OLLAMA_URL=http://ollama:11434
+    volumes:
+      - ./config.yaml:/app/config.yaml
+      - ./saida:/app/saida
+      - ./trabalho:/app/trabalho
+      - ./_internal/modelos:/app/_internal/modelos
+      - ./_internal/fontes:/app/_internal/fontes
+    depends_on:
+      - ollama
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rvm-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:
