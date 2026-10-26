@@ -1,0 +1,8 @@
+# Chaves de API (este arquivo e so seu, nao compartilhe)
+# Preencha so a da IA que voce escolheu em config.yaml -> ia.provedor
+
+# Claude: https://console.anthropic.com  ->  API Keys
+ANTHROPIC_API_KEY=
+
+# Gemini: https://aistudio.google.com/apikey
+GEMINI_API_KEY=

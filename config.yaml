@@ -1,0 +1,68 @@
+# =====================================================
+#  RVM - Agente de cortes  |  configuracao
+#  Edite aqui ou pela aba Ajustes do RVM. Chaves de API ficam no chaves.txt
+# =====================================================
+
+ia:
+  # Qual IA escolhe os melhores trechos: claude | gemini | ollama
+  provedor: "claude"
+  modelo_claude: "claude-sonnet-5-5"
+  modelo_gemini: "gemini-flash-latest"
+  modelo_ollama: "qwen3:8b"          # so se usar o Ollama (gratis, local)
+  ollama_url: "http://localhost:11434"
+
+cortes:
+  quantidade: 5          # quantos cortes gerar por episodio
+  duracao_min: 25        # segundos
+  duracao_max: 120        # segundos (2 minutos = 120)
+  bloco_minutos: 20      # a transcricao vai para a IA em pedacos deste tamanho
+  idioma: "pt"
+
+transcricao:
+  # auto = large-v3-turbo se tiver placa NVIDIA, senao small
+  # opcoes: tiny | base | small | medium | large-v3-turbo
+  modelo: "auto"
+  dispositivo: "auto"      # auto | cpu | cuda
+
+video:
+  # auto      = decide sozinho em cada cena (recomendado)
+  # rosto     = sempre segue o rosto principal
+  # desfocado = video inteiro no meio com fundo desfocado
+  enquadramento: "auto"
+  # Quando a cena mostra 2 pessoas longe uma da outra:
+  #   dividido  = tela dividida (uma pessoa em cima, outra embaixo)
+  #   desfocado = mostra a cena inteira com fundo desfocado
+  dois_rostos: "dividido"
+  fps_max: 30
+  qualidade_crf: 20      # menor = melhor qualidade e arquivo maior (18 a 23)
+  preset: "veryfast"
+
+legenda:
+  ativar: true
+  fonte: "Poppins"         # arquivo .ttf na pasta fontes/
+  tamanho: 110
+  maiusculas: true
+  palavras_por_bloco: 3
+  cor: "#FFFFFF"
+  cor_destaque: "#FFE600"
+  contorno: 8
+
+titulo_na_tela:
+  ativar: true
+  segundos: 0            # 0 = o corte inteiro; ex: 4 = so nos primeiros 4s
+  tamanho: 76
+  cor_texto: "#111111"
+  cor_fundo: "#FFFFFF"
+
+credito:
+  na_tela: true
+  texto_tela: "{canal}"
+  # Texto adicionado no fim da descricao de cada post
+  na_descricao: "Corte do {canal}\nEpisodio completo: {link}"
+
+youtube:
+  # Como os cortes sobem: public (publico) | unlisted (nao listado) | private (privado)
+  privacidade: "public"
+
+revisao:
+  porta: 5050

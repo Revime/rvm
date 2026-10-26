@@ -1,0 +1,23 @@
+# Binarios externos (> 100 MB bloqueiam o push no GitHub)
+bin/
+
+# Runtime e bibliotecas compiladas do PyInstaller (mantendo arquivos proprios do projeto)
+_internal/*
+!_internal/agente/
+!_internal/fontes/
+!_internal/modelos/
+RVM.exe
+
+# Repositorio clonado aninhado
+rvm/
+
+# Pastas geradas em execucao e chaves privadas
+saida/
+trabalho/
+chaves.txt
+*.key
+.env
+
+# Cache do Python
+__pycache__/
+*.pyc

@@ -1,0 +1,21 @@
+RVM - agente de cortes
+======================
+
+COMO USAR
+1. Clique duas vezes em RVM.exe. Uma janela preta abre e o RVM aparece no navegador.
+   Deixe a janela preta aberta enquanto usa; para fechar o RVM, feche essa janela.
+2. Na aba Ajustes, cole a sua chave de IA (Claude ou Gemini) ou escolha Ollama (gratis).
+3. Na aba Cortar, cole o link de um episodio e clique em CORTAR.
+4. Na aba Cortes, revise, aprove e (se quiser) conecte e poste no YouTube.
+
+PRIMEIRA VEZ
+- Se o Windows mostrar "O Windows protegeu o computador", clique em
+  "Mais informacoes" e depois "Executar assim mesmo".
+- A primeira transcricao baixa o modelo do Whisper (uns 500 MB). Depois fica guardado.
+- Precisa de internet para baixar videos, para a IA e para postar.
+
+ONDE FICAM AS COISAS (nesta pasta)
+- saida\       cortes prontos (.mp4)
+- trabalho\    videos baixados e transcricoes
+- config.yaml  ajustes
+- chaves.txt   suas chaves (criado quando voce salva uma chave; nao compartilhe)

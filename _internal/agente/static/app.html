@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RVM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M0 0h26l6 6v26H6L0 26z' fill='%2307060d'/%3E%3Crect x='10' y='6' width='12' height='20' fill='none' stroke='%23FCEE0A' stroke-width='2.5'/%3E%3Cpath d='M4 20h24' stroke='%23FF2A6D' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<meta name="theme-color" content="#07060d">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<header class="topo">
+  <a class="marca glitch" href="#cortar" aria-label="RVM, início">RVM</a>
+  <nav class="abas" role="tablist">
+    <a href="#cortar" data-aba="cortar" role="tab">Cortar</a>
+    <a href="#cortes" data-aba="cortes" role="tab">Cortes <span class="contagem" id="cont-pendentes" hidden></span></a>
+    <a href="#ajustes" data-aba="ajustes" role="tab">Ajustes</a>
+    <a href="#diagnostico" data-aba="diagnostico" role="tab">Diagnóstico</a>
+  </nav>
+  <div class="motor" id="motor" aria-live="polite"><span class="luz"></span><span id="motor-texto">Livre</span></div>
+</header>
+
+<main class="folha">
+
+  <!-- ============ CORTAR ============ -->
+  <section class="painel" id="aba-cortar" hidden>
+    <form class="entrada" id="form-cortar" autocomplete="off">
+      <h1>Qual episódio vamos cortar?</h1>
+      <div class="campo-link" id="zona-soltar">
+        <input id="origem" type="text" placeholder="Cole o link do episódio (YouTube, etc.)" aria-label="Link do episódio">
+        <button class="btn corte" type="submit" id="btn-cortar">Cortar</button>
+        <div class="soltar-aviso">Solte o vídeo para cortar</div>
+      </div>
+      <p class="dica">Ou arraste um vídeo do seu PC para cá, ou <label class="link-arquivo">escolha um arquivo<input type="file" id="arquivo" accept="video/*,.mkv" hidden></label>.</p>
+
+      <div class="arquivo-escolhido" id="arquivo-escolhido" hidden>
+        <div class="arquivo-nome"><span id="arquivo-nome"></span> <button type="button" class="btn-texto" id="arquivo-tirar">Trocar</button></div>
+        <div class="grade-2">
+          <label>Canal original<input id="canal" type="text" placeholder="Nome do podcast"></label>
+          <label>Link do episódio original<input id="link" type="text" placeholder="https://"></label>
+        </div>
+        <p class="dica">Isso vira o crédito no vídeo e na descrição.</p>
+        <div class="envio" id="envio" hidden><div class="envio-barra"><span id="envio-pct"></span></div><span id="envio-texto"></span></div>
+      </div>
+
+      <div class="opcoes">
+        <label>Cortes <input id="qtd" type="number" min="1" max="30" value="5"></label>
+        <label class="interruptor"><input type="checkbox" id="sem-legenda"> O vídeo já tem legenda (não pôr a minha)</label>
+        <label>IA
+          <select id="ia">
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+            <option value="ollama">Ollama (local)</option>
+          </select>
+        </label>
+      </div>
+      <p class="aviso-chave" id="aviso-chave" hidden></p>
+    </form>
+
+    <div class="secao-cabeca">
+      <h2>Fila</h2>
+      <button class="btn-texto" id="limpar-fila" hidden>Limpar as concluídas</button>
+    </div>
+    <ol class="fila" id="fila"></ol>
+    <p class="vazio" id="fila-vazia">Nada na fila. Cole um link acima para começar.</p>
+  </section>
+
+  <!-- ============ CORTES ============ -->
+  <section class="painel" id="aba-cortes" hidden>
+    <div class="secao-cabeca">
+      <h1>Cortes</h1>
+      <div class="filtro" id="filtro" role="group" aria-label="Filtrar cortes">
+        <button data-f="pendente">Pendentes</button>
+        <button data-f="aprovado">Aprovados</button>
+        <button data-f="rejeitado">Rejeitados</button>
+        <button data-f="todos">Todos</button>
+      </div>
+    </div>
+    <div id="episodios"></div>
+    <div class="vazio" id="cortes-vazio" hidden>
+      <p>Ainda não tem nenhum corte.</p>
+      <a class="btn corte" href="#cortar">Cortar um episódio</a>
+    </div>
+    <p class="vazio" id="filtro-vazio" hidden>Nenhum corte com esse filtro.</p>
+  </section>
+
+  <!-- ============ AJUSTES ============ -->
+  <section class="painel" id="aba-ajustes" hidden>
+    <h1>Ajustes</h1>
+    <div class="ajustes">
+      <form id="form-ajustes" class="ajustes-form">
+
+        <fieldset>
+          <legend>Inteligência artificial</legend>
+          <label>Quem escolhe os trechos
+            <select data-cfg="ia.provedor">
+              <option value="claude">Claude</option>
+              <option value="gemini">Gemini</option>
+              <option value="ollama">Ollama (grátis, no seu PC)</option>
+            </select>
+          </label>
+          <div class="chave" data-chave="ANTHROPIC_API_KEY">
+            <label>Chave do Claude <span class="estado-chave"></span>
+              <span class="linha-chave"><input type="password" placeholder="sk-ant-..." autocomplete="off"><button type="button" class="btn salvar">Salvar chave</button><button type="button" class="btn perigo remover" hidden>Remover</button></span>
+            </label>
+            <p class="dica">Crie em <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>, em API Keys.</p>
+          </div>
+          <div class="chave" data-chave="GEMINI_API_KEY">
+            <label>Chave do Gemini <span class="estado-chave"></span>
+              <span class="linha-chave"><input type="password" placeholder="AIza..." autocomplete="off"><button type="button" class="btn salvar">Salvar chave</button><button type="button" class="btn perigo remover" hidden>Remover</button></span>
+            </label>
+            <p class="dica">Crie em <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>.</p>
+          </div>
+          <details class="avancado">
+            <summary>Modelos</summary>
+            <div class="grade-2">
+              <label>Modelo do Claude<input data-cfg="ia.modelo_claude"></label>
+              <label>Modelo do Gemini<input data-cfg="ia.modelo_gemini"></label>
+              <label>Modelo do Ollama<input data-cfg="ia.modelo_ollama"></label>
+              <label>Endereço do Ollama<input data-cfg="ia.ollama_url"></label>
+            </div>
+          </details>
+        </fieldset>
+
+        <fieldset id="yt-ajustes">
+          <legend>YouTube</legend>
+          <p class="yt-estado" id="yt-estado">Verificando...</p>
+          <div class="yt-passos">
+            <div class="yt-passo" id="yt-passo-arquivo">
+              <strong>1. Credencial do Google</strong>
+              <p class="dica" id="yt-arquivo-estado">Envie o arquivo client_secret.json que você baixou do Google Cloud.</p>
+              <label class="btn yt-arquivo">Enviar client_secret.json<input type="file" id="yt-arquivo" accept=".json,application/json" hidden></label>
+            </div>
+            <div class="yt-passo">
+              <strong>2. Sua conta</strong>
+              <p class="dica">Abre o login do Google. Se aparecer "o Google não verificou este app", clique em Avançado e depois em Continuar.</p>
+              <span class="acoes-linha">
+                <a class="btn corte" id="yt-conectar" href="/api/youtube/conectar">Conectar YouTube</a>
+                <button type="button" class="btn perigo" id="yt-desconectar" hidden>Desconectar</button>
+              </span>
+            </div>
+          </div>
+          <label>Como os cortes sobem
+            <select data-cfg="youtube.privacidade">
+              <option value="public">Público</option>
+              <option value="unlisted">Não listado</option>
+              <option value="private">Privado</option>
+            </select>
+          </label>
+          <details class="avancado">
+            <summary>Como criar o client_secret.json (uma vez só, uns 10 minutos)</summary>
+            <ol class="guia">
+              <li>Entre em <a href="https://console.cloud.google.com/projectcreate" target="_blank" rel="noopener">console.cloud.google.com</a> e crie um projeto chamado <b>RVM</b>.</li>
+              <li>No menu, abra <b>APIs e serviços › Biblioteca</b>, procure <b>YouTube Data API v3</b> e clique em <b>Ativar</b>.</li>
+              <li>Abra <b>Google Auth Platform</b> (ou "Tela de consentimento OAuth"). Em <b>Branding</b>, dê o nome RVM e coloque seu e-mail. Em <b>Público-alvo</b>, escolha <b>Externo</b>.</li>
+              <li>Ainda em <b>Público-alvo</b>, clique em <b>Publicar app</b> (Em produção). Assim a conexão não expira a cada 7 dias. Não precisa enviar para verificação.</li>
+              <li>Em <b>Clientes</b> (ou Credenciais), clique em <b>Criar cliente</b>, escolha o tipo <b>App para computador</b> e dê o nome RVM.</li>
+              <li>Clique em <b>Baixar JSON</b>. Esse é o arquivo para enviar no passo 1 acima.</li>
+            </ol>
+          </details>
+        </fieldset>
+
+        <fieldset>
+          <legend>Cortes</legend>
+          <div class="grade-3">
+            <label>Quantos por episódio<input type="number" min="1" max="30" data-cfg="cortes.quantidade"></label>
+            <label>Duração mínima (s)<input type="number" min="5" max="170" data-cfg="cortes.duracao_min"></label>
+            <label>Duração máxima (s)<input type="number" min="10" max="180" data-cfg="cortes.duracao_max"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Transcrição</legend>
+          <div class="grade-2">
+            <label>Modelo do Whisper
+              <select data-cfg="transcricao.modelo">
+                <option value="auto">Automático</option>
+                <option value="tiny">tiny (muito rápido, erra mais)</option>
+                <option value="base">base</option>
+                <option value="small">small (bom no processador)</option>
+                <option value="medium">medium</option>
+                <option value="large-v3-turbo">large-v3-turbo (melhor, ideal com placa NVIDIA)</option>
+              </select>
+            </label>
+            <label>Onde rodar
+              <select data-cfg="transcricao.dispositivo">
+                <option value="auto">Automático</option>
+                <option value="cpu">Processador</option>
+                <option value="cuda">Placa NVIDIA</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Enquadramento</legend>
+          <div class="grade-2">
+            <label>Modo
+              <select data-cfg="video.enquadramento">
+                <option value="auto">Automático por cena</option>
+                <option value="rosto">Sempre seguir o rosto</option>
+                <option value="desfocado">Vídeo inteiro com fundo desfocado</option>
+              </select>
+            </label>
+            <label>Duas pessoas longe uma da outra
+              <select data-cfg="video.dois_rostos">
+                <option value="dividido">Tela dividida</option>
+                <option value="desfocado">Cena inteira com fundo desfocado</option>
+              </select>
+            </label>
+            <label>Qualidade do vídeo
+              <select data-cfg="video.qualidade_crf">
+                <option value="18">Alta (arquivo maior)</option>
+                <option value="20">Boa</option>
+                <option value="23">Leve</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Legenda</legend>
+          <label class="interruptor"><input type="checkbox" data-cfg="legenda.ativar"> Mostrar legenda</label>
+          <div class="grade-3">
+            <label>Tamanho<input type="range" min="60" max="160" step="2" data-cfg="legenda.tamanho"></label>
+            <label>Palavras por vez<input type="number" min="1" max="6" data-cfg="legenda.palavras_por_bloco"></label>
+            <label>Contorno<input type="range" min="0" max="14" data-cfg="legenda.contorno"></label>
+            <label>Cor do texto<input type="color" data-cfg="legenda.cor"></label>
+            <label>Cor da palavra falada<input type="color" data-cfg="legenda.cor_destaque"></label>
+            <label class="interruptor"><input type="checkbox" data-cfg="legenda.maiusculas"> Tudo maiúsculo</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Título na tela</legend>
+          <label class="interruptor"><input type="checkbox" data-cfg="titulo_na_tela.ativar"> Mostrar o título no topo</label>
+          <div class="grade-3">
+            <label>Por quantos segundos<input type="number" min="0" max="180" data-cfg="titulo_na_tela.segundos"><span class="dica">0 = o corte inteiro</span></label>
+            <label>Cor do texto<input type="color" data-cfg="titulo_na_tela.cor_texto"></label>
+            <label>Cor da caixa<input type="color" data-cfg="titulo_na_tela.cor_fundo"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Crédito do canal original</legend>
+          <label class="interruptor"><input type="checkbox" data-cfg="credito.na_tela"> Mostrar o nome do canal no vídeo</label>
+          <label>Texto no vídeo<input data-cfg="credito.texto_tela"><span class="dica">{canal} vira o nome do canal</span></label>
+          <label>Texto no fim da descrição<textarea rows="3" data-cfg="credito.na_descricao"></textarea><span class="dica">{canal} e {link} são trocados pelo canal e pelo link do episódio</span></label>
+        </fieldset>
+
+        <div class="barra-salvar">
+          <span id="ajustes-estado" class="dica"></span>
+          <button class="btn escuro" type="submit">Salvar ajustes</button>
+        </div>
+      </form>
+
+      <aside class="previa" aria-label="Prévia do vídeo">
+        <div class="celular">
+          <div class="previa-tela">
+            <div class="previa-titulo" id="pv-titulo">ELE PERDEU TUDO EM UM ANO</div>
+            <div class="previa-pessoa"></div>
+            <div class="previa-legenda" id="pv-legenda"><span>isso</span> <span class="falada">mudou</span> <span>tudo</span></div>
+            <div class="previa-credito" id="pv-credito">Nome do Podcast</div>
+          </div>
+        </div>
+        <p class="dica">Prévia aproximada. Vale para os próximos cortes. Para aplicar num corte pronto, use Refazer vídeo.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ DIAGNÓSTICO ============ -->
+  <section class="painel" id="aba-diagnostico" hidden>
+    <div class="secao-cabeca">
+      <h1>Diagnóstico</h1>
+      <div class="acoes-linha">
+        <button class="btn" id="diag-rodar">Verificar de novo</button>
+        <button class="btn escuro" id="diag-ia">Testar a IA</button>
+      </div>
+    </div>
+    <ul class="diag" id="diag"></ul>
+  </section>
+</main>
+
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<template id="tpl-tarefa">
+  <li class="tarefa">
+    <div class="tarefa-cabeca">
+      <div>
+        <div class="tarefa-titulo"></div>
+        <div class="tarefa-sub"></div>
+      </div>
+      <span class="selo"></span>
+    </div>
+    <ol class="etapas">
+      <li data-etapa="baixar"><span class="barra"><i></i></span>Baixar</li>
+      <li data-etapa="transcrever"><span class="barra"><i></i></span>Transcrever</li>
+      <li data-etapa="escolher"><span class="barra"><i></i></span>Escolher trechos</li>
+      <li data-etapa="editar"><span class="barra"><i></i></span>Montar vídeos</li>
+      <li data-etapa="postar"><span class="barra"><i></i></span>Enviar ao YouTube</li>
+    </ol>
+    <div class="tarefa-rodape">
+      <span class="tarefa-detalhe"></span>
+      <span class="tarefa-acoes"></span>
+    </div>
+    <p class="tarefa-erro" hidden></p>
+    <details class="registro"><summary>Registro</summary><pre></pre></details>
+  </li>
+</template>
+
+<template id="tpl-corte">
+  <article class="corte">
+    <div class="celular mini">
+      <video controls preload="metadata" playsinline></video>
+      <div class="refazendo"><div class="giro"></div><span>Refazendo o corte</span></div>
+    </div>
+    <div class="corte-dados">
+      <div class="corte-cabeca">
+        <h3 class="corte-num"></h3>
+        <span class="corte-meta"></span>
+        <span class="selo corte-status"></span>
+      </div>
+      <p class="corte-motivo"></p>
+      <label>Título do post <span class="contador"></span><input class="f-titulo" maxlength="100"></label>
+      <label>Descrição<textarea class="f-descricao" rows="3"></textarea></label>
+      <p class="credito"></p>
+      <label>Hashtags<input class="f-hashtags"></label>
+      <div class="grade-ajuste">
+        <label>Texto na tela<input class="f-gancho" maxlength="60"></label>
+        <label>Começa em (s)<input class="f-inicio" type="number" step="0.5"></label>
+        <label>Termina em (s)<input class="f-fim" type="number" step="0.5"></label>
+      </div>
+      <label class="interruptor"><input type="checkbox" class="f-legenda"> Colocar a legenda do RVM <span class="dica">(desmarque se o vídeo original já tem legenda)</span></label>
+      <p class="dica">Mudou o texto na tela ou os tempos? Use Refazer vídeo. O corte se encaixa no começo e no fim das frases.</p>
+      <p class="corte-erro" hidden></p>
+      <div class="corte-acoes">
+        <button class="btn escuro" data-acao="aprovado">Aprovar</button>
+        <button class="btn perigo" data-acao="rejeitado">Rejeitar</button>
+        <button class="btn" data-acao="salvar">Salvar textos</button>
+        <button class="btn" data-acao="refazer">Refazer vídeo</button>
+        <button class="btn yt" data-acao="youtube">Postar no YouTube</button>
+        <a class="btn-texto yt-link" target="_blank" rel="noopener" hidden>Ver no YouTube</a>
+        <button class="btn-texto" data-acao="pendente" hidden>Voltar para pendente</button>
+        <span class="separa"></span>
+        <button class="btn-texto" data-acao="copiar">Copiar texto do post</button>
+        <a class="btn-texto baixar">Baixar vídeo</a>
+      </div>
+      <div class="postar" hidden>
+        <strong>Postar no YouTube</strong>
+        <div class="grade-ajuste">
+          <label>Visibilidade
+            <select class="p-privacidade">
+              <option value="public">Público</option>
+              <option value="unlisted">Não listado</option>
+              <option value="private">Privado</option>
+            </select>
+          </label>
+          <label>Agendar (opcional)<input class="p-agendar" type="datetime-local"></label>
+          <span></span>
+        </div>
+        <p class="dica">O título, a descrição com o crédito e as hashtags vão como estão acima. Agendado, o vídeo fica privado até a hora marcada.</p>
+        <div class="acoes-linha">
+          <button class="btn corte" data-acao="enviar-yt">Enviar agora</button>
+          <button class="btn-texto" data-acao="fechar-yt">Cancelar</button>
+        </div>
+      </div>
+      <details class="transcricao"><summary>O que é falado</summary><p></p></details>
+    </div>
+  </article>
+</template>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
