@@ -365,6 +365,47 @@ article.corte.rejeitado .celular, article.corte.rejeitado .corte-dados > :not(.c
 }
 .postar strong { font-family: var(--titulo); letter-spacing: 0.06em; text-transform: uppercase; color: #ff7b7b; }
 .postar .acoes-linha { margin-top: 12px; align-items: center; }
+.yt-resumo {
+  margin: 12px 0; padding: 12px 14px; background: rgba(23, 20, 39, 0.85);
+  border-left: 2px solid var(--amarelo); font: 13px/1.65 var(--mono); color: var(--texto);
+}
+.yt-resumo .rotulo { color: var(--suave); }
+.yt-resumo b { color: var(--amarelo); font-weight: 600; }
+
+/* Painel de status do YouTube no card do corte */
+.yt-status-painel {
+  margin-top: 14px; padding: 12px 16px; background: rgba(7, 6, 13, 0.78);
+  border-left: 3px solid var(--ciano); clip-path: var(--chanfro-p);
+}
+.yt-status-painel.rodando, .yt-status-painel.na_fila {
+  border-left-color: var(--amarelo);
+  background: linear-gradient(90deg, rgba(252, 238, 10, 0.08), rgba(7, 6, 13, 0.82) 55%);
+}
+.yt-status-painel.concluida, .yt-status-painel.postado {
+  border-left-color: var(--ok);
+  background: linear-gradient(90deg, rgba(61, 255, 168, 0.08), rgba(7, 6, 13, 0.82) 55%);
+}
+.yt-status-painel.erro {
+  border-left-color: var(--nao);
+  background: linear-gradient(90deg, rgba(255, 61, 110, 0.12), rgba(7, 6, 13, 0.82) 55%);
+}
+.yt-status-cabeca { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.yt-status-icone { font: 700 15px var(--mono); }
+.yt-status-painel.rodando .yt-status-icone, .yt-status-painel.na_fila .yt-status-icone { color: var(--amarelo); }
+.yt-status-painel.concluida .yt-status-icone, .yt-status-painel.postado .yt-status-icone { color: var(--ok); }
+.yt-status-painel.erro .yt-status-icone { color: var(--nao); }
+.yt-status-titulo { font: 700 14px var(--titulo); letter-spacing: 0.04em; text-transform: uppercase; }
+.yt-status-selo { margin-left: auto; }
+.yt-status-barra {
+  margin-top: 8px; height: 6px; background: var(--fundo); overflow: hidden;
+  background-image: repeating-linear-gradient(90deg, transparent 0 9px, rgba(255, 255, 255, 0.04) 9px 10px);
+}
+.yt-status-progresso {
+  display: block; height: 100%; width: 0; background: var(--amarelo);
+  box-shadow: 0 0 10px var(--amarelo); transition: width 0.35s ease;
+}
+.yt-status-detalhe { margin: 6px 0 0; font: 12.5px var(--mono); color: var(--suave); overflow-wrap: anywhere; }
+.yt-status-acoes { display: flex; gap: 14px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
 
 /* ---------------- ajustes ---------------- */
 .ajustes { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 44px; margin-top: 24px; align-items: start; }

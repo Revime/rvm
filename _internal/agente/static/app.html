@@ -336,6 +336,19 @@
       <label class="interruptor"><input type="checkbox" class="f-legenda"> Colocar a legenda do RVM <span class="dica">(desmarque se o vídeo original já tem legenda)</span></label>
       <p class="dica">Mudou o texto na tela ou os tempos? Use Refazer vídeo. O corte se encaixa no começo e no fim das frases.</p>
       <p class="corte-erro" hidden></p>
+      <div class="yt-status-painel" hidden aria-live="polite">
+        <div class="yt-status-cabeca">
+          <span class="yt-status-icone"></span>
+          <strong class="yt-status-titulo"></strong>
+          <span class="selo yt-status-selo"></span>
+        </div>
+        <div class="yt-status-barra" hidden><i class="yt-status-progresso"></i></div>
+        <p class="yt-status-detalhe"></p>
+        <div class="yt-status-acoes" hidden>
+          <a class="btn yt yt-abrir-video" target="_blank" rel="noopener">Abrir no YouTube ↗</a>
+          <button type="button" class="btn-texto" data-acao="copiar-link-yt">Copiar link do vídeo</button>
+        </div>
+      </div>
       <div class="corte-acoes">
         <button class="btn escuro" data-acao="aprovado">Aprovar</button>
         <button class="btn perigo" data-acao="rejeitado">Rejeitar</button>
@@ -349,22 +362,38 @@
         <a class="btn-texto baixar">Baixar vídeo</a>
       </div>
       <div class="postar" hidden>
-        <strong>Postar no YouTube</strong>
-        <div class="grade-ajuste">
-          <label>Visibilidade
-            <select class="p-privacidade">
-              <option value="public">Público</option>
-              <option value="unlisted">Não listado</option>
-              <option value="private">Privado</option>
-            </select>
-          </label>
-          <label>Agendar (opcional)<input class="p-agendar" type="datetime-local"></label>
-          <span></span>
+        <div class="postar-form">
+          <strong>Postar no YouTube</strong>
+          <div class="grade-ajuste">
+            <label>Visibilidade
+              <select class="p-privacidade">
+                <option value="public">Público</option>
+                <option value="unlisted">Não listado</option>
+                <option value="private">Privado</option>
+              </select>
+            </label>
+            <label>Agendar (opcional)<input class="p-agendar" type="datetime-local"></label>
+            <span></span>
+          </div>
+          <p class="dica">O título, a descrição com o crédito e as hashtags vão como estão acima. Agendado, o vídeo fica privado até a hora marcada.</p>
+          <div class="acoes-linha">
+            <button class="btn corte" data-acao="pedir-confirmacao-yt">Revisar e Enviar</button>
+            <button class="btn-texto" data-acao="fechar-yt">Cancelar</button>
+          </div>
         </div>
-        <p class="dica">O título, a descrição com o crédito e as hashtags vão como estão acima. Agendado, o vídeo fica privado até a hora marcada.</p>
-        <div class="acoes-linha">
-          <button class="btn corte" data-acao="enviar-yt">Enviar agora</button>
-          <button class="btn-texto" data-acao="fechar-yt">Cancelar</button>
+        <div class="postar-confirmacao" hidden>
+          <strong>Confirmar publicação no YouTube?</strong>
+          <div class="yt-resumo">
+            <div><span class="rotulo">Canal:</span> <b class="conf-canal"></b></div>
+            <div><span class="rotulo">Título:</span> <b class="conf-titulo"></b></div>
+            <div><span class="rotulo">Status / Visibilidade:</span> <b class="conf-visibilidade"></b></div>
+            <div class="conf-linha-agendamento" hidden><span class="rotulo">Agendado para:</span> <b class="conf-agendar"></b></div>
+          </div>
+          <div class="acoes-linha">
+            <button class="btn corte" data-acao="enviar-yt">Confirmar e Publicar</button>
+            <button class="btn" data-acao="voltar-edicao-yt">Voltar</button>
+            <button class="btn-texto" data-acao="fechar-yt">Cancelar</button>
+          </div>
         </div>
       </div>
       <details class="transcricao"><summary>O que é falado</summary><p></p></details>

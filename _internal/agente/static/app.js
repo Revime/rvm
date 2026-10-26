@@ -8,6 +8,7 @@ const estado = {
   aba: "cortar",
   ocupada: false,
   tarefas: [],
+  tarefasYt: {},
   statusAnterior: {},
   episodios: [],
   filtro: lerLocal("rvm-filtro", "pendente"),
@@ -22,6 +23,7 @@ const ORDEM_ETAPAS = ["baixar", "transcrever", "escolher", "editar", "postar"];
 const SO_ETAPA = { refazer: "editar", postar_youtube: "postar" };
 const NOME_STATUS_TAREFA = { na_fila: "Na fila", rodando: "Trabalhando", concluida: "Pronto", erro: "Deu erro", cancelada: "Cancelada" };
 const NOME_STATUS_CORTE = { pendente: "Pendente", aprovado: "Aprovado", rejeitado: "Rejeitado", renderizando: "Refazendo", postado: "Postado" };
+const NOME_PRIVACIDADE = { public: "Público", unlisted: "Não listado", private: "Privado" };
 
 /* ---------------------------------------------------------------- util */
 function lerLocal(k, padrao) { try { return localStorage.getItem(k) || padrao; } catch (e) { return padrao; } }
@@ -40,12 +42,12 @@ async function api(caminho, opcoes = {}) {
 }
 
 let avisoTimer;
-function aviso(msg) {
+function aviso(msg, duracao = 2600) {
   const el = $("#aviso");
   el.textContent = msg;
   el.classList.add("mostrar");
   clearTimeout(avisoTimer);
-  avisoTimer = setTimeout(() => el.classList.remove("mostrar"), 2600);
+  avisoTimer = setTimeout(() => el.classList.remove("mostrar"), duracao);
 }
 
 function mmss(seg) {
@@ -83,16 +85,32 @@ async function carregarTarefas() {
   estado.tarefas = d.tarefas;
   desenharFila();
   desenharMotor();
+  let temPostagemAtiva = false;
   for (const t of d.tarefas) {
+    if (t.tipo === "postar_youtube" && ["na_fila", "rodando"].includes(t.status)) {
+      temPostagemAtiva = true;
+    }
     const antes = estado.statusAnterior[t.id];
     if (antes && antes !== t.status) {
       if (t.status === "concluida" && t.tipo === "processar") aviso(`Pronto: ${t.resultado.cortes || 0} cortes de "${t.titulo}"`);
       if (t.status === "concluida" && t.tipo === "refazer") aviso("Corte refeito");
-      if (t.status === "concluida" && t.tipo === "postar_youtube") aviso("Postado no YouTube");
-      if (t.status === "erro") aviso("Uma tarefa deu erro. Veja na fila.");
+      if (t.status === "concluida" && t.tipo === "postar_youtube") {
+        const url = t.resultado && t.resultado.url ? ` (${t.resultado.url})` : "";
+        aviso(`✓ Vídeo publicado no YouTube com sucesso!${url}`, 4500);
+      }
+      if (t.status === "erro") {
+        if (t.tipo === "postar_youtube") {
+          aviso(`✕ Falha ao postar no YouTube: ${t.erro || "verifique o status no corte"}`, 4500);
+        } else {
+          aviso("Uma tarefa deu erro. Veja na fila.");
+        }
+      }
       if (["concluida", "erro", "cancelada"].includes(t.status)) carregarCortes();
     }
     estado.statusAnterior[t.id] = t.status;
+  }
+  if (temPostagemAtiva && estado.episodios.length > 0) {
+    desenharCortes();
   }
 }
 
@@ -419,6 +437,112 @@ function definirValor(el, valor) {
   if (el.value !== String(valor)) el.value = valor;
 }
 
+function encontrarTarefaYt(epId, c) {
+  const chave = `${epId}:${c.numero}`;
+  const ref = estado.tarefasYt[chave];
+  const tarefasYt = estado.tarefas.filter((t) => t.tipo === "postar_youtube");
+  if (ref && ref.id) {
+    const porId = tarefasYt.find((t) => t.id === ref.id);
+    if (porId) return porId;
+  }
+  const porCorte = tarefasYt.find(
+    (t) =>
+      (t.episodio === epId && (String(t.corte) === String(c.numero) || String(t.numero) === String(c.numero))) ||
+      (t.episodio === epId && t.titulo && c.titulo && t.titulo === c.titulo) ||
+      (!t.episodio && t.titulo && c.titulo && t.titulo === c.titulo)
+  );
+  return porCorte || null;
+}
+
+function atualizarPainelStatusYt(card, ep, c) {
+  const painel = $(".yt-status-painel", card);
+  if (!painel) return;
+  const yt = (c.postagens || {}).youtube;
+  const tarefa = encontrarTarefaYt(ep.id, c);
+  const chave = `${ep.id}:${c.numero}`;
+  const infoLocal = estado.tarefasYt[chave];
+
+  const icone = $(".yt-status-icone", painel);
+  const titulo = $(".yt-status-titulo", painel);
+  const selo = $(".yt-status-selo", painel);
+  const barra = $(".yt-status-barra", painel);
+  const progresso = $(".yt-status-progresso", painel);
+  const detalhe = $(".yt-status-detalhe", painel);
+  const acoes = $(".yt-status-acoes", painel);
+  const btnAbrir = $(".yt-abrir-video", painel);
+
+  if (tarefa && ["na_fila", "rodando"].includes(tarefa.status)) {
+    painel.hidden = false;
+    painel.className = `yt-status-painel ${tarefa.status}`;
+    const pct = Math.round((tarefa.pct || 0) * 100);
+    if (tarefa.status === "na_fila") {
+      icone.textContent = "⏳";
+      titulo.textContent = "Envio ao YouTube na fila";
+      selo.className = "selo yt-status-selo";
+      selo.textContent = "Na fila";
+      barra.hidden = true;
+      detalhe.textContent = "Aguardando vez na fila de processamento para iniciar o upload...";
+    } else {
+      icone.textContent = "↑";
+      titulo.textContent = "Publicando vídeo no YouTube...";
+      selo.className = "selo yt-status-selo rodando";
+      selo.textContent = `Enviando ${pct}%`;
+      barra.hidden = false;
+      progresso.style.width = `${Math.max(5, pct)}%`;
+      const tempo = tarefa.inicio ? `, há ${duracaoTexto(Date.now() / 1000 - tarefa.inicio)}` : "";
+      detalhe.textContent = `${tarefa.detalhe || "Enviando arquivo e metadados ao YouTube"}${tempo}`;
+    }
+    acoes.hidden = true;
+    return;
+  }
+
+  if (tarefa && tarefa.status === "erro") {
+    painel.hidden = false;
+    painel.className = "yt-status-painel erro";
+    icone.textContent = "✕";
+    titulo.textContent = "Falha ao publicar no YouTube";
+    selo.className = "selo yt-status-selo erro";
+    selo.textContent = "Erro no envio";
+    barra.hidden = true;
+    detalhe.textContent = tarefa.erro || "Ocorreu um erro durante o envio para o YouTube.";
+    acoes.hidden = true;
+    return;
+  }
+
+  if (yt || (tarefa && tarefa.status === "concluida")) {
+    const url = (yt && yt.url) || (tarefa && tarefa.resultado && tarefa.resultado.url) || "";
+    const agendado = (yt && yt.agendado) || (infoLocal && infoLocal.agendar) || "";
+    const priv = (yt && yt.privacidade) || (infoLocal && infoLocal.privacidade) || "";
+    painel.hidden = false;
+    painel.className = "yt-status-painel postado";
+    icone.textContent = "✓";
+    barra.hidden = true;
+    if (agendado) {
+      const dataFmt = new Date(agendado).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+      titulo.textContent = "Vídeo enviado e agendado no YouTube";
+      selo.className = "selo yt-status-selo concluida";
+      selo.textContent = `Agendado • ${dataFmt}`;
+      detalhe.textContent = `Status confirmado: o vídeo está no YouTube (privado até ${dataFmt}).`;
+    } else {
+      const nomePriv = NOME_PRIVACIDADE[priv] || "Publicado";
+      titulo.textContent = "Vídeo publicado no YouTube";
+      selo.className = "selo yt-status-selo concluida";
+      selo.textContent = `No ar • ${nomePriv}`;
+      detalhe.textContent = `Status confirmado: upload concluído no YouTube${url ? ` (${url})` : ""}.`;
+    }
+    if (url) {
+      acoes.hidden = false;
+      btnAbrir.href = url;
+      card.dataset.ytUrl = url;
+    } else {
+      acoes.hidden = true;
+    }
+    return;
+  }
+
+  painel.hidden = true;
+}
+
 function atualizarCard(card, ep, c) {
   const versao = c.criado_em || "";
   const video = $("video", card);
@@ -461,11 +585,12 @@ function atualizarCard(card, ep, c) {
   $("[data-acao='youtube']", card).textContent = yt ? "Postar de novo" : "Postar no YouTube";
   if (yt && yt.agendado) selo.textContent = `Agendado para ${new Date(yt.agendado).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}`;
   const renderizando = c.status === "renderizando";
-  $$("[data-acao]", card).forEach((b) => { if (b.dataset.acao !== "copiar") b.disabled = renderizando; });
+  $$("[data-acao]", card).forEach((b) => { if (!["copiar", "copiar-link-yt"].includes(b.dataset.acao)) b.disabled = renderizando; });
   const erro = $(".corte-erro", card);
   erro.hidden = !c.erro;
   erro.textContent = c.erro ? `Não deu para refazer: ${c.erro}` : "";
   card.dataset.post = [c.titulo, c.descricao, c.credito, (c.hashtags || []).join(" ")].filter(Boolean).join("\n\n");
+  atualizarPainelStatusYt(card, ep, c);
 }
 
 function textosDoCard(card) {
@@ -487,17 +612,66 @@ async function acaoCorte(card, acao) {
       aviso("Texto do post copiado");
       return;
     }
+    if (acao === "copiar-link-yt") {
+      const url = card.dataset.ytUrl || ($(".yt-link", card) && $(".yt-link", card).href);
+      if (url) {
+        await copiar(url);
+        aviso("Link do YouTube copiado!");
+      }
+      return;
+    }
     if (acao === "youtube") {
       if (!estado.youtube || !estado.youtube.conectado) { aviso("Conecte o YouTube em Ajustes primeiro."); return; }
       const painel = $(".postar", card);
       painel.hidden = !painel.hidden;
       if (!painel.hidden) {
+        $(".postar-form", painel).hidden = false;
+        $(".postar-confirmacao", painel).hidden = true;
         $(".p-privacidade", card).value = (estado.config && estado.config.youtube && estado.config.youtube.privacidade) || "public";
         painel.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }
       return;
     }
-    if (acao === "fechar-yt") { $(".postar", card).hidden = true; return; }
+    if (acao === "fechar-yt") {
+      $(".postar", card).hidden = true;
+      $(".postar-form", card).hidden = false;
+      $(".postar-confirmacao", card).hidden = true;
+      return;
+    }
+    if (acao === "voltar-edicao-yt") {
+      $(".postar-form", card).hidden = false;
+      $(".postar-confirmacao", card).hidden = true;
+      return;
+    }
+    if (acao === "pedir-confirmacao-yt") {
+      const tituloVal = $(".f-titulo", card).value.trim();
+      if (!tituloVal) {
+        aviso("Preencha o título do post antes de enviar ao YouTube.");
+        $(".f-titulo", card).focus();
+        return;
+      }
+      const quando = $(".p-agendar", card).value;
+      if (quando) {
+        const d = new Date(quando);
+        if (d.getTime() < Date.now() + 15 * 60 * 1000) {
+          aviso("Agende para pelo menos 15 minutos à frente.");
+          return;
+        }
+        $(".conf-linha-agendamento", card).hidden = false;
+        $(".conf-agendar", card).textContent = d.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+      } else {
+        $(".conf-linha-agendamento", card).hidden = true;
+      }
+      const priv = $(".p-privacidade", card).value;
+      $(".conf-canal", card).textContent = (estado.youtube && estado.youtube.canal) || "Canal conectado";
+      $(".conf-titulo", card).textContent = tituloVal;
+      $(".conf-visibilidade", card).textContent = quando
+        ? `Privado até o horário agendado (depois Público)`
+        : (NOME_PRIVACIDADE[priv] || priv);
+      $(".postar-form", card).hidden = true;
+      $(".postar-confirmacao", card).hidden = false;
+      return;
+    }
     if (acao === "enviar-yt") {
       await api(base, { body: textosDoCard(card) });
       const quando = $(".p-agendar", card).value;
@@ -507,11 +681,22 @@ async function acaoCorte(card, acao) {
         if (d.getTime() < Date.now() + 15 * 60 * 1000) { aviso("Agende para pelo menos 15 minutos à frente."); return; }
         agendar = d.toISOString();
       }
-      await api(`${base}/postar`, { body: { privacidade: $(".p-privacidade", card).value, agendar } });
+      const privacidade = $(".p-privacidade", card).value;
+      const resp = await api(`${base}/postar`, { body: { privacidade, agendar } });
+      const chave = `${card.dataset.ep}:${card.dataset.n}`;
+      estado.tarefasYt[chave] = {
+        id: resp && resp.id,
+        privacidade,
+        agendar,
+        inicio: Date.now() / 1000,
+      };
       delete card.dataset.sujo;
       $(".postar", card).hidden = true;
-      aviso("Enviando ao YouTube. Acompanhe na fila.");
-      carregarTarefas();
+      $(".postar-form", card).hidden = false;
+      $(".postar-confirmacao", card).hidden = true;
+      aviso("✓ Envio confirmado! Acompanhe o status da publicação neste corte.", 4000);
+      await carregarTarefas();
+      await carregarCortes();
       return;
     }
     if (acao === "refazer") {
